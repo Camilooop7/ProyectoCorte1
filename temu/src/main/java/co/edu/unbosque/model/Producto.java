@@ -27,11 +27,9 @@ abstract class Producto implements Serializable {
 	 * 
 	 * @param nombre Nombre del producto.
 	 * @param precio Precio del producto.
-	 * @param id     Identificador único del producto.
-	 * @param fecha  Fecha asociada al producto.
 	 * @param imagen Ruta de la imagen del producto.
 	 */
-	public Producto(String nombre, int precio, int id, String fecha, String imagen) {
+	public Producto(String nombre, int precio,String imagen) {
 		super();
 		this.nombre = nombre;
 		this.precio = precio;
