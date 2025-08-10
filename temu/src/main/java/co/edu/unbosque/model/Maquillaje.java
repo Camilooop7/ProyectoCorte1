@@ -16,13 +16,13 @@ public abstract class Maquillaje extends Producto implements Serializable {
 		this.esApruebaDeAgua = esApruebaDeAgua;
 	}
 
-	public Maquillaje(String nombre, int precio, int id, String fecha, String imagen, boolean esApruebaDeAgua) {
-		super(nombre, precio, id, fecha, imagen);
+	public Maquillaje(String nombre, int precio, String imagen, boolean esApruebaDeAgua) {
+		super(nombre, precio, imagen);
 		this.esApruebaDeAgua = esApruebaDeAgua;
 	}
 
-	public Maquillaje(String nombre, int precio, int id, String fecha, String imagen) {
-		super(nombre, precio, id, fecha, imagen);
+	public Maquillaje(String nombre, int precio, String imagen) {
+		super(nombre, precio, imagen);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -36,7 +36,7 @@ public abstract class Maquillaje extends Producto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Maquillaje [esApruebaDeAgua=" + esApruebaDeAgua + "]";
+		return super.toString() + "Maquillaje [esApruebaDeAgua=" + esApruebaDeAgua + "]";
 	}
 
 }
