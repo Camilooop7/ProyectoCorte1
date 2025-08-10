@@ -3,6 +3,7 @@ package co.edu.unbosque.model;
 import java.io.Serializable;
 
 public abstract class Juguete extends Producto implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private int edadRecomendada;
 	public Juguete() {
 		// TODO Auto-generated constructor stub

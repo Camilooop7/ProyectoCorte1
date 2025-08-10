@@ -3,6 +3,7 @@ package co.edu.unbosque.model;
 import java.io.Serializable;
 
 public class JuegoMesa extends Juguete implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private int cantidadPersona;
 	public JuegoMesa() {
 		// TODO Auto-generated constructor stub

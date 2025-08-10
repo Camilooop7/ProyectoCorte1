@@ -3,6 +3,7 @@ package co.edu.unbosque.model;
 import java.io.Serializable;
 
 public class Hombre extends Ropa implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private boolean esDeportiva;
 
 	public Hombre() {

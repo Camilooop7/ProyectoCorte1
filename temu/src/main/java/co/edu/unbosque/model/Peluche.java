@@ -3,6 +3,7 @@ package co.edu.unbosque.model;
 import java.io.Serializable;
 
 public abstract class Peluche extends Producto implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private int tamano;
 	
 	public Peluche() {
