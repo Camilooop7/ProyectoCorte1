@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+#prueba{
+	color: red;
+}
+
+.container {
+  --s: 300px; /* size of the logo */
+  --d: 13s; /* animation duration*/
+  --n: 3; /* number of visible logos */
+  
+  display: flex;
+  overflow: hidden;
+  margin: 50px auto;
+  max-width: calc((var(--n) + 1)*var(--s));
+  mask: linear-gradient(90deg,#0000,#000 5% 95%,#0000);
+}
+
+.container > div {
+  display: grid;
+  width: var(--s);
+  flex-shrink: 0;
+  grid-template-columns: 120px 1fr;
+  align-content: center;
+  gap: 10px;
+  background: #fff;
+  box-sizing: border-box;
+  offset: shape(from calc(var(--s)/-2) 50%,hline by calc(sibling-count()*max(100%/var(--n),var(--s) + 20px)));
+  animation: x var(--d) linear infinite calc(-1*sibling-index()*var(--d)/sibling-count());
+}
+@keyframes x { 
+  to {offset-distance: 100%}
+}
+.container > div img {
+  width: 100%;
+  grid-row: span 2;
+}
+.container > div * {
+  margin: 0
+}
+.container > div h3 {
+  margin-top: auto;
+}
+
+body {
+  font-family: system-ui;
+  background: #E08E79;
+}
