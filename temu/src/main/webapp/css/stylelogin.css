@@ -139,12 +139,16 @@ ul {
 
 .right h4 {
 	font-weight: 600;
-	color: var(--white);
+	color: white;
 }
 
 .right h6 {
-	color: var(--white);
+	color: white;
 	margin-bottom: 30px;
+}
+
+#h6color{
+	color: white;
 }
 
 .right h6 span {
