@@ -45,7 +45,7 @@ public abstract class Ropa extends Producto implements Serializable {
 	 * @param color de la ropa.
 	 */
 
-	public Ropa(String nombre, int precio, int id, String fecha, String imagen, int talla, String color) {
+	public Ropa(String nombre, int precio, String imagen, int talla, String color) {
 		super(nombre, precio, imagen);
 		this.talla = talla;
 		this.color = color;

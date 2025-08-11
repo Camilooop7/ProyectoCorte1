@@ -2,25 +2,25 @@ package co.edu.unbosque.model;
 
 import java.io.Serializable;
 
-public class Animal extends Peluche implements Serializable{
+public class AnimalDTO extends Peluche implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String animal;
 	
-	public Animal() {
+	public AnimalDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Animal(String animal) {
+	public AnimalDTO(String animal) {
 		super();
 		this.animal = animal;
 	}
 
-	public Animal(String nombre, int precio, String imagen, int tamano, String animal) {
+	public AnimalDTO(String nombre, int precio, String imagen, int tamano, String animal) {
 		super(nombre, precio, imagen, tamano);
 		this.animal = animal;
 	}
 
-	public Animal(String nombre, int precio, String imagen, int tamano) {
+	public AnimalDTO(String nombre, int precio, String imagen, int tamano) {
 		super(nombre, precio, imagen, tamano);
 		// TODO Auto-generated constructor stub
 	}

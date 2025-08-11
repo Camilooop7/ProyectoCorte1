@@ -2,26 +2,26 @@ package co.edu.unbosque.model;
 
 import java.io.Serializable;
 
-public class Mujer extends Ropa implements Serializable {
+public class MujerDTO extends Ropa implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private boolean esConjunto;
 
-	public Mujer() {
+	public MujerDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Mujer(boolean esConjunto) {
+	public MujerDTO(boolean esConjunto) {
 		super();
 		this.esConjunto = esConjunto;
 	}
 
-	public Mujer(String nombre, int precio,  String imagen, int talla, String color,
+	public MujerDTO(String nombre, int precio,  String imagen, int talla, String color,
 			boolean esConjunto) {
-		super(nombre, precio,  imagen, talla, color);
+		super(nombre, precio, imagen, talla, color);
 		this.esConjunto = esConjunto;
 	}
 
-	public Mujer(String nombre, int precio, String imagen, int talla, String color) {
+	public MujerDTO(String nombre, int precio,  String imagen, int talla, String color) {
 		super(nombre, precio,  imagen, talla, color);
 		// TODO Auto-generated constructor stub
 	}
