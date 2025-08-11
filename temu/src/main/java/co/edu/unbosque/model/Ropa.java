@@ -3,6 +3,8 @@ package co.edu.unbosque.model;
 import java.io.Serializable;
 
 public abstract class Ropa extends Producto implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	/** talla de la prenda */
 	private int talla;
 	/** color de la ropa */
