@@ -45,4 +45,5 @@
 body {
   font-family: system-ui;
   background: #E08E79;
+  padding: 50px; /* Espacio extra en la parte inferior de toda la página */
 }

@@ -6,8 +6,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
-	<h:head>
+
+<h:head>
 	<meta charset="UTF-8"></meta>
 	<title>segunda jsf</title>
 	<link rel="icon"
@@ -19,6 +19,7 @@
 	<link
 		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
 		rel="stylesheet"></link>
+	<!-- trae hojas de logica de javaScrip	 -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
@@ -35,10 +36,8 @@
 	<link rel="stylesheet"
 		href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"></link>
 
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.12/iconfont/material-icons.min.css"/>
-
-	<link href="css/styleuser.css" rel="stylesheet"></link>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"/>
+	<link href="css/stylecart.css" rel="stylesheet"></link>
 
 	<link rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></link>
@@ -57,9 +56,7 @@
 	
 	<nav class="nav container">
 	
-	<a href="index.html" class="nav-logo"> 
 	
-	<i class='bx bxs-shopping-bags nav-logo-icon'></i> TEMU SHOP </a> 
 	
 	<div class="nav-menu" id="nav-menu"> <ul class="nav-list"> <li
 		class="nav-item"> <a href="index.html"
@@ -68,10 +65,6 @@
 		
 		<a href="shop.html" class="nav-link">Shop</a>
 		
-</li> <li class="nav-item">
-
-	<a href="cart.html" class="nav-link">Cart</a>
-
 </li> 
 
 </ul> 
@@ -135,13 +128,43 @@
 		
 </header> <br></br>  
 
+<header>
 
+<p:growl id="growl"/>
+<div class="card">
+    
+    
+    <p:staticMessage severity="info" summary="INFO" style="width: 90%; background: lightblue; color: white;"
+                     detail="Free standard shipping (excluding items shipped by local warehouses)"
+                     closable="true" rendered="#{not messagesView.closed}">
+        <p:ajax event="close" listener="#{messagesView.onClose()}" update="growl"/>
+    </p:staticMessage>
+</div>
 
 <br></br>
-<section class="services" id="services">
-        <div class="heading1">
-            <h1>TEMU PRODUCTS</h1>
-        </div>
+
+</header>
+
+
+
+<div class="row">
+  <div class="col-4 mx-auto">
+    <div class="d-flex align-items-center justify-content-center gap-3">
+      <p class="mb-0"> <i class="bi bi-cart3"></i>  Add your favorite items in it.</p>
+      
+      
+      <p:commandButton 
+          value="EMPEZAR A COMPRAR" 
+          actionListener="#{paginaprincipalbean.eliminar}"
+          styleClass="btn-effect-18 nav-link" 
+          style="border: none; background: orange; text-decoration: none; width: 150px; height: 60px;"
+      />
+    </div>
+    
+    <br></br>
+    
+    <section class="services" id="services">
+        
         <div class="services-container">
             <div class="box">
                 <div class="box-img"><img src="https://m.media-amazon.com/images/I/81Ax3qHF-cL._UF894,1000_QL80_.jpg" alt="car image"></img></div>
@@ -157,12 +180,12 @@
                 
    <!-- En este caso me falta el update por si quiero update algun form -->             
                 <p:commandButton 
-        value="COMPRAR" 
-        actionListener="#{paginaprincipalbean.eliminar}"
-        
-        styleClass="btn-effect-18 nav-link" 
-        style="border: none; background: orange; text-decoration: none;"
-    />
+    value="COMPRAR"
+    actionListener="#{paginaprincipalbean.comprar}"
+    
+    styleClass="btn"
+    style="border: none; background: orange; text-decoration: none;"
+/>
             </div>
 
             <div class="box">
@@ -178,12 +201,12 @@
        
        <!-- En este caso me falta el update por si quiero update algun form -->         
                 <p:commandButton 
-        value="COMPRAR" 
-        actionListener="#{paginaprincipalbean.eliminar}"
-        
-        styleClass="btn-effect-18 nav-link" 
-        style="border: none; background: orange; text-decoration: none;"
-    />
+    value="COMPRAR"
+    actionListener="#{paginaprincipalbean.comprar}"
+    
+    styleClass="btn"
+    style="border: none; background: orange; text-decoration: none;"
+/>
             </div>
 
             <div class="box">
@@ -200,12 +223,12 @@
                 
               <!-- En este caso me falta el update por si quiero update algun form -->  
                 <p:commandButton 
-        value="COMPRAR" 
-        actionListener="#{paginaprincipalbean.eliminar}"
-        
-        styleClass="btn-effect-18 nav-link" 
-        style="border: none; background: orange; text-decoration: none;"
-    />
+    value="COMPRAR"
+    actionListener="#{paginaprincipalbean.comprar}"
+    
+    styleClass="btn"
+    style="border: none; background: orange; text-decoration: none;"
+/>
             </div>
             
             
@@ -223,12 +246,12 @@
                 
 <!-- En este caso me falta el update por si quiero update algun form -->
                 <p:commandButton 
-        value="COMPRAR" 
-        actionListener="#{paginaprincipalbean.eliminar}"
-        
-        styleClass="btn-effect-18 nav-link" 
-        style="border: none; background: orange; text-decoration: none;"
-    />
+    value="COMPRAR"
+    actionListener="#{paginaprincipalbean.comprar}"
+    
+    styleClass="btn"
+    style="border: none; background: orange; text-decoration: none;"
+/>
             </div>
             
             <div class="box">
@@ -245,99 +268,101 @@
                 
                 <!-- En este caso me falta el update por si quiero update algun form -->
                 <p:commandButton 
-        value="COMPRAR" 
-        actionListener="#{paginaprincipalbean.eliminar}"
-        
-        styleClass="btn-effect-18 nav-link" 
-        style="border: none; background: orange; text-decoration: none;"
-    />
+    value="COMPRAR"
+    actionListener="#{paginaprincipalbean.comprar}"
+    
+    styleClass="btn"
+    style="border: none; background: orange; text-decoration: none;"
+/>
             </div>
 
 </div>
 </section>
-
-<footer>
-  <!-- Sección principal del footer -->
-
-  <section class="footer-section">
-    <div class="container footer-grid">
-
-      <div class="footer-col">
-        
-        <div class="footer-contact">
-          <button class="btn-link">3222381555</button>
-          <button class="btn-link">cpelaezp@unbosque.edu.co</button>
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h4>Collections</h4>
-        <div class="btn-row">
-          <button class="btn-link">All collections</button>
-          <button class="btn-link">ROPA</button>
-          
-        </div>
-      </div>
-
-      <div class="footer-col">
-         <h4>Information</h4>
-        <div class="btn-column">
-          <button class="btn-link">Home</button>
-          <button class="btn-link">Contact us</button>
-          
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h4>Conectate y compra</h4>
-        <p>Compra todo lo que necesites en nuestra pagina web.</p>
-        <!-- <form class="subscribe-form" onsubmit="event.preventDefault();">
-          <input type="email" placeholder="Email" required/>
-          <button type="submit" class="btn-subscribe">Subscribe</button>
-        </form> -->
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Sección inferior del footer con 3 filas horizontales -->
-  <section class="footer-bottom">
-  <div class="container footer-bottom-grid">
-
-
-    <div class="footer-pay-logos-row">
-      <h4>Formas de pago</h4>
-      <div class="logos">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" />
-        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" />
-        
-      </div>
-    </div>
-
-    <div class="footer-social-logos-row">
-       
-      <h4>Stay Connected</h4>
-      <div class="social-logos">
-        <a href="#" aria-label="Facebook" target="_blank" rel="noopener">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
-        </a>
-        
-        <a href="#" aria-label="Instagram" target="_blank" rel="noopener">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" />
-        </a>
-        <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" />
-        </a>
-      </div>
-    </div>
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   </div>
-</section>
-</footer>
-	
+
+				
+				
+			<div class="col-4 justify-content-end">
+     <p>RESUMEN DE COMPRA</p> 
+			<br></br>
+	 <p>TOTAL :</p>	
+	 
+	 
+
+	 <div class="text-center">
+    <p:commandButton 
+        value="PAGAR/COMPRAR" 
+        actionListener="#{paginaprincipalbean.eliminar}"
+        styleClass="btn-effect-18 nav-link" 
+        style="border: none; background: orange; text-decoration: none; width: 160px; height: 60px;"
+    />
+</div>
+    
+    <br></br>
+    <P><i class="bi bi-lock-fill"></i>No se realizara el pedido hasta que le haga un push al boton de pagar/comprar.</P>
+    
+    <br></br>
+    
+    <p><i class="bi bi-coin"></i>Payment methods :</p>
+    
+    
+    
+    <div id="carouselExample" class="carousel slide">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://www.reasonwhy.es/media/cache/destacada/mastercard-logotipo-simple.png" class="d-block w-100" alt="tomada de google de la pagina web reasonwhy"/>
+    </div>
+    <div class="carousel-item">
+      <img src="https://www.gstc.org/wp-content/uploads/GBT-logo.png" class="d-block w-100" alt="..."/>
+    </div>
+    <div class="carousel-item">
+      <img src="https://cdn.prod.website-files.com/5c29380b1110ec92a203aa84/6563e05e39802fe6b628a672_Visa%20Episode%20Image.png" class="d-block w-100" alt="Imagen tomada de google de website-files"/>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+	 
+	 
+	 <p align="justify"> <i class="bi bi-fingerprint"></i> ¡Proteger su privacidad es importante para nosotros! Le aseguramos que su información se mantendrá segura y sin riesgos. 
+	 Solo utilizaremos su información de acuerdo con nuestra política de privacidad para brindarle y mejorar nuestros servicios.</p>
+	 
+	 
+    </div>	
+						
+    </div>
+    
+    
+    
+    
+    
+  
+
+
 
 </h:body> 
 
 </html>
-
-

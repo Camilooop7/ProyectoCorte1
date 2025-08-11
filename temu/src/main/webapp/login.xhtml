@@ -61,16 +61,22 @@
                     <p>WEB LOGIN TEMU</p>
         </div>
                 <div class="right">
-                    <div class="form">
+                    <h:form id="form">
                         <div class="text-center">
                             <h6><span>Log In</span> <span id="h6color">Sign Up</span></h6>
                             <input type="checkbox" class="checkbox" id="reg-log"/>
                             <label for="reg-log"></label>
                             <div class="card-3d-wrap">
                                 <div class="card-3d-wrapper">
+                                
+                                
+                                 
                                     <div class="card-front">
                                         <div class="center-wrap">
                                             <h4 class="heading">Log In</h4>
+                                            
+                                           
+                                            
                                             <div class="form-group">
                                                 <input type="email" class="form-style" placeholder="Your Email" autocomplete="off"/>
                                                 
@@ -81,11 +87,16 @@
                                                 
                                             </div>
 
-                                            <a  class="btn">Submit</a>
+                                            <p:commandButton class="btn" value="Submit"
+											actionListener="#{paginaprincipalbean.mostrarDatosConsola}" update="@form"/>
                                             <p class="text-center"><a href="#" class="link">Forgot your password?</a></p>
                                         </div>
                                     </div>
 
+									 
+
+
+										
                                     <div class="card-back">
                                         <div class="center-wrap">
                                             <h4 class="heading">Sign Up</h4>
@@ -109,16 +120,21 @@
                                                 
                                             </div>
 
-                                            <a  class="btn">Submit</a>
+                                            <p:commandButton class="btn" value="Submit"
+											actionListener="#{paginaprincipalbean.mostrarDatosConsola}" update="@form"/>
                                         </div>
                                     </div>
+                                    
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
+                        </h:form>
                     </div>    
                 </div>
             </div>
-        </div>
+
     </section>
 
 

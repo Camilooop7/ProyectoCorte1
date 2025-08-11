@@ -32,6 +32,7 @@ body {
 	letter-spacing: 1px;
 	font-weight: normal;
 	background-color: var(--orange);
+	padding: 50px; /* Espacio extra en la parte inferior de toda la página */
 }
 
 a {

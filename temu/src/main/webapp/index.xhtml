@@ -50,7 +50,7 @@
 
 <h:body>
 
-	<p id="prueba"> prueba 1 numero colr</p>
+	
 
 
 	<header class="header" id="header"> 
@@ -70,7 +70,7 @@
 		
 </li> <li class="nav-item">
 
-	<a href="cart.html" class="nav-link">Cart</a>
+	<a href="http://localhost:8080/temu/cart.xhtml" class="nav-link">Cart</a>
 
 </li> 
 
@@ -88,14 +88,43 @@
 	</div>
 	
 	<div class="dropdown">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    SETTING
-  </button>
-  <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">INFO</a></li>
-    <li><a class="dropdown-item" href="#">USUARIOS</a></li>
-    <li><a class="dropdown-item" href="#">CERRAR SESION</a></li>
-  </ul>
+    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        SETTING
+    </button>
+    <ul class="dropdown-menu">
+    
+    
+    <!-- En este caso me falta el update por si quiero update algun form -->
+        <li>
+        
+            <p:commandLink 
+                value="INFO" 
+                actionListener="#{paginaprincipalbean.mostrarInfo}" 
+                
+                styleClass="dropdown-item"
+            />
+        </li>
+        
+        <!-- En este caso me falta el update por si quiero update algun form -->
+        <li>
+            <p:commandLink 
+                value="USUARIOS" 
+                actionListener="#{paginaprincipalbean.listarUsuarios}" 
+                
+                styleClass="dropdown-item"
+            />
+        </li>
+        
+        <!-- En este caso me falta el update por si quiero update algun form -->
+        <li>
+            <p:commandLink 
+                value="CERRAR SESION" 
+                actionListener="#{paginaprincipalbean.cerrarSesion}" 
+                
+                styleClass="dropdown-item"
+            />
+        </li>
+    </ul>
 </div>
 	
 	
@@ -104,7 +133,7 @@
 
 
 		
-</header> <br></br>  
+</header> <br></br>  <br></br>
 
 <header >
 
@@ -112,15 +141,39 @@
 	<nav>
 	
 		<ul class="nav justify-content-center">
+  <!-- En este caso me falta el update por si quiero update algun form -->
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#"><div class="btn-container"><button class="btn-effect-18">AGREGAR</button></div></a>
-  </li>
+    <p:commandButton 
+        value="AGREGAR" 
+        actionListener="#{paginaprincipalbean.eliminar}"
+        
+        styleClass="btn-effect-18 nav-link" 
+        style="border: none; background: orange;"
+    />
+</li>
+  
+  
+<!-- En este caso me falta el update por si quiero update algun form -->
   <li class="nav-item">
-    <a class="nav-link" href="#"><div class="btn-container"><button class="btn-effect-18">ELIMINAR</button></div></a>
-  </li>
+    <p:commandButton 
+        value="ELIMINAR" 
+        actionListener="#{paginaprincipalbean.eliminar}"
+        
+        styleClass="btn-effect-18 nav-link" 
+        style="border: none; background: orange;"
+    />
+</li>
+
+<!-- En este caso me falta el update por si quiero update algun form -->
   <li class="nav-item">
-    <a class="nav-link" href="#"><div class="btn-container"><button class="btn-effect-18">ACTUALIZAR</button></div></a>
-  </li>
+    <p:commandButton 
+        value="ACTUALIZAR" 
+        actionListener="#{paginaprincipalbean.eliminar}"
+        
+        styleClass="btn-effect-18 nav-link" 
+        style="border: none; background: orange;"
+    />
+</li>
 </ul>
 	
 	
@@ -139,7 +192,7 @@
         </div>
         <div class="services-container">
             <div class="box">
-                <div class="box-img"><img src="https://navissi.com/cdn/shop/files/pantalon-negro-cargo-navissi_1.jpg?v=1752185150" alt="car image"></img></div>
+                <div class="box-img"><img src="https://m.media-amazon.com/images/I/81Ax3qHF-cL._UF894,1000_QL80_.jpg" alt="car image"></img></div>
                 <p>JEAN</p>
                 <h3>CARGO PANT BLACK</h3>
                 <h2>$90.000</h2>
@@ -149,7 +202,15 @@
                 <i class="bi bi-star-fill star"></i>
                 <i class="bi bi-star-fill star"></i>
                 
-                <a href="#" class="btn">COMPRAR</a>
+                
+   <!-- En este caso me falta el update por si quiero update algun form -->             
+                <p:commandButton 
+    value="COMPRAR"
+    actionListener="#{paginaprincipalbean.comprar}"
+    
+    styleClass="btn"
+    style="border: none; background: orange; text-decoration: none;"
+/>
             </div>
 
             <div class="box">
@@ -162,8 +223,15 @@
                 <i class="bi bi-star-fill star"></i>
                 <i class="bi bi-star-fill star"></i>
                 <i class="bi bi-star-fill star"></i>
-                
-                <a href="#" class="btn">COMPRAR</a>
+       
+       <!-- En este caso me falta el update por si quiero update algun form -->         
+                <p:commandButton 
+    value="COMPRAR"
+    actionListener="#{paginaprincipalbean.comprar}"
+    
+    styleClass="btn"
+    style="border: none; background: orange; text-decoration: none;"
+/>
             </div>
 
             <div class="box">
@@ -178,8 +246,14 @@
                 <i class="bi bi-star-fill star"></i>
                 
                 
-                
-                <a href="#" class="btn">COMPRAR</a>
+              <!-- En este caso me falta el update por si quiero update algun form -->  
+                <p:commandButton 
+    value="COMPRAR"
+    actionListener="#{paginaprincipalbean.comprar}"
+    
+    styleClass="btn"
+    style="border: none; background: orange; text-decoration: none;"
+/>
             </div>
             
             
@@ -194,7 +268,15 @@
                 <i class="bi bi-star-fill star"></i>
                 <i class="bi bi-star-fill star"></i>
                 
-                <a href="#" class="btn">COMPRAR</a>
+                
+<!-- En este caso me falta el update por si quiero update algun form -->
+                <p:commandButton 
+    value="COMPRAR"
+    actionListener="#{paginaprincipalbean.comprar}"
+    
+    styleClass="btn"
+    style="border: none; background: orange; text-decoration: none;"
+/>
             </div>
             
             <div class="box">
@@ -208,115 +290,99 @@
                 <i class="bi bi-star-fill star"></i>
                 <i class="bi bi-star-fill star"></i>
                 
-                <a href="#" class="btn">COMPRAR</a>
+                
+                <!-- En este caso me falta el update por si quiero update algun form -->
+                <p:commandButton 
+    value="COMPRAR"
+    actionListener="#{paginaprincipalbean.comprar}"
+    
+    styleClass="btn"
+    style="border: none; background: orange; text-decoration: none;"
+/>
             </div>
 
 </div>
 </section>
-
-	<p>lorem</p>
-
-
-	<p>lorem</p>
-
-
-	<p>lorem</p>
-v
-<p>lorem</p>
-	<p>lorem</p>
-	<p>lorem</p>
-	<p>lorem</p>
-	<p>lorem</p>
-
-	<p>lorem</p>
-	<p>lorem</p>
-	<p>lorem</p>
-v
-
-<p>lorem</p>
-	<p>lorem</p>
-	<p>lorem</p>
-	<p>lorem</p>
-	<p>lorem</p>
-
-	<p>lorem</p>
-	<p>lorem</p>
-	<p>lorem</p>
-	<p>lorem</p>
-	<p>lorem</p>
-	<p>lorem</p>
-
-	<p>lorem</p>v
-<br></br>
-	<p>lorem</p>
-	<br></br>
-	<p>lorem</p>
 	<br></br>
 
-	<p>lorem</p>
-	<br></br>
-	<p>lorem</p>
-	<br></br>
-	<p>lorem</p>
-	<br></br>
-	<p>lorem</p>
-	<br></br>
-	<br></br>
-	<br></br>v
-<p>lorem</p>
-	<br></br>
-	<br></br>
-	<br></br>
-	<p>lorem</p>
-	<br></br>
-	<br></br>
-	<br></br>
-	<p>lorem</p>
-	<p>lorem</p>
-	<br></br>
-	<br></br>v<br></br>
-	<p>lorem</p>
-	<br></br>
-	<br></br>v<br></br>v
-<p>lorem</p>
-	<br></br>vvvvvvv<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<p>lorem</p>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<p>lorem</p>
-	<br></br>
-	<br></br>
-	<br></br>
-	<p>lorem</p>
-	<p>lorem</p>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<p>lorem</p>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>
-	<br></br>v
-<br></br>
-	<br></br>
-	<br></br>v<br></br>
+<footer>
+  <!-- Sección principal del footer -->
 
-</h:body> </html>
+  <section class="footer-section">
+    <div class="container footer-grid">
+
+      <div class="footer-col">
+        
+        <div class="footer-contact">
+          <button class="btn-link">3222381555</button>
+          <button class="btn-link">cpelaezp@unbosque.edu.co</button>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Collections</h4>
+        <div class="btn-row">
+          <button class="btn-link">All collections</button>
+          <button class="btn-link">ROPA</button>
+          
+        </div>
+      </div>
+
+      <div class="footer-col">
+         <h4>Information</h4>
+        <div class="btn-column">
+          <button class="btn-link">Home</button>
+          <button class="btn-link">Contact us</button>
+          
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Conectate y compra</h4>
+        <p>Compra todo lo que necesites en nuestra pagina web.</p>
+        <!-- <form class="subscribe-form" onsubmit="event.preventDefault();">
+          <input type="email" placeholder="Email" required/>
+          <button type="submit" class="btn-subscribe">Subscribe</button>
+        </form> -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Sección inferior del footer con 3 filas horizontales -->
+  <section class="footer-bottom">
+  <div class="container footer-bottom-grid">
+
+
+    <div class="footer-pay-logos-row">
+      <h4>Formas de pago</h4>
+      <div class="logos">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" />
+        
+      </div>
+    </div>
+
+    <div class="footer-social-logos-row">
+       
+      <h4>Stay Connected</h4>
+      <div class="social-logos">
+        <a href="#" aria-label="Facebook" target="_blank" rel="noopener">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
+        </a>
+        
+        <a href="#" aria-label="Instagram" target="_blank" rel="noopener">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" />
+        </a>
+        <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" />
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+</footer>
+</h:body> 
+
+</html>
