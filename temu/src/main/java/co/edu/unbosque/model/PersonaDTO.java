@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Clase Abstracta que representa un Persona,y extiende de USuario e implementa
  * Serializable.
  */
-public class Persona extends Usuario implements Serializable {
+public class PersonaDTO extends Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -53,13 +53,13 @@ public class Persona extends Usuario implements Serializable {
 	/**
 	 * Constructor vacío.
 	 */
-	public Persona() {
+	public PersonaDTO() {
 		carrito = null;
 		listaCarritos = new ArrayList<>();
 		listaProductoFavorito = new ArrayList<>();
 	}
 
-	public Persona(String nombre, String genero, String direccion, int edad, int identificacion, Carrito carrito,
+	public PersonaDTO(String nombre, String genero, String direccion, int edad, int identificacion, Carrito carrito,
 			ArrayList<Producto> listaProductoFavorito) {
 		super();
 		this.nombre = nombre;
@@ -85,7 +85,7 @@ public class Persona extends Usuario implements Serializable {
 	 * @param edad       La edad de la persona.
 	 */
 
-	public Persona(String username, String contrasena, String correo, String nombre, String genero, String direccion,
+	public PersonaDTO(String username, String contrasena, String correo, String nombre, String genero, String direccion,
 			int edad, int identificacion, Carrito carrito, ArrayList<Carrito> listaCarritos,
 			ArrayList<Producto> listaProductoFavorito) {
 		super(username, contrasena, correo);
@@ -108,7 +108,7 @@ public class Persona extends Usuario implements Serializable {
 	 * @param correo     El correo de la persona.
 	 */
 
-	public Persona(String username, String contrasena, String correo) {
+	public PersonaDTO(String username, String contrasena, String correo) {
 		super(username, contrasena, correo);
 		// TODO Auto-generated constructor stub
 	}
