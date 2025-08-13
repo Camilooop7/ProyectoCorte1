@@ -8,6 +8,12 @@ public class Usuario {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Usuario(String nombre, int identificacion) {
+		super();
+		this.nombre = nombre;
+		this.identificacion = identificacion;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}

@@ -8,6 +8,12 @@ public class UsuarioDTO {
 		// TODO Auto-generated constructor stub
 	}
 
+	public UsuarioDTO(String nombre, int identificacion) {
+		super();
+		this.nombre = nombre;
+		this.identificacion = identificacion;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}

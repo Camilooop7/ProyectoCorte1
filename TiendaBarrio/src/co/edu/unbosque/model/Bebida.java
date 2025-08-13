@@ -2,26 +2,23 @@ package co.edu.unbosque.model;
 
 import java.io.Serializable;
 
-public class Bebida extends Producto implements Serializable {
+public abstract class Bebida extends Producto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String sabor;
-	private boolean esZero;
+	private String presentacion;
 
 	public Bebida() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Bebida(String sabor, boolean esZero) {
+	public Bebida(String presentacion) {
 		super();
-		this.sabor = sabor;
-		this.esZero = esZero;
+		this.presentacion = presentacion;
 	}
 
-	public Bebida(String nombre, int precio, String imagen, String sabor, boolean esZero) {
+	public Bebida(String nombre, int precio, String imagen, String presentacion) {
 		super(nombre, precio, imagen);
-		this.sabor = sabor;
-		this.esZero = esZero;
+		this.presentacion = presentacion;
 	}
 
 	public Bebida(String nombre, int precio, String imagen) {
@@ -29,25 +26,17 @@ public class Bebida extends Producto implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getSabor() {
-		return sabor;
+	public String getPresentacion() {
+		return presentacion;
 	}
 
-	public void setSabor(String sabor) {
-		this.sabor = sabor;
-	}
-
-	public boolean isEsZero() {
-		return esZero;
-	}
-
-	public void setEsZero(boolean esZero) {
-		this.esZero = esZero;
+	public void setPresentacion(String presentacion) {
+		this.presentacion = presentacion;
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + "Bebida [sabor=" + sabor + ", esZero=" + esZero + "]";
+		return "Bebida [presentacion=" + presentacion + "]";
 	}
 
 }
