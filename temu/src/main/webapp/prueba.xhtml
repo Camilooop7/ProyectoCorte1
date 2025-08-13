@@ -50,9 +50,46 @@
 
 <h:body>
 
-<div>
+<h:form>
+    <div class="card">
+        
 
-</div>
+            
+
+            
+
+        
+
+        <h5>Button Addons</h5>
+        
+
+            <div class="col-12 md:col-4">
+                <div class="ui-inputgroup">
+                    <p:inputText placeholder="Keyboard"/>
+                    <p:commandButton icon="pi pi-search" styleClass="ui-button-warning"/>
+                </div>
+            </div>
+
+            
+        
+
+        <!-- <h5>Checkbox</h5>
+        <div class="grid ui-fluid">
+            <div class="col-12 md:col-4">
+                <div class="ui-inputgroup">
+                    <div class="ui-inputgroup-addon"><p:selectBooleanCheckbox/></div>
+                    <p:inputText placeholder="Username"/>
+                </div>
+            </div> -->
+            
+            
+        
+
+        <p:selectOneRadio id="radioDemo" layout="custom" unselectable="true">
+            <f:selectItem itemValue="demo"/>
+        </p:selectOneRadio>
+    </div>
+</h:form>
 
 
     
