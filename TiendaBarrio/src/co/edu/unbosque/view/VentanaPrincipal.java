@@ -28,8 +28,8 @@ public class VentanaPrincipal extends JFrame {
 		pp = new PanelPrincipal();
 		ps = new PanelSesion();
 		
-		add(pp).setVisible(false);
-		add(ps).setVisible(true);
+		add(pp).setVisible(true);
+		add(ps).setVisible(false);
 	}
 
 	public PanelPrincipal getPp() {
