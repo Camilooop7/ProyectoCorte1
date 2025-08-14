@@ -1,11 +1,13 @@
 package co.edu.unbosque.controller;
 
+import java.io.IOException;
+
 import co.edu.unbosque.view.ViewFacade;
 
 public class Controller {
 	private ViewFacade vf;
 
-	public Controller() {
+	public Controller() throws IOException {
 		vf = new ViewFacade();
 	}
 
