@@ -299,6 +299,29 @@ img {
 }
 
 
+
+
+
+/* Busqueda de de la barra */
+.nav-search-form {
+    display: flex;
+    align-items: center;
+    margin-left: 15px; /* separación opcional */
+}
+
+.nav-search-form .card {
+    margin: 0; /* quitar márgenes extra */
+}
+
+.nav-search-form .col-12.md\:col-4 {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap; /* evitar que baje de línea */
+}
+
+
+
+
 .card {
     max-width: 700px;   /* controla el ancho */
     max-height: 400px;  /* controla la altura */

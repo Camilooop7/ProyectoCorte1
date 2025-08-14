@@ -53,87 +53,76 @@
 	
 
 
-	<header class="header" id="header"> 
+	<header class="header" id="header"> <nav class="nav container">
 	
-	<nav class="nav container">
+	
 	
 	<a href="index.html" class="nav-logo"> 
-	
 	<i class='bx bxs-shopping-bags nav-logo-icon'></i> TEMU SHOP </a> 
 	
-	<div class="nav-menu" id="nav-menu"> <ul class="nav-list"> <li
-		class="nav-item"> <a href="index.html"
-		class="nav-link active-link">Home</a></li> 
-		<li class="nav-item"> 
+	<div class="nav-menu" id="nav-menu"> <ul class="nav-list"> 
+	<li class="nav-item"> 
+	<a href="index.html" class="nav-link active-link">Home</a></li> 
+	<li class="nav-item"> <a href="shop.html" class="nav-link">Shop</a> </li> 
+	
+	<li class="nav-item"> <a href="http://localhost:8080/temu/cart.xhtml" class="nav-link">Cart</a>
+	</li> 
+	</ul> 
+	
+	<div class="nav-close" id="nav-close"> <i class="bx bx-x"></i>
+	
+	</div> 
+	
+	</div> 
+	 
+	
+	<div class="nav-shop" id="cart-shop"> </div> 
+	
+	<div class="nav-toggle" id="nav-toggle"> </div> 
+	
+	
+	<h:form style="margin-top: 10px;">
+		<div class="card"> <div class="col-12 md:col-4"> 
+		<div class="ui-inputgroup"> <p:inputText placeholder="Search" /> 
+			
+			
+			<p:commandButton icon="pi pi-search" styleClass="ui-button-warning" /> </div> </div> <!-- <h5>Checkbox</h5> <div class="grid ui-fluid"> <div class="col-12 md:col-4"> <div class="ui-inputgroup"> <div class="ui-inputgroup-addon"><p:selectBooleanCheckbox/></div> <p:inputText placeholder="Username"/> </div> </div> -->
+		<p:selectOneRadio id="radioDemo" layout="custom" unselectable="true">
+			<f:selectItem itemValue="demo" />
+		</p:selectOneRadio> </div>
+	</h:form> 
+	
+	
+	<div class="dropdown"> <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+	SETTING </button> 
+	
+	<ul class="dropdown-menu"> 
+	<!-- En este caso me falta el update por si quiero update algun form -->
+	<li> <p:commandLink value="INFO"
+		actionListener="#{paginaprincipalbean.mostrarInfo}"
+		styleClass="dropdown-item" /> </li>
+		 <!-- En este caso me falta el update por si quiero update algun form -->
+	<li> <p:commandLink value="USUARIOS"
+		actionListener="#{paginaprincipalbean.listarUsuarios}"
+		styleClass="dropdown-item" /> </li> 
+		<!-- En este caso me falta el update por si quiero update algun form -->
+	<li> <p:commandLink value="CERRAR SESION"
+		actionListener="#{paginaprincipalbean.cerrarSesion}"
+		styleClass="dropdown-item" /> </li> 
 		
-		<a href="shop.html" class="nav-link">Shop</a>
+		</ul> 
 		
-</li> <li class="nav-item">
-
-	<a href="http://localhost:8080/temu/cart.xhtml" class="nav-link">Cart</a>
-
-</li> 
-
-</ul> 
-
-<div class="nav-close"
-		id="nav-close"> <i class="bx bx-x"></i> 
 		</div> 
-</div> 
-		<div class="nav-btns">
-	<div class="login-toggle" id="login-button"> <i
-		class='bx bx-user'></i></div> <div class="nav-shop" id="cart-shop"> <i
-		class='bx bx-shopping-bag'></i></div> <div class="nav-toggle"
-		id="nav-toggle"> <i class='bx bx-grid-alt'></i></div> 
-	</div>
-	
-	<div class="dropdown">
-    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        SETTING
-    </button>
-    <ul class="dropdown-menu">
-    
-    
-    <!-- En este caso me falta el update por si quiero update algun form -->
-        <li>
-        
-            <p:commandLink 
-                value="INFO" 
-                actionListener="#{paginaprincipalbean.mostrarInfo}" 
-                
-                styleClass="dropdown-item"
-            />
-        </li>
-        
-        <!-- En este caso me falta el update por si quiero update algun form -->
-        <li>
-            <p:commandLink 
-                value="USUARIOS" 
-                actionListener="#{paginaprincipalbean.listarUsuarios}" 
-                
-                styleClass="dropdown-item"
-            />
-        </li>
-        
-        <!-- En este caso me falta el update por si quiero update algun form -->
-        <li>
-            <p:commandLink 
-                value="CERRAR SESION" 
-                actionListener="#{paginaprincipalbean.cerrarSesion}" 
-                
-                styleClass="dropdown-item"
-            />
-        </li>
-    </ul>
-</div>
-	
-	
-	
-</nav> 
-
-
 		
-</header> <br></br>  <br></br>
+</nav> 
+		
+		
+		
+		
+</header>
+
+
+<br></br>  <br></br>
 
 <header >
 
