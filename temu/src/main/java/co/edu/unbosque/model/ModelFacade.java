@@ -21,51 +21,51 @@ public class ModelFacade {
 	/**
 	 * DAO para gestionar animales.
 	 */
-	private AnimalDAO animalDAO;
+	public static AnimalDAO animalDAO;
 	/**
 	 * DAO para gestionar audífonos.
 	 */
-	private AudifonoDAO audifonoDAO;
+	public static AudifonoDAO audifonoDAO;
 	/**
 	 * DAO para gestionar colegios.
 	 */
-	private ColegioDAO colegioDAO;
+	public static ColegioDAO colegioDAO;
 	/**
 	 * DAO para gestionar productos educativos.
 	 */
-	private EducativoDAO educativoDAO;
+	public static EducativoDAO educativoDAO;
 	/**
 	 * DAO para gestionar hombres.
 	 */
-	private HombreDAO hombreDAO;
+	public static HombreDAO hombreDAO;
 	/**
 	 * DAO para gestionar juegos de mesa.
 	 */
-	private JuegoMesaDAO juegoMesaDAO;
+	public static JuegoMesaDAO juegoMesaDAO;
 	/**
 	 * DAO para gestionar labiales.
 	 */
-	private LabialDAO labialDAO;
+	public static LabialDAO labialDAO;
 	/**
 	 * DAO para gestionar dispositivos móviles.
 	 */
-	private MovilDAO movilDAO;
+	public static MovilDAO movilDAO;
 	/**
 	 * DAO para gestionar mujeres.
 	 */
-	private MujerDAO mujerDAO;
+	public static MujerDAO mujerDAO;
 	/**
 	 * DAO para gestionar productos de oficina.
 	 */
-	private OficinaDAO oficinaDAO;
+	public static OficinaDAO oficinaDAO;
 	/**
 	 * DAO para gestionar películas.
 	 */
-	private PeliculaDAO peliculaDAO;
+	public static PeliculaDAO peliculaDAO;
 	/**
 	 * DAO para gestionar pestañinas.
 	 */
-	private PestaninaDAO pestaninaDAO;
+	public static PestaninaDAO pestaninaDAO;
 
 	/**
 	 * Constructor de la clase. Inicializa los DAOs.
