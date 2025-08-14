@@ -46,7 +46,9 @@
 
 
 
-</h:head> <h:body>
+</h:head> 
+
+<h:body>
 
 	<header class="header" id="header"> <nav class="nav container">
 	
@@ -165,7 +167,12 @@
 
 			</h:panelGrid>
 		</p:outputPanel>
-	</h:form> </div> </div> <div class="col"> <div class="card" style="width: 100%">
+	</h:form> 
+	</div> 
+	</div> 
+	
+	
+	<div class="col"> <div class="card" style="width: 100%">
 	<h:form>
 		<p:messages id="messages" />
 
@@ -175,19 +182,15 @@
 			class="col-12 md:col-10"> <p:inputText id="name"
 			required="true" /> </div> </div>
 
-		<!-- Precio -->
-		<div class="field grid"> <p:outputLabel for="precio"
-			value="Precio:" styleClass="col-12 mb-2 md:col-2 md:mb-0" /> <div
-			class="col-12 md:col-10"> <p:inputText id="precio"
-			required="true" /> </div> </div>
+		
 
 		<!-- Country -->
 		<div class="field grid"> <p:outputLabel for="country"
-			value="Country:" styleClass="col-12 mb-2 md:col-2 md:mb-0" /> <div
+			value="Producto: " styleClass="col-12 mb-2 md:col-2 md:mb-0" /> <div
 			class="col-12 md:col-10"> <p:selectOneMenu id="country"
-			value="#{basicView.country}" style="width:150px">
+			value="#{basicView.country}" style="width:200px" required="true">
 			<p:ajax listener="#{basicView.onCountryChange}" update="" />
-			<f:selectItem itemLabel="Select Country" itemValue=""
+			<f:selectItem itemLabel="Seleccionar Producto" itemValue=""
 				noSelectionOption="true" />
 			<f:selectItems value="#{basicView.countries}" />
 		</p:selectOneMenu> </div> </div>
@@ -198,15 +201,44 @@
 			class="col-12 md:col-10"> <p:inputText id="extended"
 			required="true" /> </div> </div>
 
+		<div class="field grid"> <p:outputLabel for="extended1"
+			value="Atributo 1: " styleClass="col-12 mb-2 md:col-2 md:mb-0" /> <div
+			class="col-12 md:col-10"> <p:inputText id="extended1"
+			required="true" /> </div> </div>
+			
+			<div class="field grid"> <p:outputLabel for="extended2"
+			value="Atributo 2: " styleClass="col-12 mb-2 md:col-2 md:mb-0" /> <div
+			class="col-12 md:col-10"> <p:inputText id="extended2"
+			required="true" /> </div> </div>
+			
+			
+			<div class="field grid"> <p:outputLabel for="extended3"
+			value="Atributo 3: " styleClass="col-12 mb-2 md:col-2 md:mb-0" /> <div
+			class="col-12 md:col-10"> <p:inputText id="extended3"
+			required="true" /> </div> </div>
+
 		<!-- Number -->
 		<div class="field grid"> <p:outputLabel for="number"
-			value="Number" styleClass="col-12 mb-2 md:col-2 md:mb-0" /> <div
-			class="col-12 md:col-10"> <p:spinner id="number" value="0" /> </div>
+			value="Precio" styleClass="col-12 mb-2 md:col-2 md:mb-0" /> <div
+			class="col-12 md:col-10"> <p:spinner id="number"  required="true" /> </div>
 		</div>
+		
+		
+		
+		
+		<!--SelectOneButton FORM PRIME FACES  -->
+		<div class="field grid"  >
+    <p:outputLabel for="number"
+			value="Opcion: " styleClass="col-12 mb-2 md:col-2 md:mb-0" />
+        <p:selectOneButton value="#{selectOneButtonView.option}">
+            <f:selectItem itemLabel="Option1" itemValue="Option1"/>
+            <f:selectItem itemLabel="Option2" itemValue="Option2"/>
+        </p:selectOneButton>
+    </div>
 
 		<!-- Botón -->
 		<div class="field grid"> <div
-			class="col-12 md:col-offset-2 md:col-10"> <p:commandButton
+			class="col-12 md:col-offset-2 md:col-10"> <p:commandButton 
 			value="Submit" update="@form" /> </div> </div>
 	</h:form> </div> </div> </div> </div>
 
