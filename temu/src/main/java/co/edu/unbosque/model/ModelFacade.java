@@ -11,6 +11,7 @@ import co.edu.unbosque.model.persistence.MovilDAO;
 import co.edu.unbosque.model.persistence.MujerDAO;
 import co.edu.unbosque.model.persistence.OficinaDAO;
 import co.edu.unbosque.model.persistence.PeliculaDAO;
+import co.edu.unbosque.model.persistence.PersonaDAO;
 import co.edu.unbosque.model.persistence.PestaninaDAO;
 
 /**
@@ -66,6 +67,8 @@ public class ModelFacade {
 	 * DAO para gestionar pestañinas.
 	 */
 	public static PestaninaDAO pestaninaDAO;
+	
+	public static PersonaDAO personaDAO;
 
 	/**
 	 * Constructor de la clase. Inicializa los DAOs.
@@ -83,6 +86,7 @@ public class ModelFacade {
 		oficinaDAO = new OficinaDAO();
 		peliculaDAO = new PeliculaDAO();
 		pestaninaDAO = new PestaninaDAO();
+		personaDAO = new PersonaDAO();
 	}
 
 	/**
@@ -184,4 +188,13 @@ public class ModelFacade {
 	public void setPestaninaDAO(PestaninaDAO pestaninaDAO) {
 		this.pestaninaDAO = pestaninaDAO;
 	}
+
+	public static PersonaDAO getPersonaDAO() {
+		return personaDAO;
+	}
+
+	public static void setPersonaDAO(PersonaDAO personaDAO) {
+		ModelFacade.personaDAO = personaDAO;
+	}
+	
 }
