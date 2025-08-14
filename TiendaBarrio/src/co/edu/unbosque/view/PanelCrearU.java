@@ -19,16 +19,18 @@ import javax.swing.JTextField;
  * agregar botones y o componentes de interfaz grafica. y creación de las
  * variables con su nombre privadas.
  */
-public class PanelSesion extends JPanel {
-	
-	
+public class PanelCrearU extends JPanel {
+
 	private JLabel fondo;
-	private JButton entrar;
-	private JButton registrar;
+	private JButton crear;
 	/**
 	 * Text field for entering the specialization.
 	 */
 	private JTextField identificacion;
+	/**
+	 * Text field for entering the specialization.
+	 */
+	private JTextField nombre;
 
 	/**
 	 * Constructor del panel donde se ejecuta la logica en general de cada parametro
@@ -37,7 +39,7 @@ public class PanelSesion extends JPanel {
 	 * 
 	 * @throws IOException Si ocurre un error al cargar las imágenes.
 	 */
-	public PanelSesion() throws IOException {
+	public PanelCrearU() throws IOException {
 		setBounds(0, 0, 1290, 750);
 		setLayout(null);
 		/**
@@ -46,7 +48,7 @@ public class PanelSesion extends JPanel {
 		 * redimenzionar las medidas establecidas de la imagen.
 		 */
 		fondo = new JLabel();
-		BufferedImage fd = ImageIO.read(new File("src/co/edu/unbosque/view/Identificacion.png"));
+		BufferedImage fd = ImageIO.read(new File("src/co/edu/unbosque/view/Registro.png"));
 		ImageIcon imagenFondo = new ImageIcon(fd);
 		Image fdRedim = fd.getScaledInstance(1290, 750, Image.SCALE_SMOOTH);
 		fondo.setIcon(new ImageIcon(fdRedim));
@@ -58,42 +60,35 @@ public class PanelSesion extends JPanel {
 		 * .contentareafilled para que el area de boton sea transparente .borderpainted
 		 * quitar el borde establecido preterminado del boton. .add añadir el boton.
 		 */
-		entrar = new JButton();
-		entrar.setBounds(250, 570, 375, 100);
-		entrar.setFocusable(false);
-		entrar.setBackground(new Color(0, 0, 0));
-		entrar.setContentAreaFilled(false);
-		entrar.setOpaque(false);
-		entrar.setBorderPainted(true);
-		entrar.setVisible(true);
-		add(entrar);
+		crear = new JButton();
+		crear.setBounds(450, 568, 375, 100);
+		crear.setFocusable(false);
+		crear.setBackground(new Color(0, 0, 0));
+		crear.setContentAreaFilled(false);
+		crear.setOpaque(false);
+		crear.setBorderPainted(true);
+		crear.setVisible(true);
+		add(crear);
 
-		/**
-		 * En este caso se inicializa el Jbutton para su uso .setbounds para definir el
-		 * tamaño y posicion dentro del panel .setbackground se establece el color.
-		 * .contentareafilled para que el area de boton sea transparente .borderpainted
-		 * quitar el borde establecido preterminado del boton. .add añadir el boton.
-		 */
-		registrar = new JButton();
-		registrar.setBounds(665, 570, 375, 100);
-		registrar.setFocusable(false);
-		registrar.setBackground(new Color(0, 0, 0));
-		registrar.setContentAreaFilled(false);
-		registrar.setOpaque(false);
-		registrar.setBorderPainted(true);
-		registrar.setVisible(true);
-		add(registrar);
-		
 		identificacion = new JTextField();
-		identificacion.setBounds(445, 390, 380, 110);
+		identificacion.setBounds(279, 390, 320, 110);
 		identificacion.setFont(new Font("Baloo", Font.BOLD, 24));
 		identificacion.setOpaque(false);
-		identificacion.setBackground(new Color(0, 0, 0, 0));
-		identificacion.setBorder(null);
+		identificacion.setBackground(new Color(0, 0, 0, 0)); 
+		identificacion.setBorder(null); 
 		add(identificacion);
 
+		nombre = new JTextField();
+		nombre.setBounds(658, 390, 320, 110);
+		nombre.setFont(new Font("Baloo", Font.BOLD, 24));
+		nombre.setOpaque(false);
+		nombre.setBackground(new Color(0, 0, 0, 0));
+		nombre.setBorder(null);
+		add(nombre);
+
 		add(fondo);
-		// TODO Auto-generated constructor stub
+
+
 	}
 
 	public JLabel getFondo() {
@@ -104,13 +99,12 @@ public class PanelSesion extends JPanel {
 		this.fondo = fondo;
 	}
 
-
-	public JButton getRegistrar() {
-		return registrar;
+	public JButton getCrear() {
+		return crear;
 	}
 
-	public void setRegistrar(JButton registrar) {
-		this.registrar = registrar;
+	public void setCrear(JButton crear) {
+		this.crear = crear;
 	}
 
 	public JTextField getIdentificacion() {
@@ -121,14 +115,13 @@ public class PanelSesion extends JPanel {
 		this.identificacion = identificacion;
 	}
 
-	public JButton getEntrar() {
-		return entrar;
+	public JTextField getNombre() {
+		return nombre;
 	}
 
-	public void setEntrar(JButton entrar) {
-		this.entrar = entrar;
+	public void setNombre(JTextField nombre) {
+		this.nombre = nombre;
 	}
 	
 	
-
 }
