@@ -24,14 +24,17 @@ import co.edu.unbosque.model.Oficina;
 import co.edu.unbosque.model.OficinaDTO;
 import co.edu.unbosque.model.Pelicula;
 import co.edu.unbosque.model.PeliculaDTO;
+import co.edu.unbosque.model.Persona;
+import co.edu.unbosque.model.PersonaDTO;
 import co.edu.unbosque.model.Pestanina;
 import co.edu.unbosque.model.PestaninaDTO;
 
 /**
- * Clase en la cual se crean métodos para administrar datos entre los DTO y entidades.
+ * Clase en la cual se crean métodos para administrar datos entre los DTO y
+ * entidades.
  */
 public class DataMapper {
-	
+
 	/**
 	 * Convierte un AnimalDTO a un Animal.
 	 *
@@ -39,9 +42,8 @@ public class DataMapper {
 	 * @return El Animal resultante.
 	 */
 	public static Animal animalDTOToAnimal(AnimalDTO dto) {
-	    Animal entity = new Animal(dto.getNombre(), dto.getPrecio(), dto.getImagen(),
-	            dto.getTamano(), dto.getAnimal());
-	    return entity;
+		Animal entity = new Animal(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getTamano(), dto.getAnimal());
+		return entity;
 	}
 
 	/**
@@ -51,9 +53,9 @@ public class DataMapper {
 	 * @return El AnimalDTO resultante.
 	 */
 	public static AnimalDTO animalToAnimalDTO(Animal entity) {
-	    AnimalDTO dto = new AnimalDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-	            entity.getTamano(), entity.getAnimal());
-	    return dto;
+		AnimalDTO dto = new AnimalDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(), entity.getTamano(),
+				entity.getAnimal());
+		return dto;
 	}
 
 	/**
@@ -63,12 +65,11 @@ public class DataMapper {
 	 * @return La lista de AnimalDTO resultante.
 	 */
 	public static ArrayList<AnimalDTO> listaAnimalToListaAnimalDTO(ArrayList<Animal> entityList) {
-	    ArrayList<AnimalDTO> dtoList = new ArrayList<>();
-	    for (Animal m : entityList) {
-	        dtoList.add(new AnimalDTO(m.getNombre(), m.getPrecio(), m.getImagen(),
-	                m.getTamano(), m.getAnimal()));
-	    }
-	    return dtoList;
+		ArrayList<AnimalDTO> dtoList = new ArrayList<>();
+		for (Animal m : entityList) {
+			dtoList.add(new AnimalDTO(m.getNombre(), m.getPrecio(), m.getImagen(), m.getTamano(), m.getAnimal()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -78,14 +79,13 @@ public class DataMapper {
 	 * @return La lista de Animal resultante.
 	 */
 	public static ArrayList<Animal> listaAnimalDTOToListaAnimal(ArrayList<AnimalDTO> dtoList) {
-	    ArrayList<Animal> entityList = new ArrayList<>();
-	    for (AnimalDTO d : dtoList) {
-	        entityList.add(new Animal(d.getNombre(), d.getPrecio(), d.getImagen(),
-	                d.getTamano(), d.getAnimal()));
-	    }
-	    return entityList;
+		ArrayList<Animal> entityList = new ArrayList<>();
+		for (AnimalDTO d : dtoList) {
+			entityList.add(new Animal(d.getNombre(), d.getPrecio(), d.getImagen(), d.getTamano(), d.getAnimal()));
+		}
+		return entityList;
 	}
-	
+
 	/**
 	 * Convierte un AudifonoDTO a un Audifono.
 	 *
@@ -93,9 +93,9 @@ public class DataMapper {
 	 * @return El Audifono resultante.
 	 */
 	public static Audifono audifonoDTOToAudifono(AudifonoDTO dto) {
-	    Audifono entity = new Audifono(dto.getNombre(), dto.getPrecio(), dto.getImagen(),
-	            dto.getModelo(), dto.getTipoConexion());
-	    return entity;
+		Audifono entity = new Audifono(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getModelo(),
+				dto.getTipoConexion());
+		return entity;
 	}
 
 	/**
@@ -105,9 +105,9 @@ public class DataMapper {
 	 * @return El AudifonoDTO resultante.
 	 */
 	public static AudifonoDTO audifonoToAudifonoDTO(Audifono entity) {
-	    AudifonoDTO dto = new AudifonoDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-	            entity.getModelo(), entity.getTipoConexion());
-	    return dto;
+		AudifonoDTO dto = new AudifonoDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
+				entity.getModelo(), entity.getTipoConexion());
+		return dto;
 	}
 
 	/**
@@ -117,12 +117,12 @@ public class DataMapper {
 	 * @return La lista de AudifonoDTO resultante.
 	 */
 	public static ArrayList<AudifonoDTO> listaAudifonoToListaAudifonoDTO(ArrayList<Audifono> entityList) {
-	    ArrayList<AudifonoDTO> dtoList = new ArrayList<>();
-	    for (Audifono m : entityList) {
-	        dtoList.add(new AudifonoDTO(m.getNombre(), m.getPrecio(), m.getImagen(),
-	                m.getModelo(), m.getTipoConexion()));
-	    }
-	    return dtoList;
+		ArrayList<AudifonoDTO> dtoList = new ArrayList<>();
+		for (Audifono m : entityList) {
+			dtoList.add(
+					new AudifonoDTO(m.getNombre(), m.getPrecio(), m.getImagen(), m.getModelo(), m.getTipoConexion()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -132,13 +132,14 @@ public class DataMapper {
 	 * @return La lista de Audifono resultante.
 	 */
 	public static ArrayList<Audifono> listaAudifonoDTOToListaAudifono(ArrayList<AudifonoDTO> dtoList) {
-	    ArrayList<Audifono> entityList = new ArrayList<>();
-	    for (AudifonoDTO d : dtoList) {
-	        entityList.add(new Audifono(d.getNombre(), d.getPrecio(), d.getImagen(),
-	                d.getModelo(), d.getTipoConexion()));
-	    }
-	    return entityList;
+		ArrayList<Audifono> entityList = new ArrayList<>();
+		for (AudifonoDTO d : dtoList) {
+			entityList
+					.add(new Audifono(d.getNombre(), d.getPrecio(), d.getImagen(), d.getModelo(), d.getTipoConexion()));
+		}
+		return entityList;
 	}
+
 	/**
 	 * Convierte un ColegioDTO a un Colegio.
 	 *
@@ -146,9 +147,9 @@ public class DataMapper {
 	 * @return El Colegio resultante.
 	 */
 	public static Colegio colegioDTOToColegio(ColegioDTO dto) {
-	    Colegio entity = new Colegio(dto.getNombre(), dto.getPrecio(), dto.getImagen(),
-	            dto.getCantidadPaquete(), dto.isEsSeguro());
-	    return entity;
+		Colegio entity = new Colegio(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getCantidadPaquete(),
+				dto.isEsSeguro());
+		return entity;
 	}
 
 	/**
@@ -158,9 +159,9 @@ public class DataMapper {
 	 * @return El ColegioDTO resultante.
 	 */
 	public static ColegioDTO colegioToColegioDTO(Colegio entity) {
-	    ColegioDTO dto = new ColegioDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-	            entity.getCantidadPaquete(), entity.isEsSeguro());
-	    return dto;
+		ColegioDTO dto = new ColegioDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
+				entity.getCantidadPaquete(), entity.isEsSeguro());
+		return dto;
 	}
 
 	/**
@@ -170,12 +171,12 @@ public class DataMapper {
 	 * @return La lista de ColegioDTO resultante.
 	 */
 	public static ArrayList<ColegioDTO> listaColegioToListaColegioDTO(ArrayList<Colegio> entityList) {
-	    ArrayList<ColegioDTO> dtoList = new ArrayList<>();
-	    for (Colegio m : entityList) {
-	        dtoList.add(new ColegioDTO(m.getNombre(), m.getPrecio(), m.getImagen(),
-	                m.getCantidadPaquete(), m.isEsSeguro()));
-	    }
-	    return dtoList;
+		ArrayList<ColegioDTO> dtoList = new ArrayList<>();
+		for (Colegio m : entityList) {
+			dtoList.add(new ColegioDTO(m.getNombre(), m.getPrecio(), m.getImagen(), m.getCantidadPaquete(),
+					m.isEsSeguro()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -185,13 +186,14 @@ public class DataMapper {
 	 * @return La lista de Colegio resultante.
 	 */
 	public static ArrayList<Colegio> listaColegioDTOToListaColegio(ArrayList<ColegioDTO> dtoList) {
-	    ArrayList<Colegio> entityList = new ArrayList<>();
-	    for (ColegioDTO d : dtoList) {
-	        entityList.add(new Colegio(d.getNombre(), d.getPrecio(), d.getImagen(),
-	                d.getCantidadPaquete(), d.isEsSeguro()));
-	    }
-	    return entityList;
+		ArrayList<Colegio> entityList = new ArrayList<>();
+		for (ColegioDTO d : dtoList) {
+			entityList.add(
+					new Colegio(d.getNombre(), d.getPrecio(), d.getImagen(), d.getCantidadPaquete(), d.isEsSeguro()));
+		}
+		return entityList;
 	}
+
 	/**
 	 * Convierte un EducativoDTO a un Educativo.
 	 *
@@ -199,9 +201,9 @@ public class DataMapper {
 	 * @return El Educativo resultante.
 	 */
 	public static Educativo educativoDTOToEducativo(EducativoDTO dto) {
-	    Educativo entity = new Educativo(dto.getNombre(), dto.getPrecio(), dto.getImagen(),
-	            dto.getEdadRecomendada(), dto.isEsDidactico());
-	    return entity;
+		Educativo entity = new Educativo(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getEdadRecomendada(),
+				dto.isEsDidactico());
+		return entity;
 	}
 
 	/**
@@ -211,9 +213,9 @@ public class DataMapper {
 	 * @return El EducativoDTO resultante.
 	 */
 	public static EducativoDTO educativoToEducativoDTO(Educativo entity) {
-	    EducativoDTO dto = new EducativoDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-	            entity.getEdadRecomendada(), entity.isEsDidactico());
-	    return dto;
+		EducativoDTO dto = new EducativoDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
+				entity.getEdadRecomendada(), entity.isEsDidactico());
+		return dto;
 	}
 
 	/**
@@ -223,12 +225,12 @@ public class DataMapper {
 	 * @return La lista de EducativoDTO resultante.
 	 */
 	public static ArrayList<EducativoDTO> listaEducativoToListaEducativoDTO(ArrayList<Educativo> entityList) {
-	    ArrayList<EducativoDTO> dtoList = new ArrayList<>();
-	    for (Educativo e : entityList) {
-	        dtoList.add(new EducativoDTO(e.getNombre(), e.getPrecio(), e.getImagen(),
-	                e.getEdadRecomendada(), e.isEsDidactico()));
-	    }
-	    return dtoList;
+		ArrayList<EducativoDTO> dtoList = new ArrayList<>();
+		for (Educativo e : entityList) {
+			dtoList.add(new EducativoDTO(e.getNombre(), e.getPrecio(), e.getImagen(), e.getEdadRecomendada(),
+					e.isEsDidactico()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -238,14 +240,14 @@ public class DataMapper {
 	 * @return La lista de Educativo resultante.
 	 */
 	public static ArrayList<Educativo> listaEducativoDTOToListaEducativo(ArrayList<EducativoDTO> dtoList) {
-	    ArrayList<Educativo> entityList = new ArrayList<>();
-	    for (EducativoDTO d : dtoList) {
-	        entityList.add(new Educativo(d.getNombre(), d.getPrecio(), d.getImagen(),
-	                d.getEdadRecomendada(), d.isEsDidactico()));
-	    }
-	    return entityList;
+		ArrayList<Educativo> entityList = new ArrayList<>();
+		for (EducativoDTO d : dtoList) {
+			entityList.add(new Educativo(d.getNombre(), d.getPrecio(), d.getImagen(), d.getEdadRecomendada(),
+					d.isEsDidactico()));
+		}
+		return entityList;
 	}
-	
+
 	/**
 	 * Convierte un HombreDTO a un Hombre.
 	 *
@@ -253,9 +255,9 @@ public class DataMapper {
 	 * @return El Hombre resultante.
 	 */
 	public static Hombre hombreDTOToHombre(HombreDTO dto) {
-	    Hombre entity = new Hombre(dto.getNombre(), dto.getPrecio(),
-	            dto.getImagen(), dto.getTalla(), dto.getColor(), dto.isEsDeportiva());
-	    return entity;
+		Hombre entity = new Hombre(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getTalla(), dto.getColor(),
+				dto.isEsDeportiva());
+		return entity;
 	}
 
 	/**
@@ -265,9 +267,9 @@ public class DataMapper {
 	 * @return El HombreDTO resultante.
 	 */
 	public static HombreDTO hombreToHombreDTO(Hombre entity) {
-	    HombreDTO dto = new HombreDTO(entity.getNombre(), entity.getPrecio(),
-	            entity.getImagen(), entity.getTalla(), entity.getColor(), entity.isEsDeportiva());
-	    return dto;
+		HombreDTO dto = new HombreDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(), entity.getTalla(),
+				entity.getColor(), entity.isEsDeportiva());
+		return dto;
 	}
 
 	/**
@@ -277,12 +279,12 @@ public class DataMapper {
 	 * @return La lista de HombreDTO resultante.
 	 */
 	public static ArrayList<HombreDTO> listaHombreToListaHombreDTO(ArrayList<Hombre> entityList) {
-	    ArrayList<HombreDTO> dtoList = new ArrayList<>();
-	    for (Hombre e : entityList) {
-	        dtoList.add(new HombreDTO(e.getNombre(), e.getPrecio(),
-	                e.getImagen(), e.getTalla(), e.getColor(), e.isEsDeportiva()));
-	    }
-	    return dtoList;
+		ArrayList<HombreDTO> dtoList = new ArrayList<>();
+		for (Hombre e : entityList) {
+			dtoList.add(new HombreDTO(e.getNombre(), e.getPrecio(), e.getImagen(), e.getTalla(), e.getColor(),
+					e.isEsDeportiva()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -292,12 +294,12 @@ public class DataMapper {
 	 * @return La lista de Hombre resultante.
 	 */
 	public static ArrayList<Hombre> listaHombreDTOToListaHombre(ArrayList<HombreDTO> dtoList) {
-	    ArrayList<Hombre> entityList = new ArrayList<>();
-	    for (HombreDTO d : dtoList) {
-	        entityList.add(new Hombre(d.getNombre(), d.getPrecio(),
-	                d.getImagen(), d.getTalla(), d.getColor(), d.isEsDeportiva()));
-	    }
-	    return entityList;
+		ArrayList<Hombre> entityList = new ArrayList<>();
+		for (HombreDTO d : dtoList) {
+			entityList.add(new Hombre(d.getNombre(), d.getPrecio(), d.getImagen(), d.getTalla(), d.getColor(),
+					d.isEsDeportiva()));
+		}
+		return entityList;
 	}
 
 	/**
@@ -307,9 +309,9 @@ public class DataMapper {
 	 * @return El JuegoMesa resultante.
 	 */
 	public static JuegoMesa juegoMesaDTOToJuegoMesa(JuegoMesaDTO dto) {
-	    JuegoMesa entity = new JuegoMesa(dto.getNombre(), dto.getPrecio(), dto.getImagen(),
-	            dto.getEdadRecomendada(), dto.getCantidadPersona());
-	    return entity;
+		JuegoMesa entity = new JuegoMesa(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getEdadRecomendada(),
+				dto.getCantidadPersona());
+		return entity;
 	}
 
 	/**
@@ -319,9 +321,9 @@ public class DataMapper {
 	 * @return El JuegoMesaDTO resultante.
 	 */
 	public static JuegoMesaDTO juegoMesaToJuegoMesaDTO(JuegoMesa entity) {
-	    JuegoMesaDTO dto = new JuegoMesaDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-	            entity.getEdadRecomendada(), entity.getCantidadPersona());
-	    return dto;
+		JuegoMesaDTO dto = new JuegoMesaDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
+				entity.getEdadRecomendada(), entity.getCantidadPersona());
+		return dto;
 	}
 
 	/**
@@ -331,12 +333,12 @@ public class DataMapper {
 	 * @return La lista de JuegoMesaDTO resultante.
 	 */
 	public static ArrayList<JuegoMesaDTO> listaJuegoMesaToListaJuegoMesaDTO(ArrayList<JuegoMesa> entityList) {
-	    ArrayList<JuegoMesaDTO> dtoList = new ArrayList<>();
-	    for (JuegoMesa e : entityList) {
-	        dtoList.add(new JuegoMesaDTO(e.getNombre(), e.getPrecio(), e.getImagen(),
-	                e.getEdadRecomendada(), e.getCantidadPersona()));
-	    }
-	    return dtoList;
+		ArrayList<JuegoMesaDTO> dtoList = new ArrayList<>();
+		for (JuegoMesa e : entityList) {
+			dtoList.add(new JuegoMesaDTO(e.getNombre(), e.getPrecio(), e.getImagen(), e.getEdadRecomendada(),
+					e.getCantidadPersona()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -346,12 +348,12 @@ public class DataMapper {
 	 * @return La lista de JuegoMesa resultante.
 	 */
 	public static ArrayList<JuegoMesa> listaJuegoMesaDTOToListaJuegoMesa(ArrayList<JuegoMesaDTO> dtoList) {
-	    ArrayList<JuegoMesa> entityList = new ArrayList<>();
-	    for (JuegoMesaDTO d : dtoList) {
-	        entityList.add(new JuegoMesa(d.getNombre(), d.getPrecio(), d.getImagen(),
-	                d.getEdadRecomendada(), d.getCantidadPersona()));
-	    }
-	    return entityList;
+		ArrayList<JuegoMesa> entityList = new ArrayList<>();
+		for (JuegoMesaDTO d : dtoList) {
+			entityList.add(new JuegoMesa(d.getNombre(), d.getPrecio(), d.getImagen(), d.getEdadRecomendada(),
+					d.getCantidadPersona()));
+		}
+		return entityList;
 	}
 
 	/**
@@ -361,9 +363,9 @@ public class DataMapper {
 	 * @return El Labial resultante.
 	 */
 	public static Labial labialDTOToLabial(LabialDTO dto) {
-	    Labial entity = new Labial(dto.getNombre(), dto.getPrecio(), dto.getImagen(),
-	            dto.isEsApruebaDeAgua(), dto.getTono());
-	    return entity;
+		Labial entity = new Labial(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.isEsApruebaDeAgua(),
+				dto.getTono());
+		return entity;
 	}
 
 	/**
@@ -373,9 +375,9 @@ public class DataMapper {
 	 * @return El LabialDTO resultante.
 	 */
 	public static LabialDTO labialToLabialDTO(Labial entity) {
-	    LabialDTO dto = new LabialDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-	            entity.isEsApruebaDeAgua(), entity.getTono());
-	    return dto;
+		LabialDTO dto = new LabialDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
+				entity.isEsApruebaDeAgua(), entity.getTono());
+		return dto;
 	}
 
 	/**
@@ -385,12 +387,11 @@ public class DataMapper {
 	 * @return La lista de LabialDTO resultante.
 	 */
 	public static ArrayList<LabialDTO> listaLabialToListaLabialDTO(ArrayList<Labial> entityList) {
-	    ArrayList<LabialDTO> dtoList = new ArrayList<>();
-	    for (Labial e : entityList) {
-	        dtoList.add(new LabialDTO(e.getNombre(), e.getPrecio(), e.getImagen(),
-	                e.isEsApruebaDeAgua(), e.getTono()));
-	    }
-	    return dtoList;
+		ArrayList<LabialDTO> dtoList = new ArrayList<>();
+		for (Labial e : entityList) {
+			dtoList.add(new LabialDTO(e.getNombre(), e.getPrecio(), e.getImagen(), e.isEsApruebaDeAgua(), e.getTono()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -400,13 +401,13 @@ public class DataMapper {
 	 * @return La lista de Labial resultante.
 	 */
 	public static ArrayList<Labial> listaLabialDTOToListaLabial(ArrayList<LabialDTO> dtoList) {
-	    ArrayList<Labial> entityList = new ArrayList<>();
-	    for (LabialDTO d : dtoList) {
-	        entityList.add(new Labial(d.getNombre(), d.getPrecio(), d.getImagen(),
-	                d.isEsApruebaDeAgua(), d.getTono()));
-	    }
-	    return entityList;
+		ArrayList<Labial> entityList = new ArrayList<>();
+		for (LabialDTO d : dtoList) {
+			entityList.add(new Labial(d.getNombre(), d.getPrecio(), d.getImagen(), d.isEsApruebaDeAgua(), d.getTono()));
+		}
+		return entityList;
 	}
+
 	/**
 	 * Convierte un MovilDTO a un Movil.
 	 *
@@ -414,9 +415,9 @@ public class DataMapper {
 	 * @return El Movil resultante.
 	 */
 	public static Movil movilDTOToMovil(MovilDTO dto) {
-	    Movil entity = new Movil(dto.getNombre(), dto.getPrecio(), dto.getImagen(),
-	            dto.getModelo(), dto.getAlmacenamiento());
-	    return entity;
+		Movil entity = new Movil(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getModelo(),
+				dto.getAlmacenamiento());
+		return entity;
 	}
 
 	/**
@@ -426,9 +427,9 @@ public class DataMapper {
 	 * @return El MovilDTO resultante.
 	 */
 	public static MovilDTO movilToMovilDTO(Movil entity) {
-	    MovilDTO dto = new MovilDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-	            entity.getModelo(), entity.getAlmacenamiento());
-	    return dto;
+		MovilDTO dto = new MovilDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(), entity.getModelo(),
+				entity.getAlmacenamiento());
+		return dto;
 	}
 
 	/**
@@ -438,12 +439,12 @@ public class DataMapper {
 	 * @return La lista de MovilDTO resultante.
 	 */
 	public static ArrayList<MovilDTO> listaMovilToListaMovilDTO(ArrayList<Movil> entityList) {
-	    ArrayList<MovilDTO> dtoList = new ArrayList<>();
-	    for (Movil e : entityList) {
-	        dtoList.add(new MovilDTO(e.getNombre(), e.getPrecio(), e.getImagen(),
-	                e.getModelo(), e.getAlmacenamiento()));
-	    }
-	    return dtoList;
+		ArrayList<MovilDTO> dtoList = new ArrayList<>();
+		for (Movil e : entityList) {
+			dtoList.add(
+					new MovilDTO(e.getNombre(), e.getPrecio(), e.getImagen(), e.getModelo(), e.getAlmacenamiento()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -453,12 +454,12 @@ public class DataMapper {
 	 * @return La lista de Movil resultante.
 	 */
 	public static ArrayList<Movil> listaMovilDTOToListaMovil(ArrayList<MovilDTO> dtoList) {
-	    ArrayList<Movil> entityList = new ArrayList<>();
-	    for (MovilDTO d : dtoList) {
-	        entityList.add(new Movil(d.getNombre(), d.getPrecio(), d.getImagen(),
-	                d.getModelo(), d.getAlmacenamiento()));
-	    }
-	    return entityList;
+		ArrayList<Movil> entityList = new ArrayList<>();
+		for (MovilDTO d : dtoList) {
+			entityList
+					.add(new Movil(d.getNombre(), d.getPrecio(), d.getImagen(), d.getModelo(), d.getAlmacenamiento()));
+		}
+		return entityList;
 	}
 
 	/**
@@ -468,9 +469,9 @@ public class DataMapper {
 	 * @return El Mujer resultante.
 	 */
 	public static Mujer mujerDTOToMujer(MujerDTO dto) {
-	    Mujer entity = new Mujer(dto.getNombre(), dto.getPrecio(), dto.getImagen(),
-	            dto.getTalla(), dto.getColor(), dto.isEsConjunto());
-	    return entity;
+		Mujer entity = new Mujer(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getTalla(), dto.getColor(),
+				dto.isEsConjunto());
+		return entity;
 	}
 
 	/**
@@ -480,9 +481,9 @@ public class DataMapper {
 	 * @return El MujerDTO resultante.
 	 */
 	public static MujerDTO mujerToMujerDTO(Mujer entity) {
-	    MujerDTO dto = new MujerDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-	            entity.getTalla(), entity.getColor(), entity.isEsConjunto());
-	    return dto;
+		MujerDTO dto = new MujerDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(), entity.getTalla(),
+				entity.getColor(), entity.isEsConjunto());
+		return dto;
 	}
 
 	/**
@@ -492,12 +493,12 @@ public class DataMapper {
 	 * @return La lista de MujerDTO resultante.
 	 */
 	public static ArrayList<MujerDTO> listaMujerToListaMujerDTO(ArrayList<Mujer> entityList) {
-	    ArrayList<MujerDTO> dtoList = new ArrayList<>();
-	    for (Mujer e : entityList) {
-	        dtoList.add(new MujerDTO(e.getNombre(), e.getPrecio(), e.getImagen(),
-	                e.getTalla(), e.getColor(), e.isEsConjunto()));
-	    }
-	    return dtoList;
+		ArrayList<MujerDTO> dtoList = new ArrayList<>();
+		for (Mujer e : entityList) {
+			dtoList.add(new MujerDTO(e.getNombre(), e.getPrecio(), e.getImagen(), e.getTalla(), e.getColor(),
+					e.isEsConjunto()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -507,13 +508,14 @@ public class DataMapper {
 	 * @return La lista de Mujer resultante.
 	 */
 	public static ArrayList<Mujer> listaMujerDTOToListaMujer(ArrayList<MujerDTO> dtoList) {
-	    ArrayList<Mujer> entityList = new ArrayList<>();
-	    for (MujerDTO d : dtoList) {
-	        entityList.add(new Mujer(d.getNombre(), d.getPrecio(), d.getImagen(),
-	                d.getTalla(), d.getColor(), d.isEsConjunto()));
-	    }
-	    return entityList;
+		ArrayList<Mujer> entityList = new ArrayList<>();
+		for (MujerDTO d : dtoList) {
+			entityList.add(new Mujer(d.getNombre(), d.getPrecio(), d.getImagen(), d.getTalla(), d.getColor(),
+					d.isEsConjunto()));
+		}
+		return entityList;
 	}
+
 	/**
 	 * Convierte un OficinaDTO a un Oficina.
 	 *
@@ -521,9 +523,9 @@ public class DataMapper {
 	 * @return El Oficina resultante.
 	 */
 	public static Oficina oficinaDTOToOficina(OficinaDTO dto) {
-	    Oficina entity = new Oficina(dto.getNombre(), dto.getPrecio(), dto.getImagen(),
-	            dto.getCantidadPaquete(), dto.isEsDecorativo());
-	    return entity;
+		Oficina entity = new Oficina(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getCantidadPaquete(),
+				dto.isEsDecorativo());
+		return entity;
 	}
 
 	/**
@@ -533,9 +535,9 @@ public class DataMapper {
 	 * @return El OficinaDTO resultante.
 	 */
 	public static OficinaDTO oficinaToOficinaDTO(Oficina entity) {
-	    OficinaDTO dto = new OficinaDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-	            entity.getCantidadPaquete(), entity.isEsDecorativo());
-	    return dto;
+		OficinaDTO dto = new OficinaDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
+				entity.getCantidadPaquete(), entity.isEsDecorativo());
+		return dto;
 	}
 
 	/**
@@ -545,12 +547,12 @@ public class DataMapper {
 	 * @return La lista de OficinaDTO resultante.
 	 */
 	public static ArrayList<OficinaDTO> listaOficinaToListaOficinaDTO(ArrayList<Oficina> entityList) {
-	    ArrayList<OficinaDTO> dtoList = new ArrayList<>();
-	    for (Oficina e : entityList) {
-	        dtoList.add(new OficinaDTO(e.getNombre(), e.getPrecio(), e.getImagen(),
-	                e.getCantidadPaquete(), e.isEsDecorativo()));
-	    }
-	    return dtoList;
+		ArrayList<OficinaDTO> dtoList = new ArrayList<>();
+		for (Oficina e : entityList) {
+			dtoList.add(new OficinaDTO(e.getNombre(), e.getPrecio(), e.getImagen(), e.getCantidadPaquete(),
+					e.isEsDecorativo()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -560,14 +562,14 @@ public class DataMapper {
 	 * @return La lista de Oficina resultante.
 	 */
 	public static ArrayList<Oficina> listaOficinaDTOToListaOficina(ArrayList<OficinaDTO> dtoList) {
-	    ArrayList<Oficina> entityList = new ArrayList<>();
-	    for (OficinaDTO d : dtoList) {
-	        entityList.add(new Oficina(d.getNombre(), d.getPrecio(), d.getImagen(),
-	                d.getCantidadPaquete(), d.isEsDecorativo()));
-	    }
-	    return entityList;
+		ArrayList<Oficina> entityList = new ArrayList<>();
+		for (OficinaDTO d : dtoList) {
+			entityList.add(new Oficina(d.getNombre(), d.getPrecio(), d.getImagen(), d.getCantidadPaquete(),
+					d.isEsDecorativo()));
+		}
+		return entityList;
 	}
-	
+
 	/**
 	 * Convierte un PeliculaDTO a un Pelicula.
 	 *
@@ -575,9 +577,9 @@ public class DataMapper {
 	 * @return El Pelicula resultante.
 	 */
 	public static Pelicula peliculaDTOToPelicula(PeliculaDTO dto) {
-	    Pelicula entity = new Pelicula(dto.getNombre(), dto.getPrecio(), dto.getImagen(),
-	            dto.getTamano(), dto.getPersonaje());
-	    return entity;
+		Pelicula entity = new Pelicula(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getTamano(),
+				dto.getPersonaje());
+		return entity;
 	}
 
 	/**
@@ -587,9 +589,9 @@ public class DataMapper {
 	 * @return El PeliculaDTO resultante.
 	 */
 	public static PeliculaDTO peliculaToPeliculaDTO(Pelicula entity) {
-	    PeliculaDTO dto = new PeliculaDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-	            entity.getTamano(), entity.getPersonaje());
-	    return dto;
+		PeliculaDTO dto = new PeliculaDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
+				entity.getTamano(), entity.getPersonaje());
+		return dto;
 	}
 
 	/**
@@ -599,12 +601,11 @@ public class DataMapper {
 	 * @return La lista de PeliculaDTO resultante.
 	 */
 	public static ArrayList<PeliculaDTO> listaPeliculaToListaPeliculaDTO(ArrayList<Pelicula> entityList) {
-	    ArrayList<PeliculaDTO> dtoList = new ArrayList<>();
-	    for (Pelicula e : entityList) {
-	        dtoList.add(new PeliculaDTO(e.getNombre(), e.getPrecio(), e.getImagen(),
-	                e.getTamano(), e.getPersonaje()));
-	    }
-	    return dtoList;
+		ArrayList<PeliculaDTO> dtoList = new ArrayList<>();
+		for (Pelicula e : entityList) {
+			dtoList.add(new PeliculaDTO(e.getNombre(), e.getPrecio(), e.getImagen(), e.getTamano(), e.getPersonaje()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -614,12 +615,11 @@ public class DataMapper {
 	 * @return La lista de Pelicula resultante.
 	 */
 	public static ArrayList<Pelicula> listaPeliculaDTOToListaPelicula(ArrayList<PeliculaDTO> dtoList) {
-	    ArrayList<Pelicula> entityList = new ArrayList<>();
-	    for (PeliculaDTO d : dtoList) {
-	        entityList.add(new Pelicula(d.getNombre(), d.getPrecio(), d.getImagen(),
-	                d.getTamano(), d.getPersonaje()));
-	    }
-	    return entityList;
+		ArrayList<Pelicula> entityList = new ArrayList<>();
+		for (PeliculaDTO d : dtoList) {
+			entityList.add(new Pelicula(d.getNombre(), d.getPrecio(), d.getImagen(), d.getTamano(), d.getPersonaje()));
+		}
+		return entityList;
 	}
 
 	/**
@@ -629,9 +629,9 @@ public class DataMapper {
 	 * @return El Pestanina resultante.
 	 */
 	public static Pestanina pestaninaDTOToPestanina(PestaninaDTO dto) {
-	    Pestanina entity = new Pestanina(dto.getNombre(), dto.getPrecio(), dto.getImagen(),
-	            dto.isEsApruebaDeAgua(), dto.getDuracion());
-	    return entity;
+		Pestanina entity = new Pestanina(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.isEsApruebaDeAgua(),
+				dto.getDuracion());
+		return entity;
 	}
 
 	/**
@@ -641,9 +641,9 @@ public class DataMapper {
 	 * @return El PestaninaDTO resultante.
 	 */
 	public static PestaninaDTO pestaninaToPestaninaDTO(Pestanina entity) {
-	    PestaninaDTO dto = new PestaninaDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-	            entity.isEsApruebaDeAgua(), entity.getDuracion());
-	    return dto;
+		PestaninaDTO dto = new PestaninaDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
+				entity.isEsApruebaDeAgua(), entity.getDuracion());
+		return dto;
 	}
 
 	/**
@@ -653,12 +653,12 @@ public class DataMapper {
 	 * @return La lista de PestaninaDTO resultante.
 	 */
 	public static ArrayList<PestaninaDTO> listaPestaninaToListaPestaninaDTO(ArrayList<Pestanina> entityList) {
-	    ArrayList<PestaninaDTO> dtoList = new ArrayList<>();
-	    for (Pestanina e : entityList) {
-	        dtoList.add(new PestaninaDTO(e.getNombre(), e.getPrecio(), e.getImagen(),
-	                e.isEsApruebaDeAgua(), e.getDuracion()));
-	    }
-	    return dtoList;
+		ArrayList<PestaninaDTO> dtoList = new ArrayList<>();
+		for (Pestanina e : entityList) {
+			dtoList.add(new PestaninaDTO(e.getNombre(), e.getPrecio(), e.getImagen(), e.isEsApruebaDeAgua(),
+					e.getDuracion()));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -668,14 +668,71 @@ public class DataMapper {
 	 * @return La lista de Pestanina resultante.
 	 */
 	public static ArrayList<Pestanina> listaPestaninaDTOToListaPestanina(ArrayList<PestaninaDTO> dtoList) {
-	    ArrayList<Pestanina> entityList = new ArrayList<>();
-	    for (PestaninaDTO d : dtoList) {
-	        entityList.add(new Pestanina(d.getNombre(), d.getPrecio(), d.getImagen(),
-	                d.isEsApruebaDeAgua(), d.getDuracion()));
-	    }
-	    return entityList;
+		ArrayList<Pestanina> entityList = new ArrayList<>();
+		for (PestaninaDTO d : dtoList) {
+			entityList.add(
+					new Pestanina(d.getNombre(), d.getPrecio(), d.getImagen(), d.isEsApruebaDeAgua(), d.getDuracion()));
+		}
+		return entityList;
 	}
 
+	/**
+	 * Convierte un PersonaDTO a un Persona.
+	 *
+	 * @param dto El PersonaDTO a convertir.
+	 * @return El Persona resultante.
+	 */
+	public static Persona personaDTOToPersona(PersonaDTO dto) {
+		Persona entity = new Persona(dto.getUsername(), dto.getContrasena(), dto.getCorreo(), dto.getNombre(),
+				dto.getGenero(), dto.getDireccion(), dto.getEdad(), dto.getIdentificacion(), dto.getCarrito(),
+				dto.getListaCarritos(), dto.getListaProductoFavorito());
+		return entity;
+	}
 
+	/**
+	 * Convierte un Persona a un PersonaDTO.
+	 *
+	 * @param entity El Persona a convertir.
+	 * @return El PersonaDTO resultante.
+	 */
+	public static PersonaDTO personaToPersonaDTO(Persona entity) {
+		PersonaDTO dto = new PersonaDTO(entity.getUsername(), entity.getContrasena(), entity.getCorreo(),
+				entity.getNombre(), entity.getGenero(), entity.getDireccion(), entity.getEdad(),
+				entity.getIdentificacion(), entity.getCarrito(), entity.getListaCarritos(),
+				entity.getListaProductoFavorito());
+		return dto;
+	}
+
+	/**
+	 * Convierte una lista de Persona a una lista de PersonaDTO.
+	 *
+	 * @param entityList La lista de Persona a convertir.
+	 * @return La lista de PersonaDTO resultante.
+	 */
+	public static ArrayList<PersonaDTO> listaPersonaToListaPersonaDTO(ArrayList<Persona> entityList) {
+		ArrayList<PersonaDTO> dtoList = new ArrayList<>();
+		for (Persona e : entityList) {
+			dtoList.add(new PersonaDTO(e.getUsername(), e.getContrasena(), e.getCorreo(), e.getNombre(), e.getGenero(),
+					e.getDireccion(), e.getEdad(), e.getIdentificacion(), e.getCarrito(), e.getListaCarritos(),
+					e.getListaProductoFavorito()));
+		}
+		return dtoList;
+	}
+
+	/**
+	 * Convierte una lista de PersonaDTO a una lista de Persona.
+	 *
+	 * @param dtoList La lista de PersonaDTO a convertir.
+	 * @return La lista de Persona resultante.
+	 */
+	public static ArrayList<Persona> listaPersonaDTOToListaPersona(ArrayList<PersonaDTO> dtoList) {
+		ArrayList<Persona> entityList = new ArrayList<>();
+		for (PersonaDTO d : dtoList) {
+			entityList.add(new Persona(d.getUsername(), d.getContrasena(), d.getCorreo(), d.getNombre(), d.getGenero(),
+					d.getDireccion(), d.getEdad(), d.getIdentificacion(), d.getCarrito(), d.getListaCarritos(),
+					d.getListaProductoFavorito()));
+		}
+		return entityList;
+	}
 
 }
