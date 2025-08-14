@@ -18,7 +18,6 @@ import co.edu.unbosque.util.structure.LinkedList;
 import co.edu.unbosque.util.structure.Node;
 
 public class DataMapper {
-
 	// Verduras
 	public static Verdura verduraDTOToVerdura(VerduraDTO dto) {
 		return new Verdura(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getForma(), dto.getTamano());
@@ -42,8 +41,7 @@ public class DataMapper {
 			if (dtoList.isEmpty()) {
 				dtoList.setFirst(new Node<VerduraDTO>(dto));
 			} else {
-				Node<VerduraDTO> last = dtoList.getLastNodeR(dtoList.getFirst());
-				dtoList.insert(dto, last);
+				dtoList.addLastR(dto);
 			}
 			listaVerduraToListaVerduraDTOR(current.getNext(), dtoList);
 		}
@@ -62,8 +60,7 @@ public class DataMapper {
 			if (entityList.isEmpty()) {
 				entityList.setFirst(new Node<Verdura>(entity));
 			} else {
-				Node<Verdura> last = entityList.getLastNodeR(entityList.getFirst());
-				entityList.insert(entity, last);
+				entityList.addLastR(entity);
 			}
 			listaVerduraDTOToListaVerduraR(current.getNext(), entityList);
 		}
@@ -92,8 +89,7 @@ public class DataMapper {
 			if (dtoList.isEmpty()) {
 				dtoList.setFirst(new Node<FrutaDTO>(dto));
 			} else {
-				Node<FrutaDTO> last = dtoList.getLastNodeR(dtoList.getFirst());
-				dtoList.insert(dto, last);
+				dtoList.addLastR(dto);
 			}
 			listaFrutaToListaFrutaDTOR(current.getNext(), dtoList);
 		}
@@ -112,8 +108,7 @@ public class DataMapper {
 			if (entityList.isEmpty()) {
 				entityList.setFirst(new Node<Fruta>(entity));
 			} else {
-				Node<Fruta> last = entityList.getLastNodeR(entityList.getFirst());
-				entityList.insert(entity, last);
+				entityList.addLastR(entity);
 			}
 			listaFrutaDTOToListaFrutaR(current.getNext(), entityList);
 		}
@@ -142,8 +137,7 @@ public class DataMapper {
 			if (dtoList.isEmpty()) {
 				dtoList.setFirst(new Node<PaquetePapaDTO>(dto));
 			} else {
-				Node<PaquetePapaDTO> last = dtoList.getLastNodeR(dtoList.getFirst());
-				dtoList.insert(dto, last);
+				dtoList.addLastR(dto);
 			}
 			listaPaquetePapaToListaPaquetePapaDTOR(current.getNext(), dtoList);
 		}
@@ -163,8 +157,7 @@ public class DataMapper {
 			if (entityList.isEmpty()) {
 				entityList.setFirst(new Node<PaquetePapa>(entity));
 			} else {
-				Node<PaquetePapa> last = entityList.getLastNodeR(entityList.getFirst());
-				entityList.insert(entity, last);
+				entityList.addLastR(entity);
 			}
 			listaPaquetePapaDTOToListaPaquetePapaR(current.getNext(), entityList);
 		}
@@ -194,8 +187,7 @@ public class DataMapper {
 			if (dtoList.isEmpty()) {
 				dtoList.setFirst(new Node<GaseosaDTO>(dto));
 			} else {
-				Node<GaseosaDTO> last = dtoList.getLastNodeR(dtoList.getFirst());
-				dtoList.insert(dto, last);
+				dtoList.addLastR(dto);
 			}
 			listaGaseosaToListaGaseosaDTOR(current.getNext(), dtoList);
 		}
@@ -215,8 +207,7 @@ public class DataMapper {
 			if (entityList.isEmpty()) {
 				entityList.setFirst(new Node<Gaseosa>(entity));
 			} else {
-				Node<Gaseosa> last = entityList.getLastNodeR(entityList.getFirst());
-				entityList.insert(entity, last);
+				entityList.addLastR(entity);
 			}
 			listaGaseosaDTOToListaGaseosaR(current.getNext(), entityList);
 		}
@@ -246,8 +237,7 @@ public class DataMapper {
 			if (dtoList.isEmpty()) {
 				dtoList.setFirst(new Node<JugoDTO>(dto));
 			} else {
-				Node<JugoDTO> last = dtoList.getLastNodeR(dtoList.getFirst());
-				dtoList.insert(dto, last);
+				dtoList.addLastR(dto);
 			}
 			listaJugoToListaJugoDTOR(current.getNext(), dtoList);
 		}
@@ -266,8 +256,7 @@ public class DataMapper {
 			if (entityList.isEmpty()) {
 				entityList.setFirst(new Node<Jugo>(entity));
 			} else {
-				Node<Jugo> last = entityList.getLastNodeR(entityList.getFirst());
-				entityList.insert(entity, last);
+				entityList.addLastR(entity);
 			}
 			listaJugoDTOToListaJugoR(current.getNext(), entityList);
 		}
@@ -275,10 +264,7 @@ public class DataMapper {
 
 	// Usuarios
 	public static Usuario usuarioDTOToUsuario(UsuarioDTO dto) {
-		Usuario entity = new Usuario();
-		entity.setNombre(dto.getNombre());
-		entity.setIdentificacion(dto.getIdentificacion());
-		return entity;
+		return new Usuario(dto.getNombre(), dto.getIdentificacion());
 	}
 
 	public static UsuarioDTO usuarioToUsuarioDTO(Usuario entity) {
@@ -298,8 +284,7 @@ public class DataMapper {
 			if (dtoList.isEmpty()) {
 				dtoList.setFirst(new Node<UsuarioDTO>(dto));
 			} else {
-				Node<UsuarioDTO> last = dtoList.getLastNodeR(dtoList.getFirst());
-				dtoList.insert(dto, last);
+				dtoList.addLastR(dto);
 			}
 			listaUsuarioToListaUsuarioDTOR(current.getNext(), dtoList);
 		}
@@ -318,8 +303,7 @@ public class DataMapper {
 			if (entityList.isEmpty()) {
 				entityList.setFirst(new Node<Usuario>(entity));
 			} else {
-				Node<Usuario> last = entityList.getLastNodeR(entityList.getFirst());
-				entityList.insert(entity, last);
+				entityList.addLastR(entity);
 			}
 			listaUsuarioDTOToListaUsuarioR(current.getNext(), entityList);
 		}
@@ -355,8 +339,7 @@ public class DataMapper {
 			if (dtoList.isEmpty()) {
 				dtoList.setFirst(new Node<CarritoDTO>(dto));
 			} else {
-				Node<CarritoDTO> last = dtoList.getLastNodeR(dtoList.getFirst());
-				dtoList.insert(dto, last);
+				dtoList.addLastR(dto);
 			}
 			listaCarritoToListaCarritoDTOR(current.getNext(), dtoList);
 		}
@@ -377,8 +360,7 @@ public class DataMapper {
 			if (entityList.isEmpty()) {
 				entityList.setFirst(new Node<Carrito>(entity));
 			} else {
-				Node<Carrito> last = entityList.getLastNodeR(entityList.getFirst());
-				entityList.insert(entity, last);
+				entityList.addLastR(entity);
 			}
 			listaCarritoDTOToListaCarritoR(current.getNext(), entityList);
 		}

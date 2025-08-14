@@ -1,7 +1,6 @@
 package co.edu.unbosque.util.structure;
 
 public class LinkedList<E> {
-
 	protected Node<E> first;
 
 	public LinkedList() {
@@ -28,23 +27,46 @@ public class LinkedList<E> {
 		}
 	}
 
-	public void addLastR(Node<E> current, E info) {
-
-		if (current.getNext() == null) {
-			current.setNext(new Node<E>(info));
+	public void addLastR(E info) {
+		if (this.isEmpty()) {
+			this.first = new Node<E>(info);
 		} else {
-			current = current.getNext();
-			addLastR(current, info);
+			addLastR(this.first, info);
 		}
 	}
 
-	public Node<E> getLastNodeR(Node<E> current) {
-		current = this.first;
-		if (current == null || current.getNext() == null) {
+	private void addLastR(Node<E> current, E info) {
+		if (current.getNext() == null) {
+			current.setNext(new Node<E>(info));
+		} else {
+			addLastR(current.getNext(), info);
+		}
+	}
+
+	public Node<E> getLastNodeR() {
+		if (this.isEmpty()) {
+			return null;
+		}
+		return getLastNodeR(this.first);
+	}
+
+	private Node<E> getLastNodeR(Node<E> current) {
+		if (current.getNext() == null) {
 			return current;
 		} else {
 			return getLastNodeR(current.getNext());
 		}
+	}
+
+	public Node<E> getLastNode() {
+		if (this.isEmpty()) {
+			return null;
+		}
+		Node<E> current = this.first;
+		while (current.getNext() != null) {
+			current = current.getNext();
+		}
+		return current;
 	}
 
 	public E extract(Node<E> previous) {
@@ -56,24 +78,23 @@ public class LinkedList<E> {
 		return data;
 	}
 
-	public String print() {
-		return toString();
+	@Override
+	public String toString() {
+		return toStringR(this.first);
 	}
 
-	public String toStringR(Node<E> current) {
-		current = this.first;
+	private String toStringR(Node<E> current) {
 		if (current == null) {
 			return "";
 		}
-		if (current.getNext() == null) {
-			return current.getInfo().toString();
-		} else {
-			return current.getInfo().toString() + toStringR(current.getNext());
-		}
+		return current.getInfo().toString() + (current.getNext() != null ? "\n" + toStringR(current.getNext()) : "");
 	}
 
-	public Node<E> getR(Node<E> current, E info) {
-		current = this.first;
+	public Node<E> find(E info) {
+		return getR(this.first, info);
+	}
+
+	private Node<E> getR(Node<E> current, E info) {
 		if (current == null) {
 			return null;
 		}

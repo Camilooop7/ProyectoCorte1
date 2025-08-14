@@ -4,7 +4,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
+import co.edu.unbosque.model.VerduraDTO;
 import co.edu.unbosque.model.persistence.FileManager;
+import co.edu.unbosque.model.persistence.VerduraDAO;
 import co.edu.unbosque.view.ViewFacade;
 
 public class Controller implements ActionListener {
@@ -14,6 +16,7 @@ public class Controller implements ActionListener {
 		vf = new ViewFacade();
 		FileManager.crearCarpeta();
 		asignarLectores();
+
 	}
 
 	/**
@@ -22,6 +25,8 @@ public class Controller implements ActionListener {
 	 */
 	public void run() {
 		vf.getVp().setVisible(true);
+		VerduraDAO adsa = new VerduraDAO();
+		adsa.add(new VerduraDTO("nose", 0, "", "", ""));
 	}
 
 	/**
@@ -70,6 +75,6 @@ public class Controller implements ActionListener {
 			vf.getVp().getPs().setVisible(true);
 			break;
 		}
-}
+		}
 	}
 }
