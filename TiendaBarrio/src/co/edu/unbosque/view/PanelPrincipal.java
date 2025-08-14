@@ -31,6 +31,7 @@ public class PanelPrincipal extends JPanel {
 	 */
 	public PanelPrincipal() throws IOException {
 		setBounds(0, 0, 1290, 750);
+		setLayout(null);
 		/**
 		 * Inicialización del JLabel BufferedImage con el objetivo de establecer la
 		 * ubicación del archivo de la imagen dentro de los archivos. Image Redim
@@ -50,7 +51,7 @@ public class PanelPrincipal extends JPanel {
 		 * quitar el borde establecido preterminado del boton. .add añadir el boton.
 		 */
 		iniciar = new JButton();
-		iniciar.setBounds(100, 570, 250, 92);
+		iniciar.setBounds(250, 548, 375, 100);
 		iniciar.setFocusable(false);
 		iniciar.setBackground(new Color(0, 0, 0));
 		iniciar.setContentAreaFilled(false);
@@ -66,7 +67,7 @@ public class PanelPrincipal extends JPanel {
 		 * quitar el borde establecido preterminado del boton. .add añadir el boton.
 		 */
 		registrar = new JButton();
-		registrar.setBounds(300, 570, 250, 92);
+		registrar.setBounds(665, 548, 375, 100);
 		registrar.setFocusable(false);
 		registrar.setBackground(new Color(0, 0, 0));
 		registrar.setContentAreaFilled(false);
