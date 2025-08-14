@@ -1,10 +1,6 @@
 package co.edu.unbosque.beans;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
-import co.edu.unbosque.model.Carrito;
-import co.edu.unbosque.model.CarritoDTO;
 import co.edu.unbosque.model.Persona;
 import co.edu.unbosque.model.PersonaDTO;
 import co.edu.unbosque.service.LoginService;
@@ -78,10 +74,10 @@ public class LoginBean {
 		System.out.println("contrasena: " + contrasena);
 	}
 	public void mostrarCrear() {
-		System.out.println("correo: " + nombre);
+		System.out.println("nombre: " + nombre);
 		System.out.println("correo: " + correoC);
 		System.out.println("contrasena: " + contrasenaC);
-		System.out.println("contrasena: " + confiContrasenaC);
+		System.out.println("contrasena confi: " + confiContrasenaC);
 	}
 	public void Crear() {
 
