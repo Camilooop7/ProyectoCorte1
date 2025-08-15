@@ -18,7 +18,7 @@ public class FileManager {
 	/**
 	 * Ruta de la carpeta donde se almacenarán los archivos.
 	 */
-	private static final String RUTA_CARPETA = "src/archivos";
+	private static final String RUTA_CARPETA = "../archivos";
 	/**
 	 * estos 3 son para acrhivos de texto
 	 */

@@ -4,9 +4,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
-import co.edu.unbosque.model.VerduraDTO;
+import co.edu.unbosque.model.UsuarioDTO;
 import co.edu.unbosque.model.persistence.FileManager;
-import co.edu.unbosque.model.persistence.VerduraDAO;
+import co.edu.unbosque.model.persistence.UsuarioDAO;
 import co.edu.unbosque.view.ViewFacade;
 
 public class Controller implements ActionListener {
@@ -25,8 +25,8 @@ public class Controller implements ActionListener {
 	 */
 	public void run() {
 		vf.getVp().setVisible(true);
-		VerduraDAO adsa = new VerduraDAO();
-		adsa.add(new VerduraDTO("nose", 0, "", "", ""));
+		UsuarioDAO adsa = new UsuarioDAO();
+		adsa.delete(new UsuarioDTO("funcionaaaaaaaaaa", 165465));
 	}
 
 	/**
