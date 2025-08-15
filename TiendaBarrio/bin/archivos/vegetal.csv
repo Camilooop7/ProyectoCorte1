@@ -1,20 +1,24 @@
-Papa	3000	src/imágenes/
-Cebolla 	2000	src/imágenes/
-Ajo	1000	src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
-		src/imágenes/
+Papa;1200;src/imagenes/Papa.png;Circular;Pequena
+Cebolla Morada;900;src/imagenes/CebollaMorada.png;Circular;Pequena
+Ajo;700;src/imagenes/Ajo.png;Diente;Pequeno
+Plantano Verde;2000;src/imagenes/PlantanoVerde.png;Alargado;Mediano
+Platano Maduro;2000;src/imagenes/PlatanoMaduro.png;Alargado;Mediano
+Yuca;3000;src/imagenes/Yuca.png;Alargada;Mediana
+Pepino;2000;src/imagenes/Pepino.png;Alargado;Mediano
+Pimenton Verde;3000;src/imagenes/PimentonVerde.png;Alargado;Mediano
+Pimenton Amarillo;3000;src/imagenes/PimentonAmarillo.png;Alargado;Mediano
+Pimenton Rojo;3000;src/imagenes/PimentonRojo.png;Alargado;Mediano
+Cebolla Blanca;900;src/imagenes/CebollaBlanca.png;Circular;Pequena
+Brocoli;4000;src/imagenes/Brocoli.png;Tallo;Mediano
+Espinaca;1500;src/imagenes/Espinaca.png;Tallo;Mediana
+Lechuga;3000;src/imagenes/Lechuga.png;Circular;Grande
+Zanahoria;3000;src/imagenes/Zanahoria.png;Alargada;Mediana
+Calabaza;4500;src/imagenes/Calabaza.png;Circular;Grande
+Coliflor;4000;src/imagenes/Coliflor.png;Circular;Grande
+Mazorca;3500;src/imagenes/Mazorca.png;Alargada;Mediana
+Apio;3000;src/imagenes/Apio.png;Tallo;Mediano
+Berenjena;3500;src/imagenes/Berenjena.png;Alargada;Mediana
+Champinon;2000;src/imagenes/Champinon.png;Sombrero;Pequeno
+Rabano;2500;src/imagenes/Rabano.png;Circular;Pequeno
+Remolacha;3000;src/imagenes/Remolacha.png;Circular;Pequeno
+Habichuela;1000;src/imagenes/Habichuela.png;Circular;Pequena
