@@ -38,31 +38,45 @@ public class UsuarioDAO implements OperacionDAO<UsuarioDTO, Usuario>, Serializab
 
 	@Override
 	public boolean delete(UsuarioDTO delete) {
-		Usuario info = DataMapper.usuarioDTOToUsuario(delete);
-		if (listaUsuarios.isEmpty()) {
-			return false;
-		}
-		boolean eliminado = deleteRecursivo(null, listaUsuarios.getFirst(), info);
-		if (eliminado) {
-			guardarCambios();
-		}
-		return eliminado;
+	    Usuario info = DataMapper.usuarioDTOToUsuario(delete);
+	    if (listaUsuarios.isEmpty()) {
+	        return false;
+	    }
+
+	    Node<Usuario> first = listaUsuarios.getFirst();
+
+	    // Caso especial: eliminar el primer nodo
+	    if (first.getInfo().equals(info)) {
+	        listaUsuarios.setFirst(first.getNext());
+	        guardarCambios();
+	        return true;
+	    }
+
+	    // Llamamos al recursivo pasando como "previous" el primer nodo
+	    boolean eliminado = deleteRecursivo(listaUsuarios.getFirst(), info);
+
+	    if (eliminado) {
+	        guardarCambios();
+	    }
+
+	    return eliminado;
 	}
 
-	private boolean deleteRecursivo(Node<Usuario> anterior, Node<Usuario> actual, Usuario info) {
-		if (actual == null) {
-			return false; // no encontrado
-		}
-		if (actual.getInfo().equals(info)) {
-			if (anterior == null) {
-				listaUsuarios.setFirst(actual.getNext());
-			} else {
-				anterior.setNext(actual.getNext());
-			}
-			return true;
-		}
-		return deleteRecursivo(actual, actual.getNext(), info);
+	private boolean deleteRecursivo(Node<Usuario> previous, Usuario info) {
+	    // Si no hay siguiente, no se encontró
+	    if (previous == null || previous.getNext() == null) {
+	        return false;
+	    }
+
+	    // Si el siguiente nodo tiene la info buscada, lo eliminamos con extract
+	    if (previous.getNext().getInfo().equals(info)) {
+	        return listaUsuarios.extract(previous) != null;
+	    }
+
+	    // Avanzamos al siguiente nodo como nuevo "previous"
+	    return deleteRecursivo(previous.getNext(), info);
 	}
+
 
 	@Override
 	public Usuario find(Usuario toFind) {

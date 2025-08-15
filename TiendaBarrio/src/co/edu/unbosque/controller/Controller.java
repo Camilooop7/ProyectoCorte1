@@ -26,7 +26,7 @@ public class Controller implements ActionListener {
 	public void run() {
 		vf.getVp().setVisible(true);
 		UsuarioDAO adsa = new UsuarioDAO();
-		adsa.delete(new UsuarioDTO("funcionaaaaaaaaaa", 165465));
+		adsa.delete(new UsuarioDTO("HOla", 1));
 	}
 
 	/**
