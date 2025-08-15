@@ -1,11 +1,10 @@
 package co.edu.unbosque.model.persistence;
 
-import java.io.Serializable;
-
 import co.edu.unbosque.model.Usuario;
 import co.edu.unbosque.model.UsuarioDTO;
 import co.edu.unbosque.util.structure.LinkedList;
 import co.edu.unbosque.util.structure.Node;
+import java.io.Serializable;
 
 public class UsuarioDAO implements OperacionDAO<UsuarioDTO, Usuario>, Serializable {
 
@@ -46,7 +45,7 @@ public class UsuarioDAO implements OperacionDAO<UsuarioDTO, Usuario>, Serializab
 	    Node<Usuario> first = listaUsuarios.getFirst();
 
 	    // Caso especial: eliminar el primer nodo
-	    if (first.getInfo().equals(info)) {
+	    if (first.getInfo() ==info) {
 	        listaUsuarios.setFirst(first.getNext());
 	        guardarCambios();
 	        return true;
@@ -69,7 +68,7 @@ public class UsuarioDAO implements OperacionDAO<UsuarioDTO, Usuario>, Serializab
 	    }
 
 	    // Si el siguiente nodo tiene la info buscada, lo eliminamos con extract
-	    if (previous.getNext().getInfo().equals(info)) {
+	    if (previous.getNext().getInfo() ==  info) {
 	        return listaUsuarios.extract(previous) != null;
 	    }
 
