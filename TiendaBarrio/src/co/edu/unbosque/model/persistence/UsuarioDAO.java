@@ -37,45 +37,38 @@ public class UsuarioDAO implements OperacionDAO<UsuarioDTO, Usuario>, Serializab
 
 	@Override
 	public boolean delete(UsuarioDTO delete) {
-	    Usuario info = DataMapper.usuarioDTOToUsuario(delete);
-	    if (listaUsuarios.isEmpty()) {
-	        return false;
-	    }
+		Usuario info = DataMapper.usuarioDTOToUsuario(delete);
+		if (listaUsuarios.isEmpty()) {
+			return false;
+		}
 
-	    Node<Usuario> first = listaUsuarios.getFirst();
+		if (listaUsuarios.getFirst().getInfo().getNombre().equals(info.getNombre())) {
+			listaUsuarios.setFirst(listaUsuarios.getFirst().getNext());
+			guardarCambios();
+			return true;
+		}
 
-	    // Caso especial: eliminar el primer nodo
-	    if (first.getInfo() ==info) {
-	        listaUsuarios.setFirst(first.getNext());
-	        guardarCambios();
-	        return true;
-	    }
+		boolean eliminado = deleteRecursivo(listaUsuarios.getFirst(), info);
 
-	    // Llamamos al recursivo pasando como "previous" el primer nodo
-	    boolean eliminado = deleteRecursivo(listaUsuarios.getFirst(), info);
+		if (eliminado) {
+			guardarCambios();
+		}
 
-	    if (eliminado) {
-	        guardarCambios();
-	    }
-
-	    return eliminado;
+		return eliminado;
 	}
 
 	private boolean deleteRecursivo(Node<Usuario> previous, Usuario info) {
-	    // Si no hay siguiente, no se encontró
-	    if (previous == null || previous.getNext() == null) {
-	        return false;
-	    }
+		if (previous == null || previous.getNext() == null) {
+			return false;
+		}
 
-	    // Si el siguiente nodo tiene la info buscada, lo eliminamos con extract
-	    if (previous.getNext().getInfo() ==  info) {
-	        return listaUsuarios.extract(previous) != null;
-	    }
+		if (previous.getNext().getInfo().getNombre().equals(info.getNombre())) {
+			listaUsuarios.extract(previous);
+			return true;
+		}
 
-	    // Avanzamos al siguiente nodo como nuevo "previous"
-	    return deleteRecursivo(previous.getNext(), info);
+		return deleteRecursivo(previous.getNext(), info);
 	}
-
 
 	@Override
 	public Usuario find(Usuario toFind) {
