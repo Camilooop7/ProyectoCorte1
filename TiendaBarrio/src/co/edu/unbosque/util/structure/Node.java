@@ -1,6 +1,9 @@
 package co.edu.unbosque.util.structure;
 
-public class Node<E> {
+import java.io.Serializable;
+
+public class Node<E> implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	private E info;
 	private Node<E> next;

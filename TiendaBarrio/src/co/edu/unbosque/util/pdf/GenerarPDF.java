@@ -1,4 +1,4 @@
-package co.edu.unbosqu.util.pdf;
+package co.edu.unbosque.util.pdf;
 
 /**
  * Clase para generar PDFS de un torneo. Utiliza la biblioteca iText para la

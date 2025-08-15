@@ -26,19 +26,19 @@ public class VerduraDAO {
 
 	public Verdura find(Verdura toFind) {
 		if (!listaVerduras.isEmpty()) {
-			return findRecursivo(listaVerduras.getFirst(), toFind);
+			return findR(listaVerduras.getFirst(), toFind);
 		}
 		return null;
 	}
 
-	private Verdura findRecursivo(Node<Verdura> current, Verdura toFind) {
+	private Verdura findR(Node<Verdura> current, Verdura toFind) {
 		if (current == null) {
 			return null;
 		}
 		if (current.getInfo().getNombre().equals(toFind.getNombre())) {
 			return current.getInfo();
 		}
-		return findRecursivo(current.getNext(), toFind);
+		return findR(current.getNext(), toFind);
 	}
 
 	public void escribirEnArchivo() {
@@ -73,10 +73,10 @@ public class VerduraDAO {
 			return;
 		}
 		String[] filas = contenido.split("\n");
-		cargarVerduraRecursivo(filas, 0);
+		cargarRecursivo(filas, 0);
 	}
 
-	private void cargarVerduraRecursivo(String[] filas, int index) {
+	private void cargarRecursivo(String[] filas, int index) {
 		if (index >= filas.length) {
 			return;
 		}
@@ -84,7 +84,7 @@ public class VerduraDAO {
 		String[] columna = filas[index].split(";");
 		if (columna.length < 5) {
 			System.err.println("Línea mal formateada: " + filas[index]);
-			cargarVerduraRecursivo(filas, index + 1);
+			cargarRecursivo(filas, index + 1);
 			return;
 		}
 
@@ -100,7 +100,7 @@ public class VerduraDAO {
 			System.err.println("Error al convertir el precio en la línea: " + filas[index]);
 		}
 
-		cargarVerduraRecursivo(filas, index + 1);
+		cargarRecursivo(filas, index + 1);
 	}
 
 }

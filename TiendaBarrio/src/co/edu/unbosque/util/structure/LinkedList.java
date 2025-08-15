@@ -1,6 +1,9 @@
 package co.edu.unbosque.util.structure;
 
-public class LinkedList<E> {
+import java.io.Serializable;
+
+public class LinkedList<E> implements Serializable {
+	private static final long serialVersionUID = 1L;
 	protected Node<E> first;
 
 	public LinkedList() {
@@ -21,7 +24,7 @@ public class LinkedList<E> {
 
 	public void insert(E info, Node<E> previous) {
 		if (previous != null) {
-			Node<E> newNode = new Node<E>(info);
+			Node<E> newNode = new Node<>(info);
 			newNode.setNext(previous.getNext());
 			previous.setNext(newNode);
 		}
@@ -29,7 +32,7 @@ public class LinkedList<E> {
 
 	public void addLastR(E info) {
 		if (this.isEmpty()) {
-			this.first = new Node<E>(info);
+			this.first = new Node<>(info);
 		} else {
 			addLastR(this.first, info);
 		}
@@ -37,7 +40,7 @@ public class LinkedList<E> {
 
 	private void addLastR(Node<E> current, E info) {
 		if (current.getNext() == null) {
-			current.setNext(new Node<E>(info));
+			current.setNext(new Node<>(info));
 		} else {
 			addLastR(current.getNext(), info);
 		}
@@ -56,17 +59,6 @@ public class LinkedList<E> {
 		} else {
 			return getLastNodeR(current.getNext());
 		}
-	}
-
-	public Node<E> getLastNode() {
-		if (this.isEmpty()) {
-			return null;
-		}
-		Node<E> current = this.first;
-		while (current.getNext() != null) {
-			current = current.getNext();
-		}
-		return current;
 	}
 
 	public E extract(Node<E> previous) {
@@ -104,4 +96,33 @@ public class LinkedList<E> {
 			return getR(current.getNext(), info);
 		}
 	}
+	
+	
+	public boolean deleteByInfo(E info) {
+	    if (isEmpty()) {
+	        return false;
+	    }
+
+	    // Caso especial: eliminar el primer nodo
+	    if (first.getInfo().equals(info)) {
+	        first = first.getNext();
+	        return true;
+	    }
+
+	    // Caso general: buscar recursivamente
+	    return deleteByInfoR(first, info);
+	}
+
+	private boolean deleteByInfoR(Node<E> previous, E info) {
+	    if (previous == null || previous.getNext() == null) {
+	        return false; // No encontrado
+	    }
+
+	    if (previous.getNext().getInfo().equals(info)) {
+	        return extract(previous) != null; // Eliminación segura
+	    }
+
+	    return deleteByInfoR(previous.getNext(), info);
+	}
+
 }
