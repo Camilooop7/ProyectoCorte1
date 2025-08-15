@@ -1,98 +1,95 @@
 package co.edu.unbosque.beans;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Named;
+import jakarta.faces.bean.ManagedBean;
+import jakarta.faces.bean.ViewScoped;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-@Named(value = "addbean")
-@RequestScoped
-public class AddBean {
+@ManagedBean(name = "addbean")
+@ViewScoped
+public class AddBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String producto;
 	private String subtipo;
-	private String nombre;
-	private int precio;
-	private String imagen;
-
-	private String atributo1;
-	private String atributo2;
-	private String atributo3;
+	private String subsubtipo;
 
 	private List<String> productos;
 	private List<String> subtipos;
-	private List<String> atributos;
+	private List<String> subsubtipos;
 
 	public AddBean() {
-		// Lista inicial de productos
-		productos = Arrays.asList("Ropa", "Juguetes", "Peluches", "Dispositivos Electrónicos", "Maquillaje");
+		productos = new ArrayList<>();
+		productos.add("DispositivoElectronico");
+		productos.add("Maquillaje");
+		productos.add("Juguete");
+		productos.add("Peluche");
+		productos.add("Papeleria");
+		productos.add("Ropa");
 
 		subtipos = new ArrayList<>();
-		atributos = new ArrayList<>();
+		subsubtipos = new ArrayList<>();
 	}
 
+	// Evento al cambiar el producto
 	public void onProductoChange() {
 		subtipos.clear();
-		atributos.clear();
+		subsubtipos.clear();
+		subsubtipo = null;
 
-		switch (producto) {
-		case "Ropa":
-			subtipos.addAll(Arrays.asList("Hombre", "Mujer"));
-			atributos.addAll(Arrays.asList("Talla", "Color"));
-			break;
-		case "Juguetes":
-			subtipos.addAll(Arrays.asList("Juego de Mesa", "Educativos"));
-			atributos.add("Edad Recomendada");
-			break;
-		case "Peluches":
-			subtipos.addAll(Arrays.asList("Pelicula", "Animal"));
-			atributos.add("tamaño");
-			break;
+		if ("DispositivoElectronico".equals(producto)) {
+			subtipos.add("Audifono");
+			subtipos.add("Movil");
 
-		case "Dispositivos Electrónicos":
-			subtipos.addAll(Arrays.asList("Móvil", "Audífonos"));
-			atributos.add("Modelo");
-			break;
-		case "Maquillaje":
-			subtipos.addAll(Arrays.asList("Labial", "Pestañina"));
-			atributos.add("A prueba de agua");
-			break;
+		} else if ("Maquillaje".equals(producto)) {
+			subtipos.add("Labial");
+			subtipos.add("Pestanina");
+
+		} else if ("Juguete".equals(producto)) {
+			subtipos.add("JuegoMesa");
+			subtipos.add("Educativo");
+
+		} else if ("Peluche".equals(producto)) {
+			subtipos.add("Pelicula");
+			subtipos.add("Animal");
+
+		} else if ("Papeleria".equals(producto)) {
+			subtipos.add("Colegio");
+			subtipos.add("Oficina");
+
+		} else if ("Ropa".equals(producto)) {
+			subtipos.add("Hombre");
+			subtipos.add("Mujer");
+		}
+
+		if (!subtipos.contains(subtipo)) {
+			subtipo = null;
 		}
 	}
 
+	// Evento al cambiar el subtipo
 	public void onSubtipoChange() {
-		atributos.clear();
+	    subsubtipo = null; // limpiar por defecto
 
-		if ("Hombre".equals(subtipo)) {
-			atributos.add("Es Deportiva");
-		} else if ("Mujer".equals(subtipo)) {
-			atributos.add("Es Conjunto");
-		} else if ("Juego de Mesa".equals(subtipo)) {
-			atributos.add("Cantidad de personas");
-		} else if ("Educativos".equals(subtipo)) {
-			atributos.add("Didácticos");
-		} else if ("Animal".equals(subtipo)) {
-			atributos.add("Animal");
-		}else if ("Pelicula".equals(subtipo)) {
-		atributos.add("Personaje");
-		} else if ("Móvil".equals(subtipo)) {
-			atributos.add("Almacenamiento");
-		} else if ("Audífonos".equals(subtipo)) {
-			atributos.add("Tipo de conexión");
-		} else if ("Labial".equals(subtipo)) {
-			atributos.add("Tono");
-		} else if ("Pestañina".equals(subtipo)) {
-			atributos.add("Duración");
-		}
-
+	    if ("Audifono".equals(subtipo)) {
+	        subsubtipo = "Tipo de conexión";
+	    } else if ("Mujer".equals(subtipo)) {
+	        subsubtipo = "Vestidos / Faldas / Blusas";
+	    } else if ("Movil".equals(subtipo)) {
+	        subsubtipo = "Gama Alta / Media / Baja";
+	    }
 	}
 
+	// Guardar datos
 	public void guardar() {
-		System.out.println("Guardando producto: " + producto + " - " + subtipo);
+		System.out.println("Producto: " + producto);
+		System.out.println("Subtipo: " + subtipo);
+		System.out.println("Sub-subtipo: " + subsubtipo);
 	}
 
-	// Getters y Setters
+	// ===== GETTERS y SETTERS =====
 	public String getProducto() {
 		return producto;
 	}
@@ -109,63 +106,35 @@ public class AddBean {
 		this.subtipo = subtipo;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getSubsubtipo() {
+		return subsubtipo;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public int getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(int precio) {
-		this.precio = precio;
-	}
-
-	public String getImagen() {
-		return imagen;
-	}
-
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
-	}
-
-	public String getAtributo1() {
-		return atributo1;
-	}
-
-	public void setAtributo1(String atributo1) {
-		this.atributo1 = atributo1;
-	}
-
-	public String getAtributo2() {
-		return atributo2;
-	}
-
-	public void setAtributo2(String atributo2) {
-		this.atributo2 = atributo2;
-	}
-
-	public String getAtributo3() {
-		return atributo3;
-	}
-
-	public void setAtributo3(String atributo3) {
-		this.atributo3 = atributo3;
+	public void setSubsubtipo(String subsubtipo) {
+		this.subsubtipo = subsubtipo;
 	}
 
 	public List<String> getProductos() {
 		return productos;
 	}
 
+	public void setProductos(List<String> productos) {
+		this.productos = productos;
+	}
+
 	public List<String> getSubtipos() {
 		return subtipos;
 	}
 
-	public List<String> getAtributos() {
-		return atributos;
+	public void setSubtipos(List<String> subtipos) {
+		this.subtipos = subtipos;
+	}
+
+	public List<String> getSubsubtipos() {
+		return subsubtipos;
+	}
+
+	public void setSubsubtipos(List<String> subsubtipos) {
+		this.subsubtipos = subsubtipos;
 	}
 }
