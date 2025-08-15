@@ -4,6 +4,7 @@ import co.edu.unbosque.model.persistence.FrutaDAO;
 import co.edu.unbosque.model.persistence.GaseosaDAO;
 import co.edu.unbosque.model.persistence.JugoDAO;
 import co.edu.unbosque.model.persistence.PaquetePapaDAO;
+import co.edu.unbosque.model.persistence.UsuarioDAO;
 import co.edu.unbosque.model.persistence.VerduraDAO;
 
 public class ModelFacade {
@@ -13,6 +14,7 @@ public class ModelFacade {
 	private JugoDAO jugoDAO;
 	private PaquetePapaDAO paquetePapaDAO;
 	private FrutaDAO frutaDAO;
+	private UsuarioDAO usuarioDAO;
 
 	public ModelFacade() {
 		verduraDAO = new VerduraDAO();
@@ -20,6 +22,7 @@ public class ModelFacade {
 		gaseosaDAO = new GaseosaDAO();
 		jugoDAO = new JugoDAO();
 		frutaDAO = new FrutaDAO();
+		usuarioDAO = new UsuarioDAO();
 	}
 
 	public VerduraDAO getVerduraDAO() {
@@ -60,6 +63,14 @@ public class ModelFacade {
 
 	public void setFrutaDAO(FrutaDAO frutaDAO) {
 		this.frutaDAO = frutaDAO;
+	}
+
+	public UsuarioDAO getUsuarioDAO() {
+		return usuarioDAO;
+	}
+
+	public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
+		this.usuarioDAO = usuarioDAO;
 	}
 
 }

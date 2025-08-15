@@ -10,9 +10,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.text.NumberFormatter;
 
 /**
  * Clase la cual es llamada como Ventana y extiende JPanel lo que permite
@@ -26,7 +30,7 @@ public class PanelCrearU extends JPanel {
 	/**
 	 * Text field for entering the specialization.
 	 */
-	private JTextField identificacion;
+	private JSpinner identificacion;
 	/**
 	 * Text field for entering the specialization.
 	 */
@@ -70,12 +74,22 @@ public class PanelCrearU extends JPanel {
 		crear.setVisible(true);
 		add(crear);
 
-		identificacion = new JTextField();
-		identificacion.setBounds(279, 390, 320, 110);
+		SpinnerNumberModel model = new SpinnerNumberModel(1000000, 1000000, 999999999, 1);
+		identificacion = new JSpinner(model);
+
+		JFormattedTextField txt = ((JSpinner.NumberEditor) identificacion.getEditor()).getTextField();
+		((NumberFormatter) txt.getFormatter()).setAllowsInvalid(false);
+
+		txt.setOpaque(false);
+		txt.setBackground(new Color(0, 0, 0, 0));
+		txt.setBorder(null);
+
+		identificacion.setBounds(279, 406, 320, 94);
 		identificacion.setFont(new Font("Baloo", Font.BOLD, 24));
 		identificacion.setOpaque(false);
-		identificacion.setBackground(new Color(0, 0, 0, 0)); 
-		identificacion.setBorder(null); 
+		identificacion.setBackground(new Color(0, 0, 0, 0));
+		identificacion.setBorder(null);
+
 		add(identificacion);
 
 		nombre = new JTextField();
@@ -87,7 +101,6 @@ public class PanelCrearU extends JPanel {
 		add(nombre);
 
 		add(fondo);
-
 
 	}
 
@@ -107,21 +120,20 @@ public class PanelCrearU extends JPanel {
 		this.crear = crear;
 	}
 
-	public JTextField getIdentificacion() {
-		return identificacion;
+	public int getIdentificacion() {
+		return (int) identificacion.getValue();
 	}
 
-	public void setIdentificacion(JTextField identificacion) {
+	public void setIdentificacion(JSpinner identificacion) {
 		this.identificacion = identificacion;
 	}
 
-	public JTextField getNombre() {
-		return nombre;
+	public String getNombre() {
+		return nombre.getText();
 	}
 
 	public void setNombre(JTextField nombre) {
 		this.nombre = nombre;
 	}
-	
-	
+
 }

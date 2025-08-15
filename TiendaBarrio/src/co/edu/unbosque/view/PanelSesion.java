@@ -10,9 +10,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.text.NumberFormatter;
 
 /**
  * Clase la cual es llamada como Ventana y extiende JPanel lo que permite
@@ -20,15 +23,14 @@ import javax.swing.JTextField;
  * variables con su nombre privadas.
  */
 public class PanelSesion extends JPanel {
-	
-	
+
 	private JLabel fondo;
 	private JButton entrar;
 	private JButton registrar;
 	/**
 	 * Text field for entering the specialization.
 	 */
-	private JTextField identificacion;
+	private JSpinner identificacion;
 
 	/**
 	 * Constructor del panel donde se ejecuta la logica en general de cada parametro
@@ -83,13 +85,23 @@ public class PanelSesion extends JPanel {
 		registrar.setBorderPainted(true);
 		registrar.setVisible(true);
 		add(registrar);
-		
-		identificacion = new JTextField();
+
+		SpinnerNumberModel model = new SpinnerNumberModel(1000000, 1000000, 999999999, 1);
+		identificacion = new JSpinner(model);
+
+		JFormattedTextField txt = ((JSpinner.NumberEditor) identificacion.getEditor()).getTextField();
+		((NumberFormatter) txt.getFormatter()).setAllowsInvalid(false);
+
+		txt.setOpaque(false);
+		txt.setBackground(new Color(0, 0, 0, 0));
+		txt.setBorder(null);
+
 		identificacion.setBounds(445, 390, 380, 110);
 		identificacion.setFont(new Font("Baloo", Font.BOLD, 24));
 		identificacion.setOpaque(false);
 		identificacion.setBackground(new Color(0, 0, 0, 0));
 		identificacion.setBorder(null);
+
 		add(identificacion);
 
 		add(fondo);
@@ -104,21 +116,12 @@ public class PanelSesion extends JPanel {
 		this.fondo = fondo;
 	}
 
-
 	public JButton getRegistrar() {
 		return registrar;
 	}
 
 	public void setRegistrar(JButton registrar) {
 		this.registrar = registrar;
-	}
-
-	public JTextField getIdentificacion() {
-		return identificacion;
-	}
-
-	public void setIdentificacion(JTextField identificacion) {
-		this.identificacion = identificacion;
 	}
 
 	public JButton getEntrar() {
@@ -128,7 +131,13 @@ public class PanelSesion extends JPanel {
 	public void setEntrar(JButton entrar) {
 		this.entrar = entrar;
 	}
-	
-	
+
+	public int getIdentificacion() {
+		return (int) identificacion.getValue();
+	}
+
+	public void setIdentificacion(JSpinner identificacion) {
+		this.identificacion = identificacion;
+	}
 
 }

@@ -7,8 +7,8 @@ import co.edu.unbosque.util.structure.Node;
 
 public class FrutaDAO {
 
-	private final String TEXT_FILE_NAME = "vegetal.csv";
-	private final String SERIAL_FILE_NAME = "vegetal.dat";
+	private final String TEXT_FILE_NAME = "fruta.csv";
+	private final String SERIAL_FILE_NAME = "fruta.dat";
 	private LinkedList<Fruta> listaFrutas;
 
 	public FrutaDAO() {

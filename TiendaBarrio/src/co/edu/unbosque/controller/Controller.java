@@ -4,16 +4,22 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
+import co.edu.unbosque.model.ModelFacade;
+import co.edu.unbosque.model.Usuario;
 import co.edu.unbosque.model.UsuarioDTO;
 import co.edu.unbosque.model.persistence.FileManager;
 import co.edu.unbosque.model.persistence.UsuarioDAO;
+import co.edu.unbosque.util.exception.IsBlackException;
+import co.edu.unbosque.util.exception.TextException;
 import co.edu.unbosque.view.ViewFacade;
 
 public class Controller implements ActionListener {
 	private ViewFacade vf;
+	private ModelFacade mf;
 
 	public Controller() throws IOException {
 		vf = new ViewFacade();
+		mf = new ModelFacade();
 		FileManager.crearCarpeta();
 		asignarLectores();
 
@@ -25,8 +31,6 @@ public class Controller implements ActionListener {
 	 */
 	public void run() {
 		vf.getVp().setVisible(true);
-		UsuarioDAO adsa = new UsuarioDAO();
-		adsa.delete(new UsuarioDTO("HOla", 1));
 	}
 
 	/**
@@ -66,13 +70,41 @@ public class Controller implements ActionListener {
 			break;
 		}
 		case "entrar": {
-			vf.getVp().getPs().setVisible(false);
-			vf.getVp().getPpr().setVisible(true);
+			int identificacion = vf.getVp().getPs().getIdentificacion();
+			if (mf.getUsuarioDAO().find(new Usuario("", identificacion)) != null) {
+				Usuario u = mf.getUsuarioDAO().find(new Usuario("", identificacion));
+				
+				vf.getVe().mostrar("Ingreso como:  "+ u.getNombre());
+				vf.getVp().getPs().setVisible(false);
+				vf.getVp().getPpr().setVisible(true);
+//TODO aca debo poner que cargue el stock
+			}
 			break;
 		}
 		case "crear": {
-			vf.getVp().getPcu().setVisible(false);
-			vf.getVp().getPs().setVisible(true);
+			int identificacion = vf.getVp().getPcu().getIdentificacion();
+			String nombre = vf.getVp().getPcu().getNombre();
+			try {
+				ExceptionCheker.checkerIsBlank(nombre);
+				ExceptionCheker.checkerText(nombre);
+				if (mf.getUsuarioDAO().find(new Usuario("", identificacion)) == null) {
+					mf.getUsuarioDAO().add(new UsuarioDTO(nombre, identificacion));
+					vf.getVe().mostrar("Usuario creado exitosamente");
+					vf.getVp().getPcu().setVisible(false);
+					vf.getVp().getPs().setVisible(true);
+
+				} else {
+
+					vf.getVe().mostrarError("Identificacion ya registrada, vuelva para ingresar");
+
+				}
+
+			} catch (IsBlackException e2) {
+
+				vf.getVe().mostrar("Complete la informacion de nombre");
+			} catch (TextException e2) {
+				vf.getVe().mostrar("Unicamente se aceptan letras");
+			}
 			break;
 		}
 		}
