@@ -106,42 +106,29 @@
 	            </div>
 	
 	            <!-- PRODUCT FORM -->
-	            <div class="col">
-	                <div class="card" style="width: 100%">
-	                   <h:form id="form">
-    <div class="form-group">
-        <label for="producto">Producto:</label>
-        <h:selectOneMenu id="producto" value="#{addbean.producto}" class="form-control">
-            <f:selectItem itemLabel="Seleccione" itemValue="" />
-            <f:selectItems value="#{addbean.productos}" var="prod" itemValue="#{prod}" itemLabel="#{prod}" />
-            <p:ajax listener="#{addbean.onProductoChange}" update="subtipo atributos" />
-        </h:selectOneMenu>
-    </div>
+	            <div class="card">
+    <h:form id="form">
+    <!-- Producto -->
+    <h:selectOneMenu value="#{addbean.producto}">
+        <f:selectItem itemLabel="Seleccione producto" itemValue="" />
+        <f:selectItems value="#{addbean.productos}" />
+        <p:ajax listener="#{addbean.onProductoChange}" update="subtipo subsubtipo" />
+    </h:selectOneMenu>
 
-    <h:panelGroup id="subtipo">
-        <h:panelGroup rendered="#{not empty addbean.subtipos}">
-            <div class="form-group">
-                <label for="subtipoSel">Subtipo:</label>
-                <h:selectOneMenu id="subtipoSel" value="#{addbean.subtipo}" class="form-control">
-                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-                    <f:selectItems value="#{addbean.subtipos}" var="sub" itemValue="#{sub}" itemLabel="#{sub}" />
-                    <p:ajax listener="#{addbean.onSubtipoChange}" update="atributos" />
-                </h:selectOneMenu>
-            </div>
-        </h:panelGroup>
-    </h:panelGroup>
+    <!-- Subtipo -->
+    <h:selectOneMenu id="subtipo" value="#{addbean.subtipo}">
+        <f:selectItem itemLabel="Seleccione subtipo" itemValue="" />
+        <f:selectItems value="#{addbean.subtipos}" />
+        <p:ajax listener="#{addbean.onSubtipoChange}" update="subsubtipo" />
+    </h:selectOneMenu>
 
-    <h:panelGroup id="atributos">
-        <ui:repeat value="#{addbean.atributos}" var="atr" varStatus="st">
-            <div class="form-group">
-                <label>#{atr}:</label>
-                <h:inputText value="#{st.index == 0 ? addbean.atributo1 : st.index == 1 ? addbean.atributo2 : addbean.atributo3}" class="form-control" />
-            </div>
-        </ui:repeat>
-    </h:panelGroup>
+    <!-- Sub-subtipo como texto precargado -->
+    <p:inputText id="subsubtipo" value="#{addbean.subsubtipo}" placeholder="Ingrese sub-subtipo" />
+
+    <!-- Botón guardar -->
+    <p:commandButton value="Guardar" actionListener="#{addbean.guardar}" update="@form" />
 </h:form>
-	                </div>
-	            </div>
+</div>
 	        </div>
 	    </div>
 	
