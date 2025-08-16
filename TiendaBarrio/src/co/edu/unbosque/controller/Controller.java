@@ -172,6 +172,8 @@ public class Controller implements ActionListener {
 			break;
 
 		case "verCarrito":
+			int identificacionC = vf.getVp().getPs().getIdentificacion();
+			vf.getVp().getPc().recargarComboBox();
 			vf.getVp().getPc().setVisible(true);
 			vf.getVp().getPpr().setVisible(false);
 			

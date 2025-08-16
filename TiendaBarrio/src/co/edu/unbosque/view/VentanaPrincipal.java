@@ -32,7 +32,7 @@ public class VentanaPrincipal extends JFrame {
 		ps = new PanelSesion();
 		pcu = new PanelCrearU();
 		ppr = new PanelProducto();
-		pc = new PanelCarrito();
+		pc = new PanelCarrito(null);
 		
 		add(pp).setVisible(true);
 		add(ps).setVisible(false);
