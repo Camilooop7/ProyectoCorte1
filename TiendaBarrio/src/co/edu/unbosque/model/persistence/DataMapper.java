@@ -264,11 +264,11 @@ public class DataMapper {
 
 	// Usuarios
 	public static Usuario usuarioDTOToUsuario(UsuarioDTO dto) {
-		return new Usuario(dto.getNombre(), dto.getIdentificacion());
+		return new Usuario(dto.getNombre(), dto.getIdentificacion(), dto.getListaCarrtio());
 	}
 
 	public static UsuarioDTO usuarioToUsuarioDTO(Usuario entity) {
-		return new UsuarioDTO(entity.getNombre(), entity.getIdentificacion());
+		return new UsuarioDTO(entity.getNombre(), entity.getIdentificacion(), entity.getListaCarrtio());
 	}
 
 	public static LinkedList<UsuarioDTO> listaUsuarioToListaUsuarioDTO(LinkedList<Usuario> entityList) {
@@ -280,7 +280,7 @@ public class DataMapper {
 	private static void listaUsuarioToListaUsuarioDTOR(Node<Usuario> current, LinkedList<UsuarioDTO> dtoList) {
 		if (current != null) {
 			Usuario u = current.getInfo();
-			UsuarioDTO dto = new UsuarioDTO(u.getNombre(), u.getIdentificacion());
+			UsuarioDTO dto = new UsuarioDTO(u.getNombre(), u.getIdentificacion(), u.getListaCarrtio());
 			if (dtoList.isEmpty()) {
 				dtoList.setFirst(new Node<UsuarioDTO>(dto));
 			} else {
@@ -299,7 +299,7 @@ public class DataMapper {
 	private static void listaUsuarioDTOToListaUsuarioR(Node<UsuarioDTO> current, LinkedList<Usuario> entityList) {
 		if (current != null) {
 			UsuarioDTO d = current.getInfo();
-			Usuario entity = new Usuario(d.getNombre(), d.getIdentificacion());
+			Usuario entity = new Usuario(d.getNombre(), d.getIdentificacion(), d.getListaCarrtio());
 			if (entityList.isEmpty()) {
 				entityList.setFirst(new Node<Usuario>(entity));
 			} else {

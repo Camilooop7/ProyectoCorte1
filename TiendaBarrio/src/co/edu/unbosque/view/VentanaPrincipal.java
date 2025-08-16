@@ -14,6 +14,7 @@ public class VentanaPrincipal extends JFrame {
 	private PanelSesion ps;
 	private PanelCrearU pcu;
 	private PanelProducto ppr;
+	private PanelCarrito pc;
 
 	/**
 	 * Constructor del panel donde se ejecuta la logica en general de cada parametro
@@ -31,11 +32,13 @@ public class VentanaPrincipal extends JFrame {
 		ps = new PanelSesion();
 		pcu = new PanelCrearU();
 		ppr = new PanelProducto();
+		pc = new PanelCarrito();
 		
 		add(pp).setVisible(true);
 		add(ps).setVisible(false);
 		add(pcu).setVisible(false);
 		add(ppr).setVisible(false);
+		add(pc).setVisible(false);
 	}
 
 	public PanelPrincipal getPp() {
@@ -69,6 +72,15 @@ public class VentanaPrincipal extends JFrame {
 	public void setPpr(PanelProducto ppr) {
 		this.ppr = ppr;
 	}
+
+	public PanelCarrito getPc() {
+		return pc;
+	}
+
+	public void setPc(PanelCarrito pc) {
+		this.pc = pc;
+	}
+	
 	
 
 }
