@@ -96,33 +96,46 @@ public class LinkedList<E> implements Serializable {
 			return getR(current.getNext(), info);
 		}
 	}
-	
-	
+
 	public boolean deleteByInfo(E info) {
-	    if (isEmpty()) {
-	        return false;
-	    }
+		if (isEmpty()) {
+			return false;
+		}
 
-	    // Caso especial: eliminar el primer nodo
-	    if (first.getInfo().equals(info)) {
-	        first = first.getNext();
-	        return true;
-	    }
+		// Caso especial: eliminar el primer nodo
+		if (first.getInfo().equals(info)) {
+			first = first.getNext();
+			return true;
+		}
 
-	    // Caso general: buscar recursivamente
-	    return deleteByInfoR(first, info);
+		// Caso general: buscar recursivamente
+		return deleteByInfoR(first, info);
 	}
 
 	private boolean deleteByInfoR(Node<E> previous, E info) {
-	    if (previous == null || previous.getNext() == null) {
-	        return false; // No encontrado
-	    }
+		if (previous == null || previous.getNext() == null) {
+			return false; // No encontrado
+		}
 
-	    if (previous.getNext().getInfo().equals(info)) {
-	        return extract(previous) != null; // Eliminación segura
-	    }
+		if (previous.getNext().getInfo().equals(info)) {
+			return extract(previous) != null; // Eliminación segura
+		}
 
-	    return deleteByInfoR(previous.getNext(), info);
+		return deleteByInfoR(previous.getNext(), info);
 	}
 
+	public Node<E> get(int n) {
+		if (n < 0 || this.first == null) {
+			return null;
+		}
+		if (n == 0) {
+			return this.first;
+		}
+		LinkedList<E> subList = new LinkedList<>();
+		subList.first = this.first.getNext();
+		return subList.get(n - 1);
+	}
+	public String print() {
+		return this.toString();
+	}
 }

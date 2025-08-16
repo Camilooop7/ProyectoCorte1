@@ -8,7 +8,7 @@ import co.edu.unbosque.model.ModelFacade;
 import co.edu.unbosque.model.Usuario;
 import co.edu.unbosque.model.UsuarioDTO;
 import co.edu.unbosque.model.persistence.FileManager;
-import co.edu.unbosque.model.persistence.UsuarioDAO;
+import co.edu.unbosque.model.persistence.VerduraDAO;
 import co.edu.unbosque.util.exception.IsBlackException;
 import co.edu.unbosque.util.exception.TextException;
 import co.edu.unbosque.view.ViewFacade;
@@ -31,6 +31,10 @@ public class Controller implements ActionListener {
 	 */
 	public void run() {
 		vf.getVp().setVisible(true);
+
+		VerduraDAO a = new VerduraDAO();
+		mf.crearStock(a.getListaVerduras(), null, null, null);
+		System.out.println(mf.getListaProductos().print());
 	}
 
 	/**
@@ -73,8 +77,8 @@ public class Controller implements ActionListener {
 			int identificacion = vf.getVp().getPs().getIdentificacion();
 			if (mf.getUsuarioDAO().find(new Usuario("", identificacion)) != null) {
 				Usuario u = mf.getUsuarioDAO().find(new Usuario("", identificacion));
-				
-				vf.getVe().mostrar("Ingreso como:  "+ u.getNombre());
+
+				vf.getVe().mostrar("Ingreso como:  " + u.getNombre());
 				vf.getVp().getPs().setVisible(false);
 				vf.getVp().getPpr().setVisible(true);
 //TODO aca debo poner que cargue el stock
