@@ -52,8 +52,8 @@ public class FrutaDAO {
 			return contenido;
 		}
 		Fruta v = current.getInfo();
-		contenido += v.getNombre() + ";" + v.getPrecio() + ";" + v.getImagen() + ";" + v.getAroma() + ";"
-				+ v.getSabor() + "\n";
+		contenido += v.getNombre() + ";" + v.getPrecio() + ";" + v.getImagen() + ";" + v.getAroma() + ";" + v.getSabor()
+				+ "\n";
 		return escribirEnArchivoR(contenido, current.getNext());
 	}
 
@@ -94,7 +94,7 @@ public class FrutaDAO {
 			int precio = Integer.parseInt(columna[1]);
 			String imagen = columna[2];
 			String aroma = columna[3];
-			String sabor= columna[4];
+			String sabor = columna[4];
 			Fruta nuevaFruta = new Fruta(nombre, precio, imagen, aroma, sabor);
 			listaFrutas.addLastR(nuevaFruta);
 		} catch (NumberFormatException e) {
@@ -103,7 +103,13 @@ public class FrutaDAO {
 
 		cargarFrutaRecursivo(filas, index + 1);
 	}
-	
-	
-	
+
+	public LinkedList<Fruta> getListaFrutas() {
+		return listaFrutas;
+	}
+
+	public void setListaFrutas(LinkedList<Fruta> listaFrutas) {
+		this.listaFrutas = listaFrutas;
+	}
+
 }

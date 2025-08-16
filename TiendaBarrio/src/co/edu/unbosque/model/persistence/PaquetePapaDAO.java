@@ -103,6 +103,14 @@ public class PaquetePapaDAO {
 
 		cargarPaquetePapaRecursivo(filas, index + 1);
 	}
+
+	public LinkedList<PaquetePapa> getListaPaquetePapas() {
+		return listaPaquetePapas;
+	}
+
+	public void setListaPaquetePapas(LinkedList<PaquetePapa> listaPaquetePapas) {
+		this.listaPaquetePapas = listaPaquetePapas;
+	}
 	
 	
 }

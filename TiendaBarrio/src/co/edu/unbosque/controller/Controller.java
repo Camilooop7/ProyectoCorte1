@@ -4,10 +4,15 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
+import co.edu.unbosque.model.Bebida;
 import co.edu.unbosque.model.ModelFacade;
 import co.edu.unbosque.model.Usuario;
 import co.edu.unbosque.model.UsuarioDTO;
 import co.edu.unbosque.model.persistence.FileManager;
+import co.edu.unbosque.model.persistence.FrutaDAO;
+import co.edu.unbosque.model.persistence.GaseosaDAO;
+import co.edu.unbosque.model.persistence.JugoDAO;
+import co.edu.unbosque.model.persistence.PaquetePapaDAO;
 import co.edu.unbosque.model.persistence.VerduraDAO;
 import co.edu.unbosque.util.exception.IsBlackException;
 import co.edu.unbosque.util.exception.TextException;
@@ -33,7 +38,11 @@ public class Controller implements ActionListener {
 		vf.getVp().setVisible(true);
 
 		VerduraDAO a = new VerduraDAO();
-		mf.crearStock(a.getListaVerduras(), null, null, null);
+		GaseosaDAO b = new GaseosaDAO();
+		PaquetePapaDAO c = new PaquetePapaDAO();
+		FrutaDAO d = new FrutaDAO();
+		JugoDAO e = new JugoDAO();
+		mf.crearStock(a.getListaVerduras(), b.getListaGaseosas(),e.getListaJugos(), d.getListaFrutas(), c.getListaPaquetePapas());
 		System.out.println(mf.getListaProductos().print());
 	}
 
@@ -61,9 +70,7 @@ public class Controller implements ActionListener {
 		vf.getVp().getPpr().getBebida().setActionCommand("bebida");
 		vf.getVp().getPpr().getPaquete().addActionListener(this);
 		vf.getVp().getPpr().getPaquete().setActionCommand("paquete");
-		
-		
-		
+
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -122,22 +129,29 @@ public class Controller implements ActionListener {
 			}
 			break;
 		}
-		
-		case"verdura":{
-			vf.getVp().getPpr().getPv().setVisible(true);
-			vf.getVp().getPpr().getPv().actualizarInfo(mf.generarVerduras());
+
+		case "verdura": {
+			// Ocultar otros paneles si es necesario
+			vf.getVp().getPpr().getEstanteSuperior().setVisible(true);
+			vf.getVp().getPpr().getEstanteInferior().setVisible(true);
+
+			// Actualizar la información de las verduras en los estantes
+			vf.getVp().getPpr().actualizarInfoVerduras(mf.generarVerduras());
+
+			// Asignar funciones a los componentes
 			asignarFuncionesComponentesProducto("Verdura");
-			
+			break;
 		}
+
 		}
 	}
-	
+
 	public void asignarFuncionesComponentesProducto(String producto) {
 		switch (producto) {
-		case"Verdura":{
-			
+		case "Verdura": {
+
 		}
-		
+
 		}
 	}
 }
