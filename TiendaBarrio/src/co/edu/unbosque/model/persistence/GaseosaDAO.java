@@ -6,8 +6,8 @@ import co.edu.unbosque.util.structure.LinkedList;
 import co.edu.unbosque.util.structure.Node;
 
 public class GaseosaDAO {
-    private final String TEXT_FILE_NAME = "bebida.csv";
-    private final String SERIAL_FILE_NAME = "bebida.dat";
+    private final String TEXT_FILE_NAME = "gaseosa.csv";
+    private final String SERIAL_FILE_NAME = "gaseosa.dat";
     private LinkedList<Gaseosa> listaGaseosas;
 
     public GaseosaDAO() {

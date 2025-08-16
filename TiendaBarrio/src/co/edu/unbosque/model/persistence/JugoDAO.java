@@ -7,8 +7,8 @@ import co.edu.unbosque.util.structure.Node;
 
 public class JugoDAO {
 
-	private final String TEXT_FILE_NAME = "bebida.csv";
-	private final String SERIAL_FILE_NAME = "bebida.dat";
+	private final String TEXT_FILE_NAME = "jugo.csv";
+	private final String SERIAL_FILE_NAME = "jugo.dat";
 	private LinkedList<Jugo> listaJugos;
 
 	public JugoDAO() {

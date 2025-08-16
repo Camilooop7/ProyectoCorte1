@@ -81,7 +81,7 @@ public class ModelFacade {
 			return resultado;
 		}
 		Random r = new Random();
-		int pos = r.nextInt(26, 49); // 0-23
+		int pos = r.nextInt(0, 24); // 0-23
 		Node<Jugo> nodo = e.get(pos);
 		if (nodo != null) {
 			resultado.addLastR(nodo.getInfo().getNombre());
