@@ -10,6 +10,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import co.edu.unbosque.model.Fruta;
+import co.edu.unbosque.model.Gaseosa;
+import co.edu.unbosque.model.Jugo;
+import co.edu.unbosque.model.PaquetePapa;
 import co.edu.unbosque.model.Verdura;
 import co.edu.unbosque.util.structure.LinkedList;
 import co.edu.unbosque.util.structure.Node;
@@ -18,7 +23,8 @@ public class PanelProducto extends JPanel {
 	private JLabel fondo;
 	private JButton verdura;
 	private JButton fruta;
-	private JButton bebida;
+	private JButton jugo;
+	private JButton gaseosa;
 	private JButton paquete;
 	private PanelEstanteSuperiorV estSuV;
 	private PanelEstanteSuperiorG estSuG;
@@ -99,15 +105,27 @@ public class PanelProducto extends JPanel {
 		fruta.setBorderPainted(true);
 		fruta.setVisible(true);
 		add(fruta);
-		bebida = new JButton();
-		bebida.setBounds(670, 120, 205, 45);
-		bebida.setFocusable(false);
-		bebida.setBackground(new Color(0, 0, 0));
-		bebida.setContentAreaFilled(false);
-		bebida.setOpaque(false);
-		bebida.setBorderPainted(true);
-		bebida.setVisible(true);
-		add(bebida);
+
+		jugo = new JButton();
+		jugo.setBounds(670, 120, 205, 45);
+		jugo.setFocusable(false);
+		jugo.setBackground(new Color(0, 0, 0));
+		jugo.setContentAreaFilled(false);
+		jugo.setOpaque(false);
+		jugo.setBorderPainted(true);
+		jugo.setVisible(true);
+		add(jugo);
+
+		gaseosa = new JButton();
+		gaseosa.setBounds(670, 180, 205, 45);
+		gaseosa.setFocusable(false);
+		gaseosa.setBackground(new Color(0, 0, 0));
+		gaseosa.setContentAreaFilled(false);
+		gaseosa.setOpaque(false);
+		gaseosa.setBorderPainted(true);
+		gaseosa.setVisible(true);
+		add(gaseosa);
+
 		paquete = new JButton();
 		paquete.setBounds(915, 120, 205, 45);
 		paquete.setFocusable(false);
@@ -150,6 +168,112 @@ public class PanelProducto extends JPanel {
 		return obtenerNodoEnPosicion(nodoActual.getNext(), pos - 1);
 	}
 
+	public void actualizarInfoFruta(LinkedList<Fruta> listaFrutas) {
+		int totalProductos = contarNodosF(listaFrutas.getFirst(), 0);
+		int mitad = totalProductos / 2;
+		// Estante superior: primera mitad
+		estSuF.removeAll();
+		estSuF.agregarProductos(listaFrutas, totalProductos, listaFrutas.getFirst(), 0);
+		// Estante inferior: segunda mitad
+		Node<Fruta> nodoMitad = obtenerNodoEnPosicionF(listaFrutas.getFirst(), mitad);
+		estInfF.removeAll();
+		estInfF.agregarProductos(listaFrutas, totalProductos, nodoMitad, 0);
+		revalidate();
+		repaint();
+	}
+
+	private int contarNodosF(Node<Fruta> nodo, int cont) {
+		if (nodo == null)
+			return cont;
+		return contarNodosF(nodo.getNext(), cont + 1);
+	}
+
+	private Node<Fruta> obtenerNodoEnPosicionF(Node<Fruta> nodoActual, int pos) {
+		if (pos == 0 || nodoActual == null) {
+			return nodoActual;
+		}
+		return obtenerNodoEnPosicionF(nodoActual.getNext(), pos - 1);
+	}
+
+	public void actualizarInfoPaquetePapa(LinkedList<PaquetePapa> listaPaquetesPapa) {
+		int totalProductos = contarNodosP(listaPaquetesPapa.getFirst(), 0);
+		int mitad = totalProductos / 2;
+		estSuP.removeAll();
+		estSuP.agregarProductos(listaPaquetesPapa, totalProductos, listaPaquetesPapa.getFirst(), 0);
+		Node<PaquetePapa> nodoMitad = obtenerNodoEnPosicionP(listaPaquetesPapa.getFirst(), mitad);
+		estInfP.removeAll();
+		estInfP.agregarProductos(listaPaquetesPapa, totalProductos, nodoMitad, 0);
+		revalidate();
+		repaint();
+	}
+
+	private int contarNodosP(Node<PaquetePapa> nodo, int cont) {
+		if (nodo == null)
+			return cont;
+		return contarNodosP(nodo.getNext(), cont + 1);
+	}
+
+	private Node<PaquetePapa> obtenerNodoEnPosicionP(Node<PaquetePapa> nodoActual, int pos) {
+		if (pos == 0 || nodoActual == null) {
+			return nodoActual;
+		}
+		return obtenerNodoEnPosicionP(nodoActual.getNext(), pos - 1);
+	}
+
+	public void actualizarInfoGaseosa(LinkedList<Gaseosa> listaGaseosas) {
+		int totalProductos = contarNodosG(listaGaseosas.getFirst(), 0);
+		int mitad = totalProductos / 2;
+		// Estante superior: primera mitad
+		estSuG.removeAll();
+		estSuG.agregarProductos(listaGaseosas, totalProductos, listaGaseosas.getFirst(), 0);
+		// Estante inferior: segunda mitad
+		Node<Gaseosa> nodoMitad = obtenerNodoEnPosicionG(listaGaseosas.getFirst(), mitad);
+		estInfG.removeAll();
+		estInfG.agregarProductos(listaGaseosas, totalProductos, nodoMitad, 0);
+		revalidate();
+		repaint();
+	}
+
+	private int contarNodosG(Node<Gaseosa> nodo, int cont) {
+		if (nodo == null)
+			return cont;
+		return contarNodosG(nodo.getNext(), cont + 1);
+	}
+
+	private Node<Gaseosa> obtenerNodoEnPosicionG(Node<Gaseosa> nodoActual, int pos) {
+		if (pos == 0 || nodoActual == null) {
+			return nodoActual;
+		}
+		return obtenerNodoEnPosicionG(nodoActual.getNext(), pos - 1);
+	}
+
+	public void actualizarInfoJugo(LinkedList<Jugo> listaJugos) {
+		int totalProductos = contarNodosJ(listaJugos.getFirst(), 0);
+		int mitad = totalProductos / 2;
+		// Estante superior: primera mitad
+		estSuJ.removeAll();
+		estSuJ.agregarProductos(listaJugos, totalProductos, listaJugos.getFirst(), 0);
+		// Estante inferior: segunda mitad
+		Node<Jugo> nodoMitad = obtenerNodoEnPosicionJ(listaJugos.getFirst(), mitad);
+		estInfJ.removeAll();
+		estInfJ.agregarProductos(listaJugos, totalProductos, nodoMitad, 0);
+		revalidate();
+		repaint();
+	}
+
+	private int contarNodosJ(Node<Jugo> nodo, int cont) {
+		if (nodo == null)
+			return cont;
+		return contarNodosJ(nodo.getNext(), cont + 1);
+	}
+
+	private Node<Jugo> obtenerNodoEnPosicionJ(Node<Jugo> nodoActual, int pos) {
+		if (pos == 0 || nodoActual == null) {
+			return nodoActual;
+		}
+		return obtenerNodoEnPosicionJ(nodoActual.getNext(), pos - 1);
+	}
+
 	// Getters y setters...
 
 	public JLabel getFondo() {
@@ -176,12 +300,20 @@ public class PanelProducto extends JPanel {
 		this.fruta = fruta;
 	}
 
-	public JButton getBebida() {
-		return bebida;
+	public JButton getJugo() {
+		return jugo;
 	}
 
-	public void setBebida(JButton bebida) {
-		this.bebida = bebida;
+	public void setJugo(JButton jugo) {
+		this.jugo = jugo;
+	}
+
+	public JButton getGaseosa() {
+		return gaseosa;
+	}
+
+	public void setGaseosa(JButton gaseosa) {
+		this.gaseosa = gaseosa;
 	}
 
 	public JButton getPaquete() {
