@@ -64,7 +64,7 @@ public class ModelFacade {
 	}
 
 	public LinkedList<String> agregarGaseosa(LinkedList<Gaseosa> b, int cont, LinkedList<String> resultado) {
-		if (cont >= 5) { // Solo 5 gaseosas para no exceder el rango
+		if (cont >= 10) { // Solo 5 gaseosas para no exceder el rango
 			return resultado;
 		}
 		Random r = new Random();
@@ -77,11 +77,11 @@ public class ModelFacade {
 	}
 
 	public LinkedList<String> agregarJugo(LinkedList<Jugo> e, int cont, LinkedList<String> resultado) {
-		if (cont >= 5) { // Solo 5 jugos para no exceder el rango
+		if (cont >= 10) { // Solo 5 jugos para no exceder el rango
 			return resultado;
 		}
 		Random r = new Random();
-		int pos = r.nextInt(0, 24); // 0-23
+		int pos = r.nextInt(26, 49); // 0-23
 		Node<Jugo> nodo = e.get(pos);
 		if (nodo != null) {
 			resultado.addLastR(nodo.getInfo().getNombre());
