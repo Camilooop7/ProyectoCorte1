@@ -103,4 +103,12 @@ public class VerduraDAO {
 		cargarRecursivo(filas, index + 1);
 	}
 
+	public LinkedList<Verdura> getListaVerduras() {
+		return listaVerduras;
+	}
+
+	public void setListaVerduras(LinkedList<Verdura> listaVerduras) {
+		this.listaVerduras = listaVerduras;
+	}
+
 }
