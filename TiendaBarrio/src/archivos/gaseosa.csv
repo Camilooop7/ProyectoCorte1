@@ -4,22 +4,22 @@ Postobon Naranja;2500;src/imagenes/naranjapostobon.png;Botella;Pequena;false
 Postobon Manzana Light;2700;src/imagenes/naranjapostobon.png;Botella;Pequena;true
 Postobon Uva Light;2700;src/imagenes/uvalight.png;Botella;Pequena;true
 Postobon Naranja Light;2700;src/imagenes/naranjapostobon.png;Botella;Pequena;true
-Coca-Cola;3000;src/imagenes/cocacola.png;Botella;Mediana;false
-Coca-Cola Zero;3200;src/imagenes/cocacolazero.png;Botella;Mediana;true
-Pepsi;3000;src/imagenes/pepsi.png;Botella;Mediana;false
+Coca-Cola;3000;src/imagenes/cocacola-removebg-preview.png;Botella;Mediana;false
+Coca-Cola Zero;3200;src/imagenes/cocacolazero-removebg-preview.png;Botella;Mediana;true
+Pepsi;3000;src/imagenes/pepsi-removebg-preview.png;Botella;Mediana;false
 Pepsi Light;3200;src/imagenes/pepsilight.png;Botella;Mediana;true
 Colombiana;2800;src/imagenes/colombiana.png;Botella;Pequena;false
 Colombiana Light;3000;src/imagenes/colombianalight.png;Botella;Pequena;true
-7Up;2800;src/imagenes/7up.png;Botella;Pequena;false
-7Up Free;3000;src/imagenes/7up.png;Botella;Pequena;true
+7Up;2800;src/imagenes/7up-removebg-preview.png;Botella;Pequena;false
+7Up Free;3000;src/imagenes/7up-removebg-preview.png;Botella;Pequena;true
 Sprite;2800;src/imagenes/sprite.png;Botella;Pequena;false
-Sprite Zero;3000;src/imagenes/spritezero.png;Botella;Pequena;true
+Sprite Zero;3000;src/imagenes/spritezero-removebg-preview.png;Botella;Pequena;true
 Frescolita;2700;src/imagenes/frescolita.png;Botella;Pequena;false
-Fanta Naranja;3000;src/imagenes/fantanaranja.png;Botella;Mediana;false
-Fanta Zero;3200;src/imagenes/fantanaranjazero.png;Botella;Mediana;true
+Fanta Naranja;3000;src/imagenes/fantanaranja-removebg-preview.png;Botella;Mediana;false
+Fanta Zero;3200;src/imagenes/fantanaranjazero-removebg-preview.png;Botella;Mediana;true
 Quatro;2800;src/imagenes/quatropng.png;Botella;Pequena;false
 Quatro Zero;3000;src/imagenes/quatrozeropng.png;Botella;Pequena;true
-Kola Roman;2500;src/imagenes/kolaromana.jpg;Botella;Pequena;false
+Kola Roman;2500;src/imagenes/kolaromana-removebg-preview.png;Botella;Pequena;false
 Kola Hipinto;2500;src/imagenes/kolahipinto.png;Botella;Pequena;false
 Soda Bretana;2000;src/imagenes/bretana.png;Botella;Pequena;false
 Soda Bretana Zero;2200;src/imagenes/bretana.png;Botella;Pequena;true
