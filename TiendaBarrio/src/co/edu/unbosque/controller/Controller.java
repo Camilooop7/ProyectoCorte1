@@ -4,10 +4,15 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
+import co.edu.unbosque.model.Bebida;
 import co.edu.unbosque.model.ModelFacade;
 import co.edu.unbosque.model.Usuario;
 import co.edu.unbosque.model.UsuarioDTO;
 import co.edu.unbosque.model.persistence.FileManager;
+import co.edu.unbosque.model.persistence.FrutaDAO;
+import co.edu.unbosque.model.persistence.GaseosaDAO;
+import co.edu.unbosque.model.persistence.JugoDAO;
+import co.edu.unbosque.model.persistence.PaquetePapaDAO;
 import co.edu.unbosque.model.persistence.VerduraDAO;
 import co.edu.unbosque.util.exception.IsBlackException;
 import co.edu.unbosque.util.exception.TextException;
@@ -33,7 +38,12 @@ public class Controller implements ActionListener {
 		vf.getVp().setVisible(true);
 
 		VerduraDAO a = new VerduraDAO();
-		mf.crearStock(a.getListaVerduras(), null, null, null);
+		GaseosaDAO b = new GaseosaDAO();
+		PaquetePapaDAO c = new PaquetePapaDAO();
+		FrutaDAO d = new FrutaDAO();
+		JugoDAO e = new JugoDAO();
+		mf.crearStock(a.getListaVerduras(), b.getListaGaseosas(), e.getListaJugos(), d.getListaFrutas(),
+				c.getListaPaquetePapas());
 		System.out.println(mf.getListaProductos().print());
 	}
 
@@ -57,13 +67,18 @@ public class Controller implements ActionListener {
 		vf.getVp().getPpr().getVerdura().setActionCommand("verdura");
 		vf.getVp().getPpr().getFruta().addActionListener(this);
 		vf.getVp().getPpr().getFruta().setActionCommand("fruta");
-		vf.getVp().getPpr().getBebida().addActionListener(this);
-		vf.getVp().getPpr().getBebida().setActionCommand("bebida");
+		
+		vf.getVp().getPpr().getJugo().addActionListener(this);
+		vf.getVp().getPpr().getJugo().setActionCommand("jugo");
+		vf.getVp().getPpr().getGaseosa().addActionListener(this);
+		vf.getVp().getPpr().getGaseosa().setActionCommand("gaseosa");
+		
+		
+		
+		
 		vf.getVp().getPpr().getPaquete().addActionListener(this);
 		vf.getVp().getPpr().getPaquete().setActionCommand("paquete");
-		
-		
-		
+
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -122,22 +137,119 @@ public class Controller implements ActionListener {
 			}
 			break;
 		}
-		
-		case"verdura":{
-			vf.getVp().getPpr().getPv().setVisible(true);
-			vf.getVp().getPpr().getPv().actualizarInfo(mf.generarVerduras());
+
+		case "verdura": {
+			// Ocultar otros paneles si es necesario
+			vf.getVp().getPpr().getEstInfV().setVisible(true);
+			vf.getVp().getPpr().getEstSuV().setVisible(true);
+			vf.getVp().getPpr().getEstInfP().setVisible(false);
+			vf.getVp().getPpr().getEstSuP().setVisible(false);
+			vf.getVp().getPpr().getEstInfF().setVisible(false);
+			vf.getVp().getPpr().getEstSuF().setVisible(false);
+			vf.getVp().getPpr().getEstInfJ().setVisible(false);
+			vf.getVp().getPpr().getEstSuJ().setVisible(false);
+			vf.getVp().getPpr().getEstInfG().setVisible(false);
+			vf.getVp().getPpr().getEstSuG().setVisible(false);
+
+			// Actualizar la información de las verduras en los estantes
+			vf.getVp().getPpr().actualizarInfoVerdura(mf.generarVerdura());
+
+			// Asignar funciones a los componentes
 			asignarFuncionesComponentesProducto("Verdura");
-			
+			break;
 		}
+		case "gaseosa": {
+			// Ocultar otros paneles si es necesario
+			vf.getVp().getPpr().getEstInfG().setVisible(true);
+			vf.getVp().getPpr().getEstSuG().setVisible(true);
+			vf.getVp().getPpr().getEstInfP().setVisible(false);
+			vf.getVp().getPpr().getEstSuP().setVisible(false);
+			vf.getVp().getPpr().getEstInfF().setVisible(false);
+			vf.getVp().getPpr().getEstSuF().setVisible(false);
+			vf.getVp().getPpr().getEstInfJ().setVisible(false);
+			vf.getVp().getPpr().getEstSuJ().setVisible(false);
+			vf.getVp().getPpr().getEstInfV().setVisible(false);
+			vf.getVp().getPpr().getEstSuV().setVisible(false);
+			
+
+			// Actualizar la información de las verduras en los estantes
+		vf.getVp().getPpr().actualizarInfoGaseosa(mf.generarGaseosa());
+
+			// Asignar funciones a los componentes
+			asignarFuncionesComponentesProducto("Gaseosa");
+			break;
+		}
+		case "jugo": {
+			// Ocultar otros paneles si es necesario
+			vf.getVp().getPpr().getEstInfJ().setVisible(true);
+			vf.getVp().getPpr().getEstSuJ().setVisible(true);
+			vf.getVp().getPpr().getEstInfP().setVisible(false);
+			vf.getVp().getPpr().getEstSuP().setVisible(false);
+			vf.getVp().getPpr().getEstInfF().setVisible(false);
+			vf.getVp().getPpr().getEstSuF().setVisible(false);
+			vf.getVp().getPpr().getEstInfG().setVisible(false);
+			vf.getVp().getPpr().getEstSuG().setVisible(false);
+			vf.getVp().getPpr().getEstInfV().setVisible(false);
+			vf.getVp().getPpr().getEstSuV().setVisible(false);
+		
+			
+			// Actualizar la información de las verduras en los estantes
+			vf.getVp().getPpr().actualizarInfoJugo(mf.generarJugo());
+			
+			// Asignar funciones a los componentes
+			asignarFuncionesComponentesProducto("Jugo");
+			break;
+		}
+		case "fruta": {
+			// Ocultar otros paneles si es necesario
+			vf.getVp().getPpr().getEstInfF().setVisible(true);
+			vf.getVp().getPpr().getEstSuF().setVisible(true);
+			vf.getVp().getPpr().getEstInfP().setVisible(false);
+			vf.getVp().getPpr().getEstSuP().setVisible(false);
+			vf.getVp().getPpr().getEstInfJ().setVisible(false);
+			vf.getVp().getPpr().getEstSuJ().setVisible(false);
+			vf.getVp().getPpr().getEstInfG().setVisible(false);
+			vf.getVp().getPpr().getEstSuG().setVisible(false);
+			vf.getVp().getPpr().getEstInfV().setVisible(false);
+			vf.getVp().getPpr().getEstSuV().setVisible(false);
+
+
+			// Actualizar la información de las verduras en los estantes
+			vf.getVp().getPpr().actualizarInfoFruta(mf.generarFruta());
+
+			// Asignar funciones a los componentes
+			asignarFuncionesComponentesProducto("Fruta");
+			break;
+		}
+		case "paquete": {
+			// Ocultar otros paneles si es necesario
+			vf.getVp().getPpr().getEstInfP().setVisible(true);
+			vf.getVp().getPpr().getEstSuP().setVisible(true);
+			vf.getVp().getPpr().getEstInfF().setVisible(false);
+			vf.getVp().getPpr().getEstSuF().setVisible(false);
+			vf.getVp().getPpr().getEstInfJ().setVisible(false);
+			vf.getVp().getPpr().getEstSuJ().setVisible(false);
+			vf.getVp().getPpr().getEstInfG().setVisible(false);
+			vf.getVp().getPpr().getEstSuG().setVisible(false);
+			vf.getVp().getPpr().getEstInfV().setVisible(false);
+			vf.getVp().getPpr().getEstSuV().setVisible(false);
+			// Actualizar la información de las verduras en los estantes
+			vf.getVp().getPpr().actualizarInfoPaquetePapa(mf.generarPaquetePapa());
+
+			// Asignar funciones a los componentes
+			asignarFuncionesComponentesProducto("Paquete");
+			break;
+		}
+
 		}
 	}
-	
+
 	public void asignarFuncionesComponentesProducto(String producto) {
 		switch (producto) {
-		case"Verdura":{
-			
+		case "Verdura": {
+
 		}
-		
+
 		}
 	}
 }

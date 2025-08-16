@@ -103,6 +103,13 @@ public class JugoDAO {
 
 		cargarJugoRecursivo(filas, index + 1);
 	}
-	
-	
+
+	public LinkedList<Jugo> getListaJugos() {
+		return listaJugos;
+	}
+
+	public void setListaJugos(LinkedList<Jugo> listaJugos) {
+		this.listaJugos = listaJugos;
+	}
+
 }
