@@ -17,8 +17,8 @@ Sprite Zero;3000;src/imagenes/spritezero.png;Botella;Pequena;true
 Frescolita;2700;src/imagenes/frescolita.png;Botella;Pequena;false
 Fanta Naranja;3000;src/imagenes/fantanaranja.png;Botella;Mediana;false
 Fanta Zero;3200;src/imagenes/fantanaranjazero.png;Botella;Mediana;true
-Quatro;2800;src/imagenes/Apio.png;Botella;Pequena;false
-Quatro Zero;3000;src/imagenes/Apio.png;Botella;Pequena;true
+Quatro;2800;src/imagenes/quatropng.png;Botella;Pequena;false
+Quatro Zero;3000;src/imagenes/quatrozeropng.png;Botella;Pequena;true
 Kola Roman;2500;src/imagenes/kolaromana.jpg;Botella;Pequena;false
 Kola Hipinto;2500;src/imagenes/kolahipinto.png;Botella;Pequena;false
 Soda Bretana;2000;src/imagenes/bretana.png;Botella;Pequena;false
@@ -39,7 +39,7 @@ Jugo Hit Mora;2500;src/imagenes/jugomorahit.png;Botella;false
 Jugo Hit Manzana;2500;src/imagenes/jugomanzanahit.png;Botella;false
 Jugo Del Valle Naranja;2800;src/imagenes/jugovallenaranja.png;Botella;false
 Jugo Del Valle Mango;2800;src/imagenes/jugovallemango.png;Botella;false
-Jugo Del Valle Durazno;2800;src/imagenes/Apio.png;Botella;false
+Jugo Del Valle Durazno;2800;src/imagenes/jugoduraznohit1.png;Botella;false //
 Jugo Natural Zanahoria;3500;src/imagenes/jugozanahoria.png;Vaso;true
 Jugo Natural Remolacha;3500;src/imagenes/jugoremolacha.png;Vaso;true
 Jugo Natural Espinaca;3500;src/imagenes/jugoespinaca.png;Vaso;true
