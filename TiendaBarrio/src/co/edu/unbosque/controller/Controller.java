@@ -53,6 +53,17 @@ public class Controller implements ActionListener {
 		vf.getVp().getPs().getEntrar().setActionCommand("entrar");
 		vf.getVp().getPcu().getCrear().addActionListener(this);
 		vf.getVp().getPcu().getCrear().setActionCommand("crear");
+		vf.getVp().getPpr().getVerdura().addActionListener(this);
+		vf.getVp().getPpr().getVerdura().setActionCommand("verdura");
+		vf.getVp().getPpr().getFruta().addActionListener(this);
+		vf.getVp().getPpr().getFruta().setActionCommand("fruta");
+		vf.getVp().getPpr().getBebida().addActionListener(this);
+		vf.getVp().getPpr().getBebida().setActionCommand("bebida");
+		vf.getVp().getPpr().getPaquete().addActionListener(this);
+		vf.getVp().getPpr().getPaquete().setActionCommand("paquete");
+		
+		
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -111,6 +122,22 @@ public class Controller implements ActionListener {
 			}
 			break;
 		}
+		
+		case"verdura":{
+			vf.getVp().getPpr().getPv().setVisible(true);
+			vf.getVp().getPpr().getPv().actualizarInfo(mf.generarVerduras());
+			asignarFuncionesComponentesProducto("Verdura");
+			
+		}
+		}
+	}
+	
+	public void asignarFuncionesComponentesProducto(String producto) {
+		switch (producto) {
+		case"Verdura":{
+			
+		}
+		
 		}
 	}
 }
