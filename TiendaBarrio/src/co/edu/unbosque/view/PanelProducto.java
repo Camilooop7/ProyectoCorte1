@@ -26,6 +26,8 @@ public class PanelProducto extends JPanel {
 	private JButton jugo;
 	private JButton gaseosa;
 	private JButton paquete;
+	private JButton carrito;
+	private JButton historial;
 	private PanelEstanteSuperiorV estSuV;
 	private PanelEstanteSuperiorG estSuG;
 	private PanelEstanteSuperiorJ estSuJ;
@@ -87,8 +89,28 @@ public class PanelProducto extends JPanel {
 		add(estSuP);
 		add(estInfP);
 
+		carrito = new JButton();
+		carrito.setBounds(930, 26, 87, 69);
+		carrito.setFocusable(false);
+		carrito.setBackground(new Color(0, 0, 0));
+		carrito.setContentAreaFilled(false);
+		carrito.setOpaque(false);
+		carrito.setBorderPainted(true);
+		carrito.setVisible(true);
+		add(carrito);
+		
+		historial = new JButton();
+		historial.setBounds(1048, 28, 92, 65);
+		historial.setFocusable(false);
+		historial.setBackground(new Color(0, 0, 0));
+		historial.setContentAreaFilled(false);
+		historial.setOpaque(false);
+		historial.setBorderPainted(true);
+		historial.setVisible(true);
+		add(historial);
+		
 		verdura = new JButton();
-		verdura.setBounds(190, 120, 205, 45);
+		verdura.setBounds(95, 115, 185, 40);
 		verdura.setFocusable(false);
 		verdura.setBackground(new Color(0, 0, 0));
 		verdura.setContentAreaFilled(false);
@@ -97,7 +119,7 @@ public class PanelProducto extends JPanel {
 		verdura.setVisible(true);
 		add(verdura);
 		fruta = new JButton();
-		fruta.setBounds(430, 120, 205, 45);
+		fruta.setBounds(313, 115, 185, 40);
 		fruta.setFocusable(false);
 		fruta.setBackground(new Color(0, 0, 0));
 		fruta.setContentAreaFilled(false);
@@ -106,18 +128,9 @@ public class PanelProducto extends JPanel {
 		fruta.setVisible(true);
 		add(fruta);
 
-		jugo = new JButton();
-		jugo.setBounds(670, 120, 205, 45);
-		jugo.setFocusable(false);
-		jugo.setBackground(new Color(0, 0, 0));
-		jugo.setContentAreaFilled(false);
-		jugo.setOpaque(false);
-		jugo.setBorderPainted(true);
-		jugo.setVisible(true);
-		add(jugo);
 
 		gaseosa = new JButton();
-		gaseosa.setBounds(670, 180, 205, 45);
+		gaseosa.setBounds(535, 115, 185, 40);
 		gaseosa.setFocusable(false);
 		gaseosa.setBackground(new Color(0, 0, 0));
 		gaseosa.setContentAreaFilled(false);
@@ -127,7 +140,7 @@ public class PanelProducto extends JPanel {
 		add(gaseosa);
 
 		paquete = new JButton();
-		paquete.setBounds(915, 120, 205, 45);
+		paquete.setBounds(759, 115, 185, 40);
 		paquete.setFocusable(false);
 		paquete.setBackground(new Color(0, 0, 0));
 		paquete.setContentAreaFilled(false);
@@ -135,6 +148,15 @@ public class PanelProducto extends JPanel {
 		paquete.setBorderPainted(true);
 		paquete.setVisible(true);
 		add(paquete);
+		jugo = new JButton();
+		jugo.setBounds(982, 115, 185, 40);
+		jugo.setFocusable(false);
+		jugo.setBackground(new Color(0, 0, 0));
+		jugo.setContentAreaFilled(false);
+		jugo.setOpaque(false);
+		jugo.setBorderPainted(true);
+		jugo.setVisible(true);
+		add(jugo);
 		add(fondo);
 	}
 
@@ -402,6 +424,22 @@ public class PanelProducto extends JPanel {
 
 	public void setEstInfP(PanelEstanteInferiorP estInfP) {
 		this.estInfP = estInfP;
+	}
+
+	public JButton getCarrito() {
+		return carrito;
+	}
+
+	public void setCarrito(JButton carrito) {
+		this.carrito = carrito;
+	}
+
+	public JButton getHistorial() {
+		return historial;
+	}
+
+	public void setHistorial(JButton historial) {
+		this.historial = historial;
 	}
 
 }

@@ -32,8 +32,8 @@ public class PanelEstanteSuperiorP extends JPanel {
         if (nodoActual == null || cont >= totalProductos / 2) {
             return;
         }
-        PaquetePapa PaquetePapa = nodoActual.getInfo();
-        JPanel panelProducto = crearPanelProducto(PaquetePapa);
+        PaquetePapa paquetePapa = nodoActual.getInfo();
+        JPanel panelProducto = crearPanelProducto(paquetePapa);
         add(panelProducto);
         agregarProductos(listaPaquetePapas, totalProductos, nodoActual.getNext(), cont + 1);
     }
@@ -43,22 +43,28 @@ public class PanelEstanteSuperiorP extends JPanel {
         panelProducto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panelProducto.setBackground(new Color(255, 255, 255, 180));
         panelProducto.setPreferredSize(new java.awt.Dimension(180, 180));
+
         JLabel lblImagen = new JLabel(asignarImagen(paquetePapa));
         lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
         panelProducto.add(lblImagen, BorderLayout.CENTER);
+
         JTextArea txtAreaInfo = new JTextArea(paquetePapa.toString());
         txtAreaInfo.setEditable(false);
         txtAreaInfo.setFont(new Font("Baloo", Font.BOLD, 14));
         txtAreaInfo.setBackground(new Color(255, 255, 255, 0));
         panelProducto.add(txtAreaInfo, BorderLayout.SOUTH);
+
         JButton btnAgregar = new JButton("Agregar");
         btnAgregar.setBackground(new Color(235, 219, 79));
         btnAgregar.setFont(new Font("Baloo", Font.BOLD, 12));
+        btnAgregar.setActionCommand(paquetePapa.getNombre());
         botonesAnadir.addLastR(btnAgregar);
+
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelBotones.setOpaque(false);
         panelBotones.add(btnAgregar);
         panelProducto.add(panelBotones, BorderLayout.NORTH);
+
         return panelProducto;
     }
 
@@ -76,5 +82,9 @@ public class PanelEstanteSuperiorP extends JPanel {
 
     public LinkedList<JButton> getBotonesAnadir() {
         return botonesAnadir;
+    }
+
+    public void setBotonesAnadir(LinkedList<JButton> botonesAnadir) {
+        this.botonesAnadir = botonesAnadir;
     }
 }
