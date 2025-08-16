@@ -311,59 +311,63 @@ public class DataMapper {
 
 	// Carritos
 	public static Carrito carritoDTOToCarrito(CarritoDTO dto) {
-		Carrito entity = new Carrito();
-		entity.setNombre(dto.getNombre());
-		entity.setListaCarrito(dto.getListaCarrito());
-		return entity;
+	    Carrito entity = new Carrito();
+	    entity.setNombre(dto.getNombre());
+	    entity.setListaNombresProductos(dto.getListaNombresProductos());
+	    return entity;
 	}
 
 	public static CarritoDTO carritoToCarritoDTO(Carrito entity) {
-		CarritoDTO dto = new CarritoDTO();
-		dto.setNombre(entity.getNombre());
-		dto.setListaCarrito(entity.getListaCarrito());
-		return dto;
+	    CarritoDTO dto = new CarritoDTO();
+	    dto.setNombre(entity.getNombre());
+	    dto.setListaNombresProductos(entity.getListaNombresProductos());
+	    return dto;
 	}
 
 	public static LinkedList<CarritoDTO> listaCarritoToListaCarritoDTO(LinkedList<Carrito> entityList) {
-		LinkedList<CarritoDTO> dtoList = new LinkedList<>();
-		listaCarritoToListaCarritoDTOR(entityList.getFirst(), dtoList);
-		return dtoList;
+	    LinkedList<CarritoDTO> dtoList = new LinkedList<>();
+	    listaCarritoToListaCarritoDTOR(entityList.getFirst(), dtoList);
+	    return dtoList;
 	}
 
 	private static void listaCarritoToListaCarritoDTOR(Node<Carrito> current, LinkedList<CarritoDTO> dtoList) {
-		if (current != null) {
-			Carrito c = current.getInfo();
-			CarritoDTO dto = new CarritoDTO();
-			dto.setNombre(c.getNombre());
-			dto.setListaCarrito(c.getListaCarrito());
-			if (dtoList.isEmpty()) {
-				dtoList.setFirst(new Node<CarritoDTO>(dto));
-			} else {
-				dtoList.addLastR(dto);
-			}
-			listaCarritoToListaCarritoDTOR(current.getNext(), dtoList);
-		}
+	    if (current != null) {
+	        Carrito c = current.getInfo();
+	        CarritoDTO dto = new CarritoDTO();
+	        dto.setNombre(c.getNombre());
+	        dto.setListaNombresProductos(c.getListaNombresProductos());
+
+	        if (dtoList.isEmpty()) {
+	            dtoList.setFirst(new Node<CarritoDTO>(dto));
+	        } else {
+	            dtoList.addLastR(dto);
+	        }
+	        listaCarritoToListaCarritoDTOR(current.getNext(), dtoList);
+	    }
 	}
 
 	public static LinkedList<Carrito> listaCarritoDTOToListaCarrito(LinkedList<CarritoDTO> dtoList) {
-		LinkedList<Carrito> entityList = new LinkedList<>();
-		listaCarritoDTOToListaCarritoR(dtoList.getFirst(), entityList);
-		return entityList;
+	    LinkedList<Carrito> entityList = new LinkedList<>();
+	    listaCarritoDTOToListaCarritoR(dtoList.getFirst(), entityList);
+	    return entityList;
 	}
 
 	private static void listaCarritoDTOToListaCarritoR(Node<CarritoDTO> current, LinkedList<Carrito> entityList) {
-		if (current != null) {
-			CarritoDTO d = current.getInfo();
-			Carrito entity = new Carrito();
-			entity.setNombre(d.getNombre());
-			entity.setListaCarrito(d.getListaCarrito());
-			if (entityList.isEmpty()) {
-				entityList.setFirst(new Node<Carrito>(entity));
-			} else {
-				entityList.addLastR(entity);
-			}
-			listaCarritoDTOToListaCarritoR(current.getNext(), entityList);
-		}
+	    if (current != null) {
+	        CarritoDTO d = current.getInfo();
+	        Carrito entity = new Carrito();
+	        entity.setNombre(d.getNombre());
+	        entity.setListaNombresProductos(d.getListaNombresProductos());
+
+	        if (entityList.isEmpty()) {
+	            entityList.setFirst(new Node<Carrito>(entity));
+	        } else {
+	            entityList.addLastR(entity);
+	        }
+	        listaCarritoDTOToListaCarritoR(current.getNext(), entityList);
+	    }
 	}
+
+
 
 }

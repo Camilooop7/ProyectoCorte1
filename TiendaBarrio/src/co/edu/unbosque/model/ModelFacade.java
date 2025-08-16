@@ -1,6 +1,8 @@
 package co.edu.unbosque.model;
 
 import java.util.Random;
+
+import co.edu.unbosque.model.persistence.CarritoDAO;
 import co.edu.unbosque.model.persistence.FrutaDAO;
 import co.edu.unbosque.model.persistence.GaseosaDAO;
 import co.edu.unbosque.model.persistence.JugoDAO;
@@ -17,6 +19,7 @@ public class ModelFacade {
 	private PaquetePapaDAO paquetePapaDAO;
 	private FrutaDAO frutaDAO;
 	private UsuarioDAO usuarioDAO;
+	private CarritoDAO carritoDAO; 
 	private LinkedList<String> listaProductos;
 
 	public ModelFacade() {
@@ -26,6 +29,7 @@ public class ModelFacade {
 		jugoDAO = new JugoDAO();
 		frutaDAO = new FrutaDAO();
 		usuarioDAO = new UsuarioDAO();
+		carritoDAO = new CarritoDAO();
 		listaProductos = new LinkedList<>();
 	}
 
@@ -278,5 +282,13 @@ public class ModelFacade {
 
 	public void setListaProductos(LinkedList<String> listaProductos) {
 		this.listaProductos = listaProductos;
+	}
+
+	public CarritoDAO getCarritoDAO() {
+		return carritoDAO;
+	}
+
+	public void setCarritoDAO(CarritoDAO carritoDAO) {
+		this.carritoDAO = carritoDAO;
 	}
 }
