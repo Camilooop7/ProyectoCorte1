@@ -37,6 +37,8 @@ public class ModelFacade {
 		//listaProductos = agregarPaquetePapa(d, 0, listaProductos);
 		return listaProductos;
 	}
+	
+	
 
 	public LinkedList<String> agregarVerdura(LinkedList<Verdura> a, int cont, LinkedList<String> resultado) {
 		if (cont >= 10) {
@@ -89,6 +91,31 @@ public class ModelFacade {
 		}
 		return agregarPaquetePapa(d, cont + 1, resultado);
 	}
+	
+	
+	
+	///Prueba 
+	public LinkedList<Verdura> generarVerduras() {
+	    LinkedList<Verdura> resultado = new LinkedList<>();
+	    return generarVerdurasRec(listaProductos.getFirst(), verduraDAO.getListaVerduras().getFirst(), resultado);
+	}
+
+	private LinkedList<Verdura> generarVerdurasRec(Node<String> nodoProducto, Node<Verdura> nodoVerdura, LinkedList<Verdura> resultado) {
+	    if (nodoProducto == null) {
+	        return resultado;
+	    }
+	    if (nodoVerdura == null) {
+	        return generarVerdurasRec(nodoProducto.getNext(), verduraDAO.getListaVerduras().getFirst(), resultado);
+	    }
+	    if (nodoVerdura.getInfo().getNombre().equalsIgnoreCase(nodoProducto.getInfo())) {
+	        resultado.addLastR(nodoVerdura.getInfo());
+	        return generarVerdurasRec(nodoProducto.getNext(), verduraDAO.getListaVerduras().getFirst(), resultado);
+	    }
+	    return generarVerdurasRec(nodoProducto, nodoVerdura.getNext(), resultado);
+	}
+
+
+	
 
 	// Getters y Setters
 	public VerduraDAO getVerduraDAO() {
