@@ -15,39 +15,40 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import co.edu.unbosque.model.Verdura;
+
+import co.edu.unbosque.model.Gaseosa;
 import co.edu.unbosque.util.structure.LinkedList;
 import co.edu.unbosque.util.structure.Node;
 
-public class PanelEstanteInferior extends JPanel {
+public class PanelEstanteInferiorG extends JPanel {
 	private LinkedList<JButton> botonesAnadir;
 
-	public PanelEstanteInferior() {
+	public PanelEstanteInferiorG() {
 		setOpaque(false);
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		botonesAnadir = new LinkedList<>();
 	}
 
-	public void agregarProductos(LinkedList<Verdura> listaVerduras, int totalProductos, Node<Verdura> nodoActual,
+	public void agregarProductos(LinkedList<Gaseosa> listaGaseosas, int totalProductos, Node<Gaseosa> nodoActual,
 			int cont) {
 		if (nodoActual == null || cont >= totalProductos - (totalProductos / 2)) {
 			return;
 		}
-		Verdura verdura = nodoActual.getInfo();
-		JPanel panelProducto = crearPanelProducto(verdura);
+		Gaseosa gaseosa = nodoActual.getInfo();
+		JPanel panelProducto = crearPanelProducto(gaseosa);
 		add(panelProducto);
-		agregarProductos(listaVerduras, totalProductos, nodoActual.getNext(), cont + 1);
+		agregarProductos(listaGaseosas, totalProductos, nodoActual.getNext(), cont + 1);
 	}
 
-	private JPanel crearPanelProducto(Verdura verdura) {
+	private JPanel crearPanelProducto(Gaseosa gaseosa) {
 		JPanel panelProducto = new JPanel(new BorderLayout());
 		panelProducto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		panelProducto.setBackground(new Color(255, 255, 255, 180));
 		panelProducto.setPreferredSize(new java.awt.Dimension(180, 180));
-		JLabel lblImagen = new JLabel(asignarImagen(verdura));
+		JLabel lblImagen = new JLabel(asignarImagen(gaseosa));
 		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
 		panelProducto.add(lblImagen, BorderLayout.CENTER);
-		JTextArea txtAreaInfo = new JTextArea(verdura.toString());
+		JTextArea txtAreaInfo = new JTextArea(gaseosa.toString());
 		txtAreaInfo.setEditable(false);
 		txtAreaInfo.setFont(new Font("Baloo", Font.BOLD, 14));
 		txtAreaInfo.setBackground(new Color(255, 255, 255, 0));
@@ -63,9 +64,9 @@ public class PanelEstanteInferior extends JPanel {
 		return panelProducto;
 	}
 
-	private ImageIcon asignarImagen(Verdura verdura) {
+	private ImageIcon asignarImagen(Gaseosa gaseosa) {
 		try {
-			String ruta = verdura.getImagen().replace("\\", "/");
+			String ruta = gaseosa.getImagen().replace("\\", "/");
 			BufferedImage imagen = ImageIO.read(new File(ruta));
 			Image imagenRedimensionada = imagen.getScaledInstance(80, 80, Image.SCALE_SMOOTH);
 			return new ImageIcon(imagenRedimensionada);

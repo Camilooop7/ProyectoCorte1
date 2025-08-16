@@ -20,8 +20,16 @@ public class PanelProducto extends JPanel {
 	private JButton fruta;
 	private JButton bebida;
 	private JButton paquete;
-	private PanelEstanteSuperior estanteSuperior;
-	private PanelEstanteInferior estanteInferior;
+	private PanelEstanteSuperiorV estSuV;
+	private PanelEstanteSuperiorG estSuG;
+	private PanelEstanteSuperiorJ estSuJ;
+	private PanelEstanteSuperiorF estSuF;
+	private PanelEstanteSuperiorP estSuP;
+	private PanelEstanteInferiorV estInfV;
+	private PanelEstanteInferiorG estInfG;
+	private PanelEstanteInferiorJ estInfJ;
+	private PanelEstanteInferiorF estInfF;
+	private PanelEstanteInferiorP estInfP;
 
 	public PanelProducto() throws IOException {
 		setBounds(0, 0, 1290, 750);
@@ -32,12 +40,47 @@ public class PanelProducto extends JPanel {
 		Image fdRedim = fd.getScaledInstance(1290, 750, Image.SCALE_SMOOTH);
 		fondo.setIcon(new ImageIcon(fdRedim));
 		fondo.setBounds(0, 0, 1290, 750);
-		estanteSuperior = new PanelEstanteSuperior();
-		estanteSuperior.setBounds(160, 180, 970, 200);
-		estanteInferior = new PanelEstanteInferior();
-		estanteInferior.setBounds(160, 390, 970, 200);
-		add(estanteSuperior);
-		add(estanteInferior);
+
+		estSuV = new PanelEstanteSuperiorV();
+		estSuV.setBounds(160, 180, 970, 200);
+		estInfV = new PanelEstanteInferiorV();
+		estInfV.setBounds(160, 390, 970, 200);
+
+		estSuG = new PanelEstanteSuperiorG();
+		estSuG.setBounds(160, 180, 970, 200);
+		estInfG = new PanelEstanteInferiorG();
+		estInfG.setBounds(160, 390, 970, 200);
+
+		estSuJ = new PanelEstanteSuperiorJ();
+		estSuJ.setBounds(160, 180, 970, 200);
+		estInfJ = new PanelEstanteInferiorJ();
+		estInfJ.setBounds(160, 390, 970, 200);
+
+		estSuF = new PanelEstanteSuperiorF();
+		estSuF.setBounds(160, 180, 970, 200);
+		estInfF = new PanelEstanteInferiorF();
+		estInfF.setBounds(160, 390, 970, 200);
+
+		estSuP = new PanelEstanteSuperiorP();
+		estSuP.setBounds(160, 180, 970, 200);
+		estInfP = new PanelEstanteInferiorP();
+		estInfP.setBounds(160, 390, 970, 200);
+
+		add(estSuV);
+		add(estInfV);
+
+		add(estSuG);
+		add(estInfG);
+
+		add(estSuJ);
+		add(estInfJ);
+
+		add(estSuF);
+		add(estInfF);
+
+		add(estSuP);
+		add(estInfP);
+
 		verdura = new JButton();
 		verdura.setBounds(190, 120, 205, 45);
 		verdura.setFocusable(false);
@@ -77,18 +120,18 @@ public class PanelProducto extends JPanel {
 		add(fondo);
 	}
 
-	public void actualizarInfoVerduras(LinkedList<Verdura> listaVerduras) {
+	public void actualizarInfoVerdura(LinkedList<Verdura> listaVerduras) {
 		int totalProductos = contarNodos(listaVerduras.getFirst(), 0);
 		int mitad = totalProductos / 2;
 
 		// Estante superior: primera mitad
-		estanteSuperior.removeAll();
-		estanteSuperior.agregarProductos(listaVerduras, totalProductos, listaVerduras.getFirst(), 0);
+		estSuV.removeAll();
+		estSuV.agregarProductos(listaVerduras, totalProductos, listaVerduras.getFirst(), 0);
 
 		// Estante inferior: segunda mitad
 		Node<Verdura> nodoMitad = obtenerNodoEnPosicion(listaVerduras.getFirst(), mitad);
-		estanteInferior.removeAll();
-		estanteInferior.agregarProductos(listaVerduras, totalProductos, nodoMitad, 0);
+		estInfV.removeAll();
+		estInfV.agregarProductos(listaVerduras, totalProductos, nodoMitad, 0);
 
 		revalidate();
 		repaint();
@@ -108,13 +151,6 @@ public class PanelProducto extends JPanel {
 	}
 
 	// Getters y setters...
-	public JPanel getEstanteSuperior() {
-		return estanteSuperior;
-	}
-
-	public JPanel getEstanteInferior() {
-		return estanteInferior;
-	}
 
 	public JLabel getFondo() {
 		return fondo;
@@ -155,4 +191,85 @@ public class PanelProducto extends JPanel {
 	public void setPaquete(JButton paquete) {
 		this.paquete = paquete;
 	}
+
+	public PanelEstanteSuperiorV getEstSuV() {
+		return estSuV;
+	}
+
+	public void setEstSuV(PanelEstanteSuperiorV estSuV) {
+		this.estSuV = estSuV;
+	}
+
+	public PanelEstanteSuperiorG getEstSuG() {
+		return estSuG;
+	}
+
+	public void setEstSuG(PanelEstanteSuperiorG estSuG) {
+		this.estSuG = estSuG;
+	}
+
+	public PanelEstanteSuperiorJ getEstSuJ() {
+		return estSuJ;
+	}
+
+	public void setEstSuJ(PanelEstanteSuperiorJ estSuJ) {
+		this.estSuJ = estSuJ;
+	}
+
+	public PanelEstanteSuperiorF getEstSuF() {
+		return estSuF;
+	}
+
+	public void setEstSuF(PanelEstanteSuperiorF estSuF) {
+		this.estSuF = estSuF;
+	}
+
+	public PanelEstanteSuperiorP getEstSuP() {
+		return estSuP;
+	}
+
+	public void setEstSuP(PanelEstanteSuperiorP estSuP) {
+		this.estSuP = estSuP;
+	}
+
+	public PanelEstanteInferiorV getEstInfV() {
+		return estInfV;
+	}
+
+	public void setEstInfV(PanelEstanteInferiorV estInfV) {
+		this.estInfV = estInfV;
+	}
+
+	public PanelEstanteInferiorG getEstInfG() {
+		return estInfG;
+	}
+
+	public void setEstInfG(PanelEstanteInferiorG estInfG) {
+		this.estInfG = estInfG;
+	}
+
+	public PanelEstanteInferiorJ getEstInfJ() {
+		return estInfJ;
+	}
+
+	public void setEstInfJ(PanelEstanteInferiorJ estInfJ) {
+		this.estInfJ = estInfJ;
+	}
+
+	public PanelEstanteInferiorF getEstInfF() {
+		return estInfF;
+	}
+
+	public void setEstInfF(PanelEstanteInferiorF estInfF) {
+		this.estInfF = estInfF;
+	}
+
+	public PanelEstanteInferiorP getEstInfP() {
+		return estInfP;
+	}
+
+	public void setEstInfP(PanelEstanteInferiorP estInfP) {
+		this.estInfP = estInfP;
+	}
+
 }

@@ -42,7 +42,8 @@ public class Controller implements ActionListener {
 		PaquetePapaDAO c = new PaquetePapaDAO();
 		FrutaDAO d = new FrutaDAO();
 		JugoDAO e = new JugoDAO();
-		mf.crearStock(a.getListaVerduras(), b.getListaGaseosas(),e.getListaJugos(), d.getListaFrutas(), c.getListaPaquetePapas());
+		mf.crearStock(a.getListaVerduras(), b.getListaGaseosas(), e.getListaJugos(), d.getListaFrutas(),
+				c.getListaPaquetePapas());
 		System.out.println(mf.getListaProductos().print());
 	}
 
@@ -132,11 +133,47 @@ public class Controller implements ActionListener {
 
 		case "verdura": {
 			// Ocultar otros paneles si es necesario
-			vf.getVp().getPpr().getEstanteSuperior().setVisible(true);
-			vf.getVp().getPpr().getEstanteInferior().setVisible(true);
+			vf.getVp().getPpr().getEstInfV().setVisible(true);
+			vf.getVp().getPpr().getEstSuV().setVisible(true);
 
 			// Actualizar la información de las verduras en los estantes
-			vf.getVp().getPpr().actualizarInfoVerduras(mf.generarVerduras());
+			vf.getVp().getPpr().actualizarInfoVerdura(mf.generarVerdura());
+
+			// Asignar funciones a los componentes
+			asignarFuncionesComponentesProducto("Verdura");
+			break;
+		}
+		case "bebida": {
+			// Ocultar otros paneles si es necesario
+			vf.getVp().getPpr().getEstInfG().setVisible(true);
+			vf.getVp().getPpr().getEstSuG().setVisible(true);
+
+			// Actualizar la información de las verduras en los estantes
+			vf.getVp().getPpr().actualizarInfoVerdura(mf.generarGaseosa());
+
+			// Asignar funciones a los componentes
+			asignarFuncionesComponentesProducto("Verdura");
+			break;
+		}
+		case "fruta": {
+			// Ocultar otros paneles si es necesario
+			vf.getVp().getPpr().getEstInfF().setVisible(true);
+			vf.getVp().getPpr().getEstSuF().setVisible(true);
+
+			// Actualizar la información de las verduras en los estantes
+			vf.getVp().getPpr().actualizarInfoVerdura(mf.generarFruta());
+
+			// Asignar funciones a los componentes
+			asignarFuncionesComponentesProducto("Verdura");
+			break;
+		}
+		case "paquete": {
+			// Ocultar otros paneles si es necesario
+			vf.getVp().getPpr().getEstInfP().setVisible(true);
+			vf.getVp().getPpr().getEstSuP().setVisible(true);
+
+			// Actualizar la información de las verduras en los estantes
+			vf.getVp().getPpr().actualizarInfoVerdura(mf.generarPaquetePapa());
 
 			// Asignar funciones a los componentes
 			asignarFuncionesComponentesProducto("Verdura");
