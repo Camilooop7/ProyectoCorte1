@@ -2,6 +2,7 @@ package co.edu.unbosque.util.structure;
 
 import java.io.Serializable;
 
+
 public class LinkedList<E> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	protected Node<E> first;
@@ -135,6 +136,19 @@ public class LinkedList<E> implements Serializable {
 		subList.first = this.first.getNext();
 		return subList.get(n - 1);
 	}
+	
+	public int size() {
+	    return sizeRecursive(first);
+	}
+
+	private int sizeRecursive(Node<E> nodo) {
+	    if (nodo == null) {
+	        return 0;  // caso base: lista vacía o llegamos al final
+	    }
+	    return 1 + sizeRecursive(nodo.getNext()); // cuenta este nodo y sigue con el siguiente
+	}
+
+
 	public String print() {
 		return this.toString();
 	}

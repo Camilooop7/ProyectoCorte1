@@ -79,8 +79,9 @@ public class Controller implements ActionListener {
 
 		case "entrar":
 			int identificacion = vf.getVp().getPs().getIdentificacion();
-			if (mf.getUsuarioDAO().find(new Usuario("", identificacion)) != null) {
-				Usuario u = mf.getUsuarioDAO().find(new Usuario("", identificacion));
+			//TODO
+			if (mf.getUsuarioDAO().find(new Usuario("", identificacion,null)) != null) {
+				Usuario u = mf.getUsuarioDAO().find(new Usuario("", identificacion, null));
 				nombreUsuarioActual = u.getNombre();
 				vf.getVe().mostrar("Ingreso como: " + u.getNombre());
 				vf.getVp().getPs().setVisible(false);
@@ -109,8 +110,9 @@ public class Controller implements ActionListener {
 			try {
 				ExceptionCheker.checkerIsBlank(nombre);
 				ExceptionCheker.checkerText(nombre);
-				if (mf.getUsuarioDAO().find(new Usuario("", identificacionCrear)) == null) {
-					mf.getUsuarioDAO().add(new UsuarioDTO(nombre, identificacionCrear));
+				//TODO
+				if (mf.getUsuarioDAO().find(new Usuario("", identificacionCrear,null)) == null) {
+					mf.getUsuarioDAO().add(new UsuarioDTO(nombre, identificacionCrear,null));
 
 					// Crear un carrito para el nuevo usuario
 					Carrito nuevoCarrito = new Carrito(nombre);
@@ -170,6 +172,11 @@ public class Controller implements ActionListener {
 			break;
 
 		case "verCarrito":
+			int identificacionC = vf.getVp().getPs().getIdentificacion();
+			vf.getVp().getPc().recargarComboBox();
+			vf.getVp().getPc().setVisible(true);
+			vf.getVp().getPpr().setVisible(false);
+			
 			mostrarCarrito();
 			break;
 

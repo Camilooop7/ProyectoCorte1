@@ -17,6 +17,7 @@ public class UsuarioDAO implements OperacionDAO<UsuarioDTO, Usuario>, Serializab
 	public UsuarioDAO() {
 		listaUsuarios = new LinkedList<>();
 		cargarDesdeArchivo();
+		cargarDesdeArchivoSerializado();
 	}
 
 	@Override
@@ -161,26 +162,27 @@ public class UsuarioDAO implements OperacionDAO<UsuarioDTO, Usuario>, Serializab
 	}
 
 	private void cargarRecursivo(String[] filas, int index) {
-		if (index >= filas.length) {
-			return;
-		}
-
-		String[] columna = filas[index].split(";");
-		if (columna.length < 2) {
-			System.err.println("Línea mal formateada: " + filas[index]);
-			cargarRecursivo(filas, index + 1);
-			return;
-		}
-
-		try {
-			String nombre = columna[0];
-			int id = Integer.parseInt(columna[1]);
-			Usuario nuevo = new Usuario(nombre, id);
-			listaUsuarios.addLastR(nuevo);
-		} catch (NumberFormatException e) {
-			System.err.println("Error al convertir el ID en la línea: " + filas[index]);
-		}
-
-		cargarRecursivo(filas, index + 1);
+//		if (index >= filas.length) {
+//			return;
+//		}
+//
+//		String[] columna = filas[index].split(";");
+//		if (columna.length < 2) {
+//			System.err.println("Línea mal formateada: " + filas[index]);
+//			cargarRecursivo(filas, index + 1);
+//			return;
+//		}
+//
+//		try {
+//			String nombre = columna[0];
+//			int id = Integer.parseInt(columna[1]);
+//		
+//			Usuario nuevo = new Usuario(nombre, id,);
+//			listaUsuarios.addLastR(nuevo);
+//		} catch (NumberFormatException e) {
+//			System.err.println("Error al convertir el ID en la línea: " + filas[index]);
+//		}
+//
+//		cargarRecursivo(filas, index + 1);
 	}
 }
