@@ -83,7 +83,7 @@ public class UsuarioDAO implements OperacionDAO<UsuarioDTO, Usuario>, Serializab
 		if (current == null) {
 			return null;
 		}
-		if (current.getInfo().getIdentificacion() == (toFind.getIdentificacion())) {
+		if (current.getInfo().getIdentificacion() == (toFind.getIdentificacion()) ||current.getInfo().getNombre().equals(toFind.getNombre())) {
 			return current.getInfo();
 		}
 		return findR(current.getNext(), toFind);

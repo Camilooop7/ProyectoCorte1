@@ -70,6 +70,10 @@ public class LinkedList<E> implements Serializable {
 		}
 		return data;
 	}
+    public void clear() {
+        this.first = null;
+    }
+
 
 	@Override
 	public String toString() {

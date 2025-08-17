@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import co.edu.unbosque.model.*;
 import co.edu.unbosque.model.persistence.*;
 import co.edu.unbosque.util.exception.*;
+import co.edu.unbosque.util.pdf.GenerarPDF;
 import co.edu.unbosque.util.structure.*;
 import co.edu.unbosque.view.ViewFacade;
 
@@ -59,6 +60,12 @@ public class Controller implements ActionListener {
 		vf.getVp().getPc().getVolver().setActionCommand("volverC");
 		vf.getVp().getPc().getCombocarrito().addActionListener(this);
 		vf.getVp().getPc().getCombocarrito().setActionCommand("seleccionCarrito");
+		vf.getVp().getPc().getComprar().addActionListener(this);
+		vf.getVp().getPc().getComprar().setActionCommand("comprar");
+		vf.getVp().getPh().getBtnLimpiar().addActionListener(this);
+		vf.getVp().getPh().getBtnLimpiar().setActionCommand("limpiarHistorial");
+		vf.getVp().getPh().getBtnVolver().addActionListener(this);
+		vf.getVp().getPh().getBtnVolver().setActionCommand("volverH");
 	}
 
 	@Override
@@ -77,6 +84,7 @@ public class Controller implements ActionListener {
 			vf.getVp().getPs().setVisible(false);
 			vf.getVp().getPcu().setVisible(true);
 			break;
+			//TODO
 		case "entrar":
 			int identificacion = vf.getVp().getPs().getIdentificacion();
 			if (mf.getUsuarioDAO().find(new Usuario("", identificacion, null)) != null) {
@@ -101,6 +109,7 @@ public class Controller implements ActionListener {
 						c.getListaPaquetePapas());
 			}
 			break;
+			//TODO
 		case "crear":
 			int identificacionCrear = vf.getVp().getPcu().getIdentificacion();
 			String nombre = vf.getVp().getPcu().getNombre();
@@ -159,6 +168,7 @@ public class Controller implements ActionListener {
 			vf.getVp().getPpr().actualizarInfoPaquetePapa(mf.generarPaquetePapa());
 			asignarFuncionesComponentesProducto("Paquete");
 			break;
+			//TODO
 		case "verCarrito":
 			vf.getVp().getPc().setUsuario(new UsuarioDTO(nombreUsuarioActual, 0, null));
 			vf.getVp().getPc().recargarComboBox();
@@ -167,16 +177,13 @@ public class Controller implements ActionListener {
 			vf.getVp().getPpr().setVisible(false);
 			break;
 
-		case "verHistorial":
-			// mostrarHistorial();
-			break;
+		
 		case "volverC":
 			vf.getVp().getPc().setVisible(false);
 			vf.getVp().getPpr().setVisible(true);
 			break;
 		case "seleccionCarrito":
 			nombreCarritoActual = vf.getVp().getPc().getCombocarritoS();
-			vf.getVp().getPc().recargarComboBox();
 			vf.getVp().getPc().cargarProductosDelCarrito();
 			break;
 		default:
@@ -185,15 +192,69 @@ public class Controller implements ActionListener {
 		case "crearCarrito":
 			String nombreC = vf.getVe().leerTexto("Ingrese el nombre del nuevo Carrito");
 			String nombreU = nombreUsuarioActual;
-			Carrito nuevoCarrito = new Carrito(nombreC, nombreU);
-			mf.getCarritoDAO().add(DataMapper.carritoToCarritoDTO(nuevoCarrito));
+			CarritoDTO nuevoCarrito = new CarritoDTO(nombreC, nombreU);
+			mf.getCarritoDAO().add(nuevoCarrito);
 			vf.getVe().mostrar("Carrito creado exitosamente");
 
 			vf.getVp().getPc().recargarComboBox();
+			
 			vf.getVp().getPc().cargarProductosDelCarrito();
 			vf.getVp().getPc().getTablaCarrito().repaint();
 			break;
+			
+		case "comprar":
+		    if (nombreUsuarioActual == null) {
+		        JOptionPane.showMessageDialog(null, "Debe iniciar sesión para generar la factura.");
+		        break;
+		    }
 
+		    Usuario usuarioActual = mf.getUsuarioDAO().find(new Usuario(nombreUsuarioActual, 0, null));
+		    if (usuarioActual == null) {
+		        JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
+		        break;
+		    }
+
+		    Carrito carritoSeleccionado = mf.getCarritoDAO().find(new Carrito(nombreCarritoActual, nombreUsuarioActual));
+		    if (carritoSeleccionado == null) {
+		        JOptionPane.showMessageDialog(null, "Carrito no encontrado.");
+		        break;
+		    }
+
+		    // Generar la factura
+		    GenerarPDF.generarFactura(usuarioActual, carritoSeleccionado, vf.getVp().getPc());
+
+		    // Clonar el carrito para guardar en el historial
+		    Carrito copiaCarrito = new Carrito(carritoSeleccionado.getNombre(), carritoSeleccionado.getNombreU());
+		    Node<String> nodoActual = carritoSeleccionado.getListaNombresProductos().getFirst();
+		    while (nodoActual != null) {
+		        copiaCarrito.getListaNombresProductos().addLastR(nodoActual.getInfo());
+		        nodoActual = nodoActual.getNext();
+		    }
+
+		    // Agregar el carrito al historial
+		    vf.getVp().getPh().agregarCompraAlHistorial(copiaCarrito);
+
+		    // Opcional: Limpiar el carrito después de comprar
+		    carritoSeleccionado.getListaNombresProductos().clear();
+		    vf.getVp().getPc().cargarProductosDelCarrito();
+
+		    JOptionPane.showMessageDialog(null, "Compra realizada con éxito. Se ha guardado en el historial.");
+		    break;
+
+		case "verHistorial":
+		    vf.getVp().getPpr().setVisible(false);
+		    vf.getVp().getPh().setVisible(true);
+		    break;
+
+		case "volverH":
+		    vf.getVp().getPpr().setVisible(true);
+		    vf.getVp().getPh().setVisible(false);
+		    break;
+
+		case "limpiarHistorial":
+		    vf.getVp().getPh().limpiarHistorial();
+		    JOptionPane.showMessageDialog(null, "Historial limpiado.");
+		    break;
 		}
 	}
 
@@ -264,7 +325,7 @@ public class Controller implements ActionListener {
 			nodoActual = nodoActual.getNext();
 		}
 	}
-
+//TODO
 	private void agregarProductoAlCarrito(String nombreProducto, String nombreCarrito) {
 		if (nombreUsuarioActual != null) {
 			Carrito c = mf.getCarritoDAO().find(new Carrito(nombreCarrito, nombreUsuarioActual));

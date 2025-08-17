@@ -157,7 +157,7 @@ public class PanelCarrito extends JPanel {
 		}
 	}
 
-	private Object buscarProductoPorNombre(String nombre) {
+	public Object buscarProductoPorNombre(String nombre) {
 		FrutaDAO frutaDAO = new FrutaDAO();
 		VerduraDAO verduraDAO = new VerduraDAO();
 		GaseosaDAO gaseosaDAO = new GaseosaDAO();
@@ -172,7 +172,6 @@ public class PanelCarrito extends JPanel {
 			}
 			nodoFruta = nodoFruta.getNext();
 		}
-		// Buscar en verduras
 		LinkedList<Verdura> listaVerduras = verduraDAO.getListaVerduras();
 		Node<Verdura> nodoVerdura = listaVerduras.getFirst();
 		while (nodoVerdura != null) {
@@ -181,7 +180,6 @@ public class PanelCarrito extends JPanel {
 			}
 			nodoVerdura = nodoVerdura.getNext();
 		}
-		// Buscar en gaseosas
 		LinkedList<Gaseosa> listaGaseosas = gaseosaDAO.getListaGaseosas();
 		Node<Gaseosa> nodoGaseosa = listaGaseosas.getFirst();
 		while (nodoGaseosa != null) {
@@ -190,7 +188,6 @@ public class PanelCarrito extends JPanel {
 			}
 			nodoGaseosa = nodoGaseosa.getNext();
 		}
-		// Buscar en jugos
 		LinkedList<Jugo> listaJugos = jugoDAO.getListaJugos();
 		Node<Jugo> nodoJugo = listaJugos.getFirst();
 		while (nodoJugo != null) {
@@ -199,7 +196,6 @@ public class PanelCarrito extends JPanel {
 			}
 			nodoJugo = nodoJugo.getNext();
 		}
-		// Buscar en paquetes de papa
 		LinkedList<PaquetePapa> listaPaquetesPapa = paquetePapaDAO.getListaPaquetePapas();
 		Node<PaquetePapa> nodoPaquetePapa = listaPaquetesPapa.getFirst();
 		while (nodoPaquetePapa != null) {
@@ -211,7 +207,7 @@ public class PanelCarrito extends JPanel {
 		return null;
 	}
 
-	private String obtenerNombreProducto(Object producto) {
+	public String obtenerNombreProducto(Object producto) {
 		if (producto instanceof Fruta)
 			return ((Fruta) producto).getNombre();
 		if (producto instanceof Verdura)
@@ -225,7 +221,7 @@ public class PanelCarrito extends JPanel {
 		return "Desconocido";
 	}
 
-	private double obtenerPrecioProducto(Object producto) {
+	public double obtenerPrecioProducto(Object producto) {
 		if (producto instanceof Fruta)
 			return ((Fruta) producto).getPrecio();
 		if (producto instanceof Verdura)
@@ -239,7 +235,7 @@ public class PanelCarrito extends JPanel {
 		return 0.0;
 	}
 
-	private ImageIcon obtenerImagenProducto(Object producto) {
+	public ImageIcon obtenerImagenProducto(Object producto) {
 		String rutaImagen = "src/co/edu/unbosque/view/imagen_por_defecto.png";
 		if (producto instanceof Fruta) {
 			rutaImagen = "src/co/edu/unbosque/view/frutas/" + ((Fruta) producto).getNombre().toLowerCase() + ".png";

@@ -14,7 +14,7 @@ public class CarritoDAO implements OperacionDAO<CarritoDTO, Carrito>, Serializab
 
 	public CarritoDAO() {
 		listaCarritos = new LinkedList<>();
-		cargarDesdeArchivo();
+		cargarDesdeArchivoSerializado();
 	}
 
 	@Override
