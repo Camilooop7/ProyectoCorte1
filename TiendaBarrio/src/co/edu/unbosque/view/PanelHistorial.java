@@ -22,153 +22,156 @@ import co.edu.unbosque.util.structure.LinkedList;
 import co.edu.unbosque.util.structure.Node;
 
 public class PanelHistorial extends JPanel {
-    private JLabel fondo;
-    private JButton btnVolver;
-    private JButton btnLimpiar;
-    private JScrollPane scrollPane;
-    private JPanel panelContenido;
-    private LinkedList<Carrito> historialCompras;
+	private JLabel fondo;
+	private JButton btnVolver;
+	private JButton btnLimpiar;
+	private JScrollPane scrollPane;
+	private JPanel panelContenido;
+	private LinkedList<Carrito> historialCompras;
 
-    public PanelHistorial() throws IOException {
-        setBounds(0, 0, 1290, 750);
-        setLayout(new BorderLayout());
-        this.historialCompras = new LinkedList<>();
+	public PanelHistorial() throws IOException {
+		setBounds(0, 0, 1290, 750);
+		setLayout(new BorderLayout());
+		this.historialCompras = new LinkedList<>();
 
-        panelContenido = new JPanel();
-        panelContenido.setLayout(new GridLayout(0, 1, 10, 10));
+		panelContenido = new JPanel();
+		panelContenido.setLayout(new GridLayout(0, 1, 10, 10));
 
-        fondo = new JLabel();
-        BufferedImage fd = ImageIO.read(new File("src/co/edu/unbosque/view/historial.png"));
-        ImageIcon imagenFondo = new ImageIcon(fd.getScaledInstance(1290, 750, Image.SCALE_SMOOTH));
-        fondo.setIcon(imagenFondo);
-        fondo.setBounds(0, 0, 1290, 750);
+		fondo = new JLabel();
+		BufferedImage fd = ImageIO.read(new File("src/co/edu/unbosque/view/historial.png"));
+		ImageIcon imagenFondo = new ImageIcon(fd.getScaledInstance(1290, 750, Image.SCALE_SMOOTH));
+		fondo.setIcon(imagenFondo);
+		fondo.setBounds(0, 0, 1290, 750);
 
-        btnLimpiar = new JButton("Limpiar Historial");
-        btnLimpiar.setBounds(1050, 600, 200, 100);
-        btnLimpiar.setFocusable(false);
-        btnLimpiar.setBackground(new Color(235, 219, 79));
-        btnLimpiar.setFont(new Font("Baloo", Font.BOLD, 15));
+		btnLimpiar = new JButton();
+		btnLimpiar.setBounds(735, 33, 280, 80);
+		btnLimpiar.setFocusable(false);
+		btnLimpiar.setBackground(new Color(0, 0, 0));
+		btnLimpiar.setContentAreaFilled(false);
+		btnLimpiar.setOpaque(false);
+		btnLimpiar.setBorderPainted(false);
+		btnLimpiar.setVisible(true);
 
-        btnVolver = new JButton();
-        btnVolver.setBounds(1120, 70, 120, 70);
-        btnVolver.setFocusable(false);
-        btnVolver.setBackground(new Color(0, 0, 0));
-        btnVolver.setBorderPainted(false);
-        btnVolver.setContentAreaFilled(false);
-        btnVolver.setOpaque(false);
+		btnVolver = new JButton();
+		btnVolver.setBounds(1110, 5, 100, 90);
+		btnVolver.setFocusable(false);
+		btnVolver.setBackground(new Color(0, 0, 0));
+		btnVolver.setBorderPainted(false);
+		btnVolver.setContentAreaFilled(false);
+		btnVolver.setOpaque(false);
 
-        JScrollPane scrollPrincipal = new JScrollPane(panelContenido);
-        scrollPrincipal.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPrincipal.setBounds(50, 230, 1000, 480);
+		JScrollPane scrollPrincipal = new JScrollPane(panelContenido);
+		scrollPrincipal.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPrincipal.setBounds(90, 140, 1100, 500);
 
-        add(btnVolver);
-        add(btnLimpiar);
-        add(scrollPrincipal);
-        add(fondo);
-    }
+		add(btnVolver);
+		add(btnLimpiar);
+		add(scrollPrincipal);
+		add(fondo);
+	}
 
-    public void agregarCompras() {
-        Node<Carrito> nodoCarrito = historialCompras.getFirst();
-        int i = 0;
-        while (nodoCarrito != null) {
-            Carrito carrito = nodoCarrito.getInfo();
-            JLabel nProducto = new JLabel(" Compra #" + (i + 1));
-            JPanel panelCarrito = new JPanel();
-            panelCarrito.setLayout(new BorderLayout());
-            panelCarrito.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-            panelCarrito.setBackground(new Color(198, 195, 195));
-            panelCarrito.add(nProducto, BorderLayout.NORTH);
+	public void agregarCompras() {
+		Node<Carrito> nodoCarrito = historialCompras.getFirst();
+		int i = 0;
+		while (nodoCarrito != null) {
+			Carrito carrito = nodoCarrito.getInfo();
+			JLabel nProducto = new JLabel(" Compra #" + (i + 1));
+			JPanel panelCarrito = new JPanel();
+			panelCarrito.setLayout(new BorderLayout());
+			panelCarrito.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+			panelCarrito.setBackground(new Color(198, 195, 195));
+			panelCarrito.add(nProducto, BorderLayout.NORTH);
 
-            JPanel panelProductos = new JPanel();
-            panelProductos.setLayout(new GridLayout(0, 1, 5, 5));
+			JPanel panelProductos = new JPanel();
+			panelProductos.setLayout(new GridLayout(0, 1, 5, 5));
 
-            Node<String> nodoProducto = carrito.getListaNombresProductos().getFirst();
-            while (nodoProducto != null) {
-                String nombreProducto = nodoProducto.getInfo();
-                JTextArea txtAreaInfo = new JTextArea(nombreProducto);
-                txtAreaInfo.setEditable(false);
-                txtAreaInfo.setFont(new Font("Baloo", Font.BOLD, 18));
-                txtAreaInfo.setBackground(new Color(230, 230, 230));
-                panelProductos.add(txtAreaInfo);
-                nodoProducto = nodoProducto.getNext();
-            }
+			Node<String> nodoProducto = carrito.getListaNombresProductos().getFirst();
+			while (nodoProducto != null) {
+				String nombreProducto = nodoProducto.getInfo();
+				JTextArea txtAreaInfo = new JTextArea(nombreProducto);
+				txtAreaInfo.setEditable(false);
+				txtAreaInfo.setFont(new Font("Baloo", Font.BOLD, 18));
+				txtAreaInfo.setBackground(new Color(230, 230, 230));
+				panelProductos.add(txtAreaInfo);
+				nodoProducto = nodoProducto.getNext();
+			}
 
-            JScrollPane scrollProductos = new JScrollPane(panelProductos);
-            scrollProductos.setPreferredSize(new Dimension(950, 450));
-            scrollProductos.setBorder(BorderFactory.createEmptyBorder());
-            panelCarrito.add(scrollProductos, BorderLayout.CENTER);
-            panelContenido.add(panelCarrito);
+			JScrollPane scrollProductos = new JScrollPane(panelProductos);
+			scrollProductos.setPreferredSize(new Dimension(950, 450));
+			scrollProductos.setBorder(BorderFactory.createEmptyBorder());
+			panelCarrito.add(scrollProductos, BorderLayout.CENTER);
+			panelContenido.add(panelCarrito);
 
-            nodoCarrito = nodoCarrito.getNext();
-            i++;
-        }
-    }
+			nodoCarrito = nodoCarrito.getNext();
+			i++;
+		}
+	}
 
-    public void actualizarInfo() {
-        panelContenido.removeAll();
-        agregarCompras();
-        revalidate();
-        repaint();
-    }
+	public void actualizarInfo() {
+		panelContenido.removeAll();
+		agregarCompras();
+		revalidate();
+		repaint();
+	}
 
-    // Método para agregar una compra al historial
-    public void agregarCompraAlHistorial(Carrito carrito) {
-        historialCompras.addLastR(carrito);
-        actualizarInfo();
-    }
+	// Método para agregar una compra al historial
+	public void agregarCompraAlHistorial(Carrito carrito) {
+		historialCompras.addLastR(carrito);
+		actualizarInfo();
+	}
 
-    // Método para limpiar el historial
-    public void limpiarHistorial() {
-        historialCompras = new LinkedList<>();
-        actualizarInfo();
-    }
+	// Método para limpiar el historial
+	public void limpiarHistorial() {
+		historialCompras = new LinkedList<>();
+		actualizarInfo();
+	}
 
-    // Getters y Setters
-    public JLabel getFondo() {
-        return fondo;
-    }
+	// Getters y Setters
+	public JLabel getFondo() {
+		return fondo;
+	}
 
-    public void setFondo(JLabel fondo) {
-        this.fondo = fondo;
-    }
+	public void setFondo(JLabel fondo) {
+		this.fondo = fondo;
+	}
 
-    public JButton getBtnVolver() {
-        return btnVolver;
-    }
+	public JButton getBtnVolver() {
+		return btnVolver;
+	}
 
-    public void setBtnVolver(JButton btnVolver) {
-        this.btnVolver = btnVolver;
-    }
+	public void setBtnVolver(JButton btnVolver) {
+		this.btnVolver = btnVolver;
+	}
 
-    public JButton getBtnLimpiar() {
-        return btnLimpiar;
-    }
+	public JButton getBtnLimpiar() {
+		return btnLimpiar;
+	}
 
-    public void setBtnLimpiar(JButton btnLimpiar) {
-        this.btnLimpiar = btnLimpiar;
-    }
+	public void setBtnLimpiar(JButton btnLimpiar) {
+		this.btnLimpiar = btnLimpiar;
+	}
 
-    public JScrollPane getScrollPane() {
-        return scrollPane;
-    }
+	public JScrollPane getScrollPane() {
+		return scrollPane;
+	}
 
-    public void setScrollPane(JScrollPane scrollPane) {
-        this.scrollPane = scrollPane;
-    }
+	public void setScrollPane(JScrollPane scrollPane) {
+		this.scrollPane = scrollPane;
+	}
 
-    public JPanel getPanelContenido() {
-        return panelContenido;
-    }
+	public JPanel getPanelContenido() {
+		return panelContenido;
+	}
 
-    public void setPanelContenido(JPanel panelContenido) {
-        this.panelContenido = panelContenido;
-    }
+	public void setPanelContenido(JPanel panelContenido) {
+		this.panelContenido = panelContenido;
+	}
 
-    public LinkedList<Carrito> getHistorialCompras() {
-        return historialCompras;
-    }
+	public LinkedList<Carrito> getHistorialCompras() {
+		return historialCompras;
+	}
 
-    public void setHistorialCompras(LinkedList<Carrito> historialCompras) {
-        this.historialCompras = historialCompras;
-    }
+	public void setHistorialCompras(LinkedList<Carrito> historialCompras) {
+		this.historialCompras = historialCompras;
+	}
 }
