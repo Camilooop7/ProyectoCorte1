@@ -1,11 +1,12 @@
 package co.edu.unbosque.beans;
 
-
 import co.edu.unbosque.model.Persona;
 import co.edu.unbosque.model.PersonaDTO;
+import co.edu.unbosque.model.persistence.FileManager;
 import co.edu.unbosque.service.LoginService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
+
 //indica que es un bean y nos da un alias
 @Named(value = "loginbean")
 //indica los ciclos de vida del bean
@@ -18,7 +19,9 @@ public class LoginBean {
 	private String contrasenaC;
 	private String confiContrasenaC;
 	private LoginService loginService;
+
 	public LoginBean() {
+		FileManager.crearCarpeta();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -69,25 +72,35 @@ public class LoginBean {
 	public void setConfiContrasenaC(String confiContrasenaC) {
 		this.confiContrasenaC = confiContrasenaC;
 	}
+
 	public void mostrarIniciar() {
 		System.out.println("correo: " + correo);
 		System.out.println("contrasena: " + contrasena);
 	}
+
 	public void mostrarCrear() {
 		System.out.println("nombre: " + nombre);
 		System.out.println("correo: " + correoC);
 		System.out.println("contrasena: " + contrasenaC);
 		System.out.println("contrasena confi: " + confiContrasenaC);
 	}
+
 	public void Crear() {
 
-		PersonaDTO nuevo = new PersonaDTO(nombre, contrasenaC, correo, "", "", "", 0, 0, null,null, null);
+		PersonaDTO nuevo = new PersonaDTO(nombre, contrasenaC, correo, "", "", "", 0, 0, null, null, null);
 		loginService.crear(nuevo);
 	}
+
 	public void iniciar() {
-		Persona encontrar = new Persona(nombre, contrasena, correo);
-		loginService.encontrar(encontrar);
-	
+		PersonaDTO dto = new PersonaDTO(nombre, contrasena, correo);
+
+		boolean acceso = loginService.encontrar(dto);
+
+		if (acceso) {
+			System.out.println("✅ Acceso permitido: Bienvenido " + nombre);
+		} else {
+			System.out.println("❌ Acceso denegado: Usuario o contraseña incorrectos");
+		}
 	}
-	
+
 }
