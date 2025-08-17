@@ -114,6 +114,40 @@ public class PersonaDAO implements OperacionDAO<PersonaDTO, Persona> {
         }
         return null;
     }
+    
+    /**
+     * Busca un objeto en la lista por su nombre de usuario usando un PersonaDTO.
+     * @param toFindDTO Objeto PersonaDTO a buscar.
+     * @return El objeto encontrado en forma de DTO o null si no existe.
+     */
+    public PersonaDTO findP(PersonaDTO toFindDTO) {
+        if (!listaPersona.isEmpty()) {
+            for (Persona e : listaPersona) {
+                if (e.getUsername().equals(toFindDTO.getUsername())) {
+                    return DataMapper.personaToPersonaDTO(e);
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Busca una persona en la lista por correo y contraseña.
+     *
+     * @param correo     El correo de la persona.
+     * @param contrasena La contraseña de la persona.
+     * @return La Persona encontrada o null si no existe.
+     */
+    public PersonaDTO findC(String correo, String contrasena) {
+        if (listaPersona != null && !listaPersona.isEmpty()) {
+            for (Persona p : listaPersona) {
+                if (p.getCorreo().equals(correo) && p.getContrasena().equals(contrasena)) {
+                    return DataMapper.personaToPersonaDTO(p);
+                }
+            }
+        }
+        return null;
+    }
 
     /**
      * Actualiza los datos de un objeto existente.

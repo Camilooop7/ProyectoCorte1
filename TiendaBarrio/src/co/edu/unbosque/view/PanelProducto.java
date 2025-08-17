@@ -159,7 +159,6 @@ public class PanelProducto extends JPanel {
 		add(jugo);
 		add(fondo);
 	}
-
 	public void actualizarInfoVerdura(LinkedList<Verdura> listaVerduras) {
 		int totalProductos = contarNodos(listaVerduras.getFirst(), 0);
 		int mitad = totalProductos / 2;

@@ -4,36 +4,46 @@ import java.io.Serializable;
 import co.edu.unbosque.util.structure.LinkedList;
 
 public class CarritoDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private String nombre;
-    private LinkedList<String> listaNombresProductos; // Cambiado a LinkedList<String>
+	private static final long serialVersionUID = 1L;
+	private String nombre;
+	private String nombreU;
+	private LinkedList<String> listaNombresProductos;
 
-    public CarritoDTO() {
-        this.listaNombresProductos = new LinkedList<>();
-    }
+	public CarritoDTO() {
+		this.listaNombresProductos = new LinkedList<>();
+	}
 
-    public CarritoDTO(String nombre) {
-        this.nombre = nombre;
-        this.listaNombresProductos = new LinkedList<>();
-    }
+	public CarritoDTO(String nombre, String nombreU) {
+		this.nombre = nombre;
+		this.nombreU = nombreU;
+		this.listaNombresProductos = new LinkedList<>();
+	}
 
-    public void agregarNombreProducto(String nombreProducto) {
-        listaNombresProductos.addLastR(nombreProducto);
-    }
+	public void agregarNombreProducto(String nombreProducto) {
+		listaNombresProductos.addLastR(nombreProducto);
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public LinkedList<String> getListaNombresProductos() {
-        return listaNombresProductos;
-    }
+	public String getNombreU() {
+		return nombreU;
+	}
 
-    public void setListaNombresProductos(LinkedList<String> listaNombresProductos) {
-        this.listaNombresProductos = listaNombresProductos;
-    }
+	public void setNombreU(String nombreU) {
+		this.nombreU = nombreU;
+	}
+
+	public LinkedList<String> getListaNombresProductos() {
+		return listaNombresProductos;
+	}
+
+	public void setListaNombresProductos(LinkedList<String> listaNombresProductos) {
+		this.listaNombresProductos = listaNombresProductos;
+	}
 }
