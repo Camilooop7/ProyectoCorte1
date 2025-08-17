@@ -6,9 +6,9 @@ import jakarta.faces.bean.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 import co.edu.unbosque.model.*;
 
 @SuppressWarnings("deprecation")
