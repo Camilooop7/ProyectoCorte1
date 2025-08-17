@@ -1,7 +1,8 @@
 package co.edu.unbosque.model;
 
 import java.io.Serializable;
-import java.util.LinkedList;
+
+import co.edu.unbosque.util.structure.LinkedList;
 
 public class UsuarioDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -13,8 +14,6 @@ public class UsuarioDTO implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-
-
 	public UsuarioDTO(String nombre, int identificacion, LinkedList<Carrito> listaCarrtio) {
 		super();
 		this.nombre = nombre;
@@ -22,19 +21,13 @@ public class UsuarioDTO implements Serializable {
 		this.listaCarrtio = listaCarrtio;
 	}
 
-
-
 	public LinkedList<Carrito> getListaCarrtio() {
 		return listaCarrtio;
 	}
 
-
-
 	public void setListaCarrtio(LinkedList<Carrito> listaCarrtio) {
 		this.listaCarrtio = listaCarrtio;
 	}
-
-
 
 	public String getNombre() {
 		return nombre;
