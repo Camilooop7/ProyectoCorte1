@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 @ManagedBean(name = "addbean")
 @ViewScoped
 public class AddBean implements Serializable {
@@ -15,6 +16,8 @@ public class AddBean implements Serializable {
 	private String producto;
 	private String subtipo;
 	private String subsubtipo;
+	private String nombre;
+	private int precio; 
 
 	private List<String> productos;
 	private List<String> subtipos;
@@ -33,7 +36,7 @@ public class AddBean implements Serializable {
 		subsubtipos = new ArrayList<>();
 	}
 
-	// Evento al cambiar el producto
+	
 	public void onProductoChange() {
 		subtipos.clear();
 		subsubtipos.clear();
@@ -68,25 +71,69 @@ public class AddBean implements Serializable {
 			subtipo = null;
 		}
 	}
-
-	// Evento al cambiar el subtipo
+	
+	
 	public void onSubtipoChange() {
-	    subsubtipo = null; // limpiar por defecto
+	    subsubtipos.clear();  // limpiar opciones anteriores
+	    subsubtipo = null;    // reset valor seleccionado
 
 	    if ("Audifono".equals(subtipo)) {
-	        subsubtipo = "Tipo de conexión";
-	    } else if ("Mujer".equals(subtipo)) {
-	        subsubtipo = "Vestidos / Faldas / Blusas";
+	        subsubtipos.add("Con cable");
+	        subsubtipos.add("Bluetooth");
 	    } else if ("Movil".equals(subtipo)) {
-	        subsubtipo = "Gama Alta / Media / Baja";
+	        subsubtipos.add("64 GB");
+	        subsubtipos.add("128 GB");
+	        subsubtipos.add("256 GB");
+	    } else if ("Labial".equals(subtipo)) {
+	        subsubtipos.add("Rojo");
+	        subsubtipos.add("morado");
+	        subsubtipos.add("Rosa");
+	    } else if ("Pestanina".equals(subtipo)) {
+	        subsubtipos.add("Duración 6 meses");
+	        subsubtipos.add("Duración 12 meses");
+	        subsubtipos.add("Duración 1 mes");
+	    } else if ("JuegoMesa".equals(subtipo)) {
+	    	 subsubtipos.add("4 personas");
+		     subsubtipos.add("8 personas");
+		     subsubtipos.add("2 personas");
+	    }else if ("Educativo".equals(subtipo)) {
+	    	 subsubtipos.add("Es didactico SI");
+		     subsubtipos.add("Es didactico NO");		     
+	    }else if ("Pelicula".equals(subtipo)) {
+	    	 subsubtipos.add("PERSONAJE PELICULA AVATAR");
+	    	 subsubtipos.add("PERSONAJE PELICULA UP");
+	    	 subsubtipos.add("PERSONAJE PELICULA STRANGER");
+	    }else if ("Animal".equals(subtipo)) {
+	        subsubtipos.add("PERRO");
+	        subsubtipos.add("GATO");
+	        subsubtipos.add("MONO");
+	        subsubtipos.add("PEZ");
+	        subsubtipos.add("OSO");
+	    } else if ("Colegio".equals(subtipo)) {
+	        subsubtipos.add("ES seguro SI");
+	        subsubtipos.add("ES seguro NO");
+	    } else if ("Oficina".equals(subtipo)) {
+	        subsubtipos.add("Es decorativo SI");
+	        subsubtipos.add("Es decorativo NO");
+	    }else if ("Hombre".equals(subtipo)) {
+	        subsubtipos.add("Es deportativa SI");
+	        subsubtipos.add("Es deportiva NO");
+	    }else if ("Mujer".equals(subtipo)) {
+	        subsubtipos.add("Es conjunto SI");
+	        subsubtipos.add("Es conjunto NO");
 	    }
 	}
+	
+	
+
 
 	// Guardar datos
 	public void guardar() {
 		System.out.println("Producto: " + producto);
 		System.out.println("Subtipo: " + subtipo);
 		System.out.println("Sub-subtipo: " + subsubtipo);
+		System.out.println("Nombre: " + nombre);
+	    System.out.println("Precio: " + precio);
 	}
 
 	// ===== GETTERS y SETTERS =====
@@ -137,4 +184,31 @@ public class AddBean implements Serializable {
 	public void setSubsubtipos(List<String> subsubtipos) {
 		this.subsubtipos = subsubtipos;
 	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public int getPrecio() {
+		return precio;
+	}
+
+
+	public void setPrecio(int precio) {
+		this.precio = precio;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
 }

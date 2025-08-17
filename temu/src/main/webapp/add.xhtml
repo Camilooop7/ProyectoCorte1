@@ -121,9 +121,25 @@
         <f:selectItems value="#{addbean.subtipos}" />
         <p:ajax listener="#{addbean.onSubtipoChange}" update="subsubtipo" />
     </h:selectOneMenu>
-
+    
+    
     <!-- Sub-subtipo como texto precargado -->
-    <p:inputText id="subsubtipo" value="#{addbean.subsubtipo}" placeholder="Ingrese sub-subtipo" />
+
+<!-- Nuevo campo: Nombre -->
+<p:inputText id="nombre" value="#{addbean.nombre}" placeholder="Ingrese nombre" required="true" />
+<!-- Nuevo campo: Precio -->
+<p:inputText id="precio" value="#{addbean.precio}" placeholder="Ingrese precio" required="true">
+    <f:convertNumber maxFractionDigits="2" />
+</p:inputText>
+
+
+
+   <!-- Sub-subtipo -->
+<h:selectOneMenu id="subsubtipo" value="#{addbean.subsubtipo}">
+    <f:selectItem itemLabel="Seleccione sub-subtipo" itemValue="" />
+    <f:selectItems value="#{addbean.subsubtipos}" />
+</h:selectOneMenu>
+
 
     <!-- Botón guardar -->
     <p:commandButton value="Guardar" actionListener="#{addbean.guardar}" update="@form" />
