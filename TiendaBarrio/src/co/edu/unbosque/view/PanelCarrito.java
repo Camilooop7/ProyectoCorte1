@@ -202,7 +202,7 @@ public class PanelCarrito extends JPanel {
     }
 
 
-    private boolean estaEnProductosAleatorios(String nombreProducto) {
+    public boolean estaEnProductosAleatorios(String nombreProducto) {
         Node<String> nodoActual = productosAleatorios.getFirst();
         while (nodoActual != null) {
             if (nodoActual.getInfo().equalsIgnoreCase(nombreProducto)) {

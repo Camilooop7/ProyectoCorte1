@@ -2,117 +2,122 @@ package co.edu.unbosque.util.pdf;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
 import co.edu.unbosque.model.Carrito;
 import co.edu.unbosque.model.Usuario;
-import co.edu.unbosque.util.structure.LinkedList;
 import co.edu.unbosque.util.structure.Node;
 import co.edu.unbosque.view.PanelCarrito;
 
 public class GenerarPDF {
-    /**
-     * Genera un PDF de factura para un usuario y su carrito de compras.
-     *
-     * @param usuario El usuario que realiza la compra.
-     * @param carrito El carrito con los nombres de los productos a facturar.
-     * @param panelCarrito Instancia de PanelCarrito para buscar los productos por nombre.
-     */
     public static void generarFactura(Usuario usuario, Carrito carrito, PanelCarrito panelCarrito) {
-        if (usuario == null || carrito == null || panelCarrito == null) {
-            JOptionPane.showMessageDialog(null, "Datos incompletos para generar la factura.");
-            return;
-        }
-
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Guardar Factura PDF");
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int seleccion = fileChooser.showSaveDialog(null);
-        if (seleccion != JFileChooser.APPROVE_OPTION) {
-            JOptionPane.showMessageDialog(null, "No se seleccionó una ubicación.");
-            return;
-        }
-
-        File carpeta = fileChooser.getSelectedFile();
-        String filePath = carpeta.getAbsolutePath() + "/Factura_" + usuario.getNombre() + ".pdf";
         Document document = new Document();
-
         try {
-            PdfWriter.getInstance(document, new FileOutputStream(filePath));
-            document.open();
+            // Crear un JFileChooser para que el usuario seleccione la ubicación
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Guardar Factura");
+            fileChooser.setSelectedFile(new File(usuario.getNombre() + "_" + carrito.getNombre() + ".pdf"));
 
-            // Título
-            Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
-            document.add(new Paragraph("FACTURA DE VENTA", titleFont));
-            document.add(Chunk.NEWLINE);
-
-            // Datos del chat/empresa
-            document.add(new Paragraph("Nombre del Chat: DONDE EL CHATO", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
-            document.add(new Paragraph("NIT: 123456789-0"));
-            document.add(new Paragraph("Actividad Económica: 44771"));
-            document.add(new Paragraph("Dirección: Ak 9 # 131a 2"));
-            document.add(new Paragraph("Fecha: " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
-            document.add(Chunk.NEWLINE);
-
-            // Datos del cliente
-            document.add(new Paragraph("CLIENTE", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
-            document.add(new Paragraph("Nombre: " + usuario.getNombre()));
-            document.add(new Paragraph("Identificación: " + usuario.getIdentificacion()));
-            document.add(Chunk.NEWLINE);
-
-            // Lista de productos
-            document.add(new Paragraph("LISTA DE PRODUCTOS", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
-
-            LinkedList<String> listaNombresProductos = carrito.getListaNombresProductos();
-            if (listaNombresProductos == null || listaNombresProductos.isEmpty()) {
-                document.add(new Paragraph("No hay productos en el carrito."));
-            } else {
-                Node<String> nodoProducto = listaNombresProductos.getFirst();
-                double total = 0;
-
-                while (nodoProducto != null) {
-                    String nombreProducto = nodoProducto.getInfo();
-                    Object producto = panelCarrito.buscarProductoPorNombre(nombreProducto);
-
-                    if (producto != null) {
-                        String nombre = panelCarrito.obtenerNombreProducto(producto);
-                        double precio = panelCarrito.obtenerPrecioProducto(producto);
-
-                        // Agregar nombre y precio al PDF
-                        document.add(new Paragraph(
-                            "- " + nombre +
-                            " | Precio: $" + precio
-                        ));
-
-                        total += precio;
-                    } else {
-                        System.out.println("Producto no encontrado: " + nombreProducto);
-                    }
-
-                    nodoProducto = nodoProducto.getNext();
+            int userSelection = fileChooser.showSaveDialog(null);
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+                // Asegurarse de que el archivo tenga extensión .pdf
+                if (!fileToSave.getName().toLowerCase().endsWith(".pdf")) {
+                    fileToSave = new File(fileToSave.getAbsolutePath() + ".pdf");
                 }
 
-                document.add(Chunk.NEWLINE);
-                document.add(new Paragraph("TOTAL: $" + total, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
+                PdfWriter.getInstance(document, new FileOutputStream(fileToSave));
+                document.open();
+                
+                Paragraph titulo = new Paragraph("Factura de Compra", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD));
+                titulo.setAlignment(Element.ALIGN_CENTER);
+                document.add(titulo);
+                document.add(new Paragraph(" "));
+                
+                Paragraph empresaInfo = new Paragraph("Tienda: DONDE EL CHATO", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12));
+                empresaInfo.setAlignment(Element.ALIGN_LEFT);
+                document.add(empresaInfo);
+
+                Paragraph nitInfo = new Paragraph("NIT: 123456789-0", FontFactory.getFont(FontFactory.HELVETICA, 12));
+                nitInfo.setAlignment(Element.ALIGN_LEFT);
+                document.add(nitInfo);
+
+                Paragraph actividadInfo = new Paragraph("Actividad Económica: 44771", FontFactory.getFont(FontFactory.HELVETICA, 12));
+                actividadInfo.setAlignment(Element.ALIGN_LEFT);
+                document.add(actividadInfo);
+
+                Paragraph direccionInfo = new Paragraph("Dirección: Ak 9 # 131a 2", FontFactory.getFont(FontFactory.HELVETICA, 12));
+                direccionInfo.setAlignment(Element.ALIGN_LEFT);
+                document.add(direccionInfo);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                String fechaActual = sdf.format(new Date());
+
+                Paragraph fechaInfo = new Paragraph("Fecha: " + fechaActual, FontFactory.getFont(FontFactory.HELVETICA, 12));
+                fechaInfo.setAlignment(Element.ALIGN_LEFT);
+                document.add(fechaInfo);
+                
+                Paragraph vendedor = new Paragraph("Vendedor: Juan Diego Alvira", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12));
+                vendedor.setAlignment(Element.ALIGN_LEFT);
+                document.add(vendedor);
+
+                document.add(new Paragraph(" "));
+
+                Paragraph cliente = new Paragraph("Cliente", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18));
+                cliente.setAlignment(Element.ALIGN_LEFT);
+                document.add(cliente);
+
+                Paragraph usuarioInfo = new Paragraph("Usuario: " + usuario.getNombre(), FontFactory.getFont(FontFactory.HELVETICA, 12));
+                document.add(usuarioInfo);
+                document.add(new Paragraph("Carrito: " + carrito.getNombre(), FontFactory.getFont(FontFactory.HELVETICA, 12)));
+                document.add(new Paragraph(" "));
+
+                // Tabla de productos
+                PdfPTable table = new PdfPTable(2); // Solo 2 columnas: Producto y Precio
+                table.setWidthPercentage(100);
+                table.addCell("Producto");
+                table.addCell("Precio");
+
+                double total = 0.0;
+                Node<String> nodoProducto = carrito.getListaNombresProductos().getFirst();
+                while (nodoProducto != null) {
+                    String nombreProducto = nodoProducto.getInfo();
+                    if (panelCarrito.estaEnProductosAleatorios(nombreProducto)) { // Solo productos disponibles
+                        Object producto = panelCarrito.buscarProductoPorNombre(nombreProducto);
+                        if (producto != null) {
+                            String nombre = panelCarrito.obtenerNombreProducto(producto);
+                            double precio = panelCarrito.obtenerPrecioProducto(producto);
+                            table.addCell(nombre);
+                            table.addCell("$" + String.format("%.2f", precio));
+                            total += precio;
+                        }
+                    }
+                    nodoProducto = nodoProducto.getNext();
+                }
+                document.add(table);
+                document.add(new Paragraph(" "));
+
+                // Total
+                Paragraph totalParagraph = new Paragraph("Total: $" + String.format("%.2f", total), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, Font.BOLD));
+                totalParagraph.setAlignment(Element.ALIGN_RIGHT);
+                document.add(totalParagraph);
+
+                document.close();
+                JOptionPane.showMessageDialog(null, "Factura guardada correctamente en: " + fileToSave.getAbsolutePath());
             }
-
-            JOptionPane.showMessageDialog(null, "Factura generada: " + filePath);
-
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al generar la factura: " + e.getMessage());
-        } finally {
-            if (document.isOpen()) {
-                document.close();
-            }
+            JOptionPane.showMessageDialog(null, "Error al generar la factura.");
         }
     }
 }
