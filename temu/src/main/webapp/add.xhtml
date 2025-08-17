@@ -1,211 +1,209 @@
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	
-	<html xmlns="http://www.w3.org/1999/xhtml"
-	      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	      xmlns:h="http://xmlns.jcp.org/jsf/html"
-	      xmlns:f="http://xmlns.jcp.org/jsf/core"
-	      xmlns:p="http://primefaces.org/ui">
-	<h:head>
-	    <meta charset="UTF-8" />
-	    <title>segunda jsf</title>
-	    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5520/5520840.png" />
-	
-	    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
-	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-	
-	    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
-	    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
-	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
-	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
-	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.12/iconfont/material-icons.min.css" />
-	    <link href="css/styleadd.css" rel="stylesheet" />
-	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-	</h:head>
-	
-	<h:body>
-	
-	    <!-- HEADER -->
-	    <header class="header" id="header">
-	        <nav class="nav container">
-	
-	            <a href="index.html" class="nav-logo">
-	                <i class='bx bxs-shopping-bags nav-logo-icon'></i> TEMU SHOP
-	            </a>
-	
-	            <div class="nav-menu" id="nav-menu">
-	                <ul class="nav-list">
-	                    <li class="nav-item"><a href="index.html" class="nav-link active-link">Home</a></li>
-	                    <li class="nav-item"><a href="shop.html" class="nav-link">Shop</a></li>
-	                    <li class="nav-item"><a href="http://localhost:8080/temu/cart.xhtml" class="nav-link">Cart</a></li>
-	                </ul>
-	                <div class="nav-close" id="nav-close"><i class="bx bx-x"></i></div>
-	            </div>
-	
-	            <!-- SEARCH FORM -->
-	            <h:form style="margin-top: 10px;">
-	                <div class="card">
-	                    <div class="col-12 md:col-4">
-	                        <div class="ui-inputgroup">
-	                            <p:inputText placeholder="Search" value="#{addBean.searchText}" />
-	                            <p:commandButton icon="pi pi-search" styleClass="ui-button-warning"
-	                                             action="#{addBean.search}" update="@form" />
-	                        </div>
-	                    </div>
-	                </div>
-	            </h:form>
-	
-	            <!-- DROPDOWN SETTINGS -->
-	            <div class="dropdown">
-	                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">SETTING</button>
-	                <ul class="dropdown-menu">
-	                    <li><p:commandLink value="INFO" actionListener="#{addBean.mostrarInfo}" styleClass="dropdown-item" /></li>
-	                    <li><p:commandLink value="USUARIOS" actionListener="#{addBean.listarUsuarios}" styleClass="dropdown-item" /></li>
-	                    <li><p:commandLink value="CERRAR SESION" actionListener="#{addBean.cerrarSesion}" styleClass="dropdown-item" /></li>
-	                </ul>
-	            </div>
-	
-	        </nav>
-	    </header>
-	
-	    <br /><br />
-	
-	    <!-- MAIN CONTENT -->
-	    <div class="container text-center">
-	        <div class="row align-items-center">
-	
-	            <!-- IMAGE CROPPER -->
-	            <div class="col">
-	                <div class="card">
-	                    <h:form enctype="multipart/form-data">
-	                        <p:growl id="messagesUpload" showDetail="true" />
-	
-	                        <p:fileUpload mode="advanced" multiple="false"
-	                                      update="messagesUpload cropperPanel"
-	                                      listener="#{addBean.handleFileUpload}">
-	                            <p:validateFile sizeLimit="512000" allowTypes="/(\.|\/)(gif|jpeg|jpg|png)$/" />
-	                        </p:fileUpload>
-	
-	                        <p:outputPanel id="cropperPanel">
-	                            <h:panelGrid columns="1" rendered="#{not empty addBean.originalImageFile}">
-	                                <p:commandButton value="Crop" action="#{addBean.crop}" update="cropped messagesUpload" styleClass="my-3" />
-	                                <h:panelGrid columns="2" cellpadding="7">
-	                                    <p:imageCropper value="#{addBean.croppedImage}" id="imageCropper" cache="false"
-	                                                    image="#{addBean.image}" initialCoords="50,50,150,300"
-	                                                    minSize="50,50" maxSize="350,350" />
-	                                    <p:outputPanel id="cropped">
-	                                        <p:graphicImage cache="false" rendered="#{not empty addBean.croppedImage}"
-	                                                        value="#{addBean.cropped}" />
-	                                    </p:outputPanel>
-	                                </h:panelGrid>
-	                            </h:panelGrid>
-	                        </p:outputPanel>
-	                    </h:form>
-	                </div>
-	            </div>
-	
-	            <!-- PRODUCT FORM -->
-	            <div class="card">
-    <h:form id="form">
-    <!-- Producto -->
-    <h:selectOneMenu value="#{addbean.producto}">
-        <f:selectItem itemLabel="Seleccione producto" itemValue="" />
-        <f:selectItems value="#{addbean.productos}" />
-        <p:ajax listener="#{addbean.onProductoChange}" update="subtipo subsubtipo" />
-    </h:selectOneMenu>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-    <!-- Subtipo -->
-    <h:selectOneMenu id="subtipo" value="#{addbean.subtipo}">
-        <f:selectItem itemLabel="Seleccione subtipo" itemValue="" />
-        <f:selectItems value="#{addbean.subtipos}" />
-        <p:ajax listener="#{addbean.onSubtipoChange}" update="subsubtipo" />
-    </h:selectOneMenu>
-    
-    
-    <!-- Sub-subtipo como texto precargado -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <meta charset="UTF-8" />
+    <title>segunda jsf</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5520/5520840.png" />
 
-<!-- Nuevo campo: Nombre -->
-<p:inputText id="nombre" value="#{addbean.nombre}" placeholder="Ingrese nombre" required="true" />
-<!-- Nuevo campo: Precio -->
-<p:inputText id="precio" value="#{addbean.precio}" placeholder="Ingrese precio" required="true">
-    <f:convertNumber maxFractionDigits="2" />
-</p:inputText>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.12/iconfont/material-icons.min.css" />
+    <link href="css/styleadd.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</h:head>
 
+<h:body>
 
-   <!-- Sub-subtipo -->
-<h:selectOneMenu id="subsubtipo" value="#{addbean.subsubtipo}">
-    <f:selectItem itemLabel="Seleccione sub-subtipo" itemValue="" />
-    <f:selectItems value="#{addbean.subsubtipos}" />
-</h:selectOneMenu>
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <nav class="nav container">
 
+            <a href="index.html" class="nav-logo">
+                <i class='bx bxs-shopping-bags nav-logo-icon'></i> TEMU SHOP
+            </a>
 
-    <!-- Botón guardar -->
-    <p:commandButton value="Guardar" actionListener="#{addbean.guardar}" update="@form" />
-</h:form>
-</div>
-	        </div>
-	    </div>
-	
-	    <br /><br /><br />
-	
-	    <!-- FOOTER -->
-	    <footer>
-	        <section class="footer-section">
-	            <div class="container footer-grid">
-	                <div class="footer-col">
-	                    <div class="footer-contact">
-	                        <button class="btn-link">3222381555</button>
-	                        <button class="btn-link">cpelaezp@unbosque.edu.co</button>
-	                    </div>
-	                </div>
-	                <div class="footer-col">
-	                    <h4>Collections</h4>
-	                    <div class="btn-row">
-	                        <button class="btn-link">All collections</button>
-	                        <button class="btn-link">ROPA</button>
-	                    </div>
-	                </div>
-	                <div class="footer-col">
-	                    <h4>Information</h4>
-	                    <div class="btn-column">
-	                        <button class="btn-link">Home</button>
-	                        <button class="btn-link">Contact us</button>
-	                    </div>
-	                </div>
-	                <div class="footer-col">
-	                    <h4>Conéctate y compra</h4>
-	                    <p>Compra todo lo que necesites en nuestra página web.</p>
-	                </div>
-	            </div>
-	        </section>
-	        <section class="footer-bottom">
-	            <div class="container footer-bottom-grid">
-	                <div class="footer-pay-logos-row">
-	                    <h4>Formas de pago</h4>
-	                    <div class="logos">
-	                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" />
-	                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" />
-	                    </div>
-	                </div>
-	                <div class="footer-social-logos-row">
-	                    <h4>Stay Connected</h4>
-	                    <div class="social-logos">
-	                        <a href="#" target="_blank">
-	                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
-	                        </a>
-	                        <a href="#" target="_blank">
-	                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" />
-	                        </a>
-	                        <a href="#" target="_blank">
-	                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" />
-	                        </a>
-	                    </div>
-	                </div>
-	            </div>
-	        </section>
-	    </footer>
-	
-	</h:body>
-	</html>
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="index.html" class="nav-link active-link">Home</a></li>
+                    <li class="nav-item"><a href="shop.html" class="nav-link">Shop</a></li>
+                    <li class="nav-item"><a href="http://localhost:8080/temu/cart.xhtml" class="nav-link">Cart</a></li>
+                </ul>
+                <div class="nav-close" id="nav-close"><i class="bx bx-x"></i></div>
+            </div>
+
+            <!-- SEARCH FORM -->
+            <h:form style="margin-top: 10px;">
+                <div class="card">
+                    <div class="col-12 md:col-4">
+                        <div class="ui-inputgroup">
+                            <p:inputText placeholder="Search" value="#{addBean.searchText}" />
+                            <p:commandButton icon="pi pi-search" styleClass="ui-button-warning"
+                                             action="#{addBean.search}" update="@form" />
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+
+            <!-- DROPDOWN SETTINGS -->
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">SETTING</button>
+                <ul class="dropdown-menu">
+                    <li><p:commandLink value="INFO" actionListener="#{addBean.mostrarInfo}" styleClass="dropdown-item" /></li>
+                    <li><p:commandLink value="USUARIOS" actionListener="#{addBean.listarUsuarios}" styleClass="dropdown-item" /></li>
+                    <li><p:commandLink value="CERRAR SESION" actionListener="#{addBean.cerrarSesion}" styleClass="dropdown-item" /></li>
+                </ul>
+            </div>
+
+        </nav>
+    </header>
+
+    <br /><br />
+
+    <!-- MAIN CONTENT -->
+    <div class="container text-center">
+        <div class="row align-items-center">
+
+            <!-- IMAGE CROPPER -->
+            <div class="col">
+                <div class="card">
+                    <h:form enctype="multipart/form-data">
+                        <p:growl id="messagesUpload" showDetail="true" />
+
+                        <p:fileUpload mode="advanced" multiple="false"
+                                      update="messagesUpload cropperPanel"
+                                      listener="#{addBean.handleFileUpload}">
+                            <p:validateFile sizeLimit="512000" allowTypes="/(\.|\/)(gif|jpeg|jpg|png)$/" />
+                        </p:fileUpload>
+
+                        <p:outputPanel id="cropperPanel">
+                            <h:panelGrid columns="1" rendered="#{not empty addBean.originalImageFile}">
+                                <p:commandButton value="Crop" action="#{addBean.crop}" update="cropped messagesUpload" styleClass="my-3" />
+                                <h:panelGrid columns="2" cellpadding="7">
+                                    <p:imageCropper value="#{addBean.croppedImage}" id="imageCropper" cache="false"
+                                                    image="#{addBean.image}" initialCoords="50,50,150,300"
+                                                    minSize="50,50" maxSize="350,350" />
+                                    <p:outputPanel id="cropped">
+                                        <p:graphicImage cache="false" rendered="#{not empty addBean.croppedImage}"
+                                                        value="#{addBean.cropped}" />
+                                    </p:outputPanel>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:outputPanel>
+                    </h:form>
+                </div>
+            </div>
+
+            <!-- PRODUCT FORM -->
+            <div class="card">
+                <h:form id="form">
+                    <!-- Producto -->
+                    <h:selectOneMenu value="#{addbean.producto}">
+                        <f:selectItem itemLabel="Seleccione producto" itemValue="" />
+                        <f:selectItems value="#{addbean.productos}" />
+                        <p:ajax listener="#{addbean.onProductoChange}" update="atributoProductoPanel subtipoPanel" />
+                    </h:selectOneMenu>
+
+                    <!-- Atributo genérico del producto -->
+                    <h:panelGroup id="atributoProductoPanel">
+                        <p:inputText value="#{addbean.atributoProducto}" placeholder="Ingrese un atributo del producto" rendered="#{not empty addbean.producto}" />
+                    </h:panelGroup>
+
+                    <!-- Subtipo -->
+                    <h:panelGroup id="subtipoPanel">
+                        <h:selectOneMenu id="subtipo" value="#{addbean.subtipo}" rendered="#{not empty addbean.producto}">
+                            <f:selectItem itemLabel="Seleccione subtipo" itemValue="" />
+                            <f:selectItems value="#{addbean.subtipos}" />
+                            <p:ajax listener="#{addbean.onSubtipoChange}" update="atributosSubtipoPanel" />
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+
+                    <!-- Atributos específicos del subtipo -->
+                    <h:panelGroup id="atributosSubtipoPanel">
+                        <ui:repeat value="#{addbean.atributosSubtipo}" var="entry">
+                            <p:inputText value="#{entry.value}" placeholder="#{entry.key}" rendered="#{not empty addbean.subtipo}" />
+                        </ui:repeat>
+                    </h:panelGroup>
+
+                    <!-- Precio -->
+                    <p:inputText value="#{addbean.precio}" placeholder="Precio" type="number" />
+
+                    <!-- Botón guardar -->
+                    <p:commandButton value="Guardar" action="#{addbean.guardar}" update="@form" />
+                </h:form>
+            </div>
+        </div>
+    </div>
+
+    <br /><br /><br />
+
+    <!-- FOOTER -->
+    <footer>
+        <section class="footer-section">
+            <div class="container footer-grid">
+                <div class="footer-col">
+                    <div class="footer-contact">
+                        <button class="btn-link">3222381555</button>
+                        <button class="btn-link">cpelaezp@unbosque.edu.co</button>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Collections</h4>
+                    <div class="btn-row">
+                        <button class="btn-link">All collections</button>
+                        <button class="btn-link">ROPA</button>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Information</h4>
+                    <div class="btn-column">
+                        <button class="btn-link">Home</button>
+                        <button class="btn-link">Contact us</button>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Conéctate y compra</h4>
+                    <p>Compra todo lo que necesites en nuestra página web.</p>
+                </div>
+            </div>
+        </section>
+        <section class="footer-bottom">
+            <div class="container footer-bottom-grid">
+                <div class="footer-pay-logos-row">
+                    <h4>Formas de pago</h4>
+                    <div class="logos">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" />
+                    </div>
+                </div>
+                <div class="footer-social-logos-row">
+                    <h4>Stay Connected</h4>
+                    <div class="social-logos">
+                        <a href="#" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
+                        </a>
+                        <a href="#" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" />
+                        </a>
+                        <a href="#" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
+
+</h:body>
+</html>
