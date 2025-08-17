@@ -2,6 +2,7 @@ package co.edu.unbosque.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import co.edu.unbosque.model.*;
@@ -24,6 +26,9 @@ public class PanelCarrito extends JPanel {
     private JLabel fondo;
     private JButton volver;
     private JButton comprar;
+    private JButton eliminar;
+    private JTextArea precio;
+    private String total;
     private JButton agregarCarrito;
     private JComboBox<String> combocarritos;
     private JTable tablaCarrito;
@@ -37,7 +42,7 @@ public class PanelCarrito extends JPanel {
         setLayout(null);
 
         fondo = new JLabel();
-        BufferedImage fd = ImageIO.read(new File("src/co/edu/unbosque/view/CarritoInicio.png"));
+        BufferedImage fd = ImageIO.read(new File("src/co/edu/unbosque/view/Carrote.png"));
         ImageIcon imagenFondo = new ImageIcon(fd);
         Image fdRedim = fd.getScaledInstance(1290, 750, Image.SCALE_SMOOTH);
         fondo.setIcon(new ImageIcon(fdRedim));
@@ -72,6 +77,27 @@ public class PanelCarrito extends JPanel {
         agregarCarrito.setBorderPainted(true);
         agregarCarrito.setVisible(true);
         add(agregarCarrito);
+        
+        eliminar = new JButton();
+        eliminar.setBounds(638, 126, 85, 82);
+        eliminar.setFocusable(false);
+        eliminar.setBackground(new Color(0, 0, 0));
+        eliminar.setContentAreaFilled(false);
+        eliminar.setOpaque(false);
+        eliminar.setBorderPainted(true);
+        eliminar.setVisible(true);
+        add(eliminar);
+        
+        precio = new JTextArea();
+        precio.setText(total);
+        precio.setEditable(false);
+        precio.setBounds(1080, 550, 260, 95);
+        precio.setFont(new Font("Baloo", Font.BOLD, 24));
+        precio.setOpaque(false);
+        precio.setBackground(new Color(0, 0, 0, 0));
+        precio.setBorder(null);
+        add(precio);
+        
 
         combocarritos = new JComboBox<>();
         combocarritos.setBounds(125, 130, 385, 70);
@@ -164,7 +190,6 @@ public class PanelCarrito extends JPanel {
             if (producto != null) {
                 String nombre = obtenerNombreProducto(producto);
                 double precio = obtenerPrecioProducto(producto);
-                // Verificar si el producto está en la lista de productos aleatorios
                 String disponibilidad = estaEnProductosAleatorios(nombreProducto) ? "Disponible" : "No disponible";
                 modelo.addRow(new Object[] { nombre, precio, disponibilidad });
                 System.out.println("Producto agregado a la tabla: " + nombre + " (" + disponibilidad + ")");
@@ -173,7 +198,9 @@ public class PanelCarrito extends JPanel {
             }
             nodoProducto = nodoProducto.getNext();
         }
+        calcularTotal(); // Llamar al método para calcular el total
     }
+
 
     private boolean estaEnProductosAleatorios(String nombreProducto) {
         Node<String> nodoActual = productosAleatorios.getFirst();
@@ -267,6 +294,38 @@ public class PanelCarrito extends JPanel {
             return ((PaquetePapa) producto).getPrecio();
         return 0.0;
     }
+    
+    public void calcularTotal() {
+        if (usuario == null || combocarritos.getSelectedItem() == null || productosAleatorios == null) {
+            System.out.println("Usuario, carrito o lista de productos aleatorios no seleccionado.");
+            return;
+        }
+        String nombreCarritoSeleccionado = (String) combocarritos.getSelectedItem();
+        CarritoDAO carritoDAO = new CarritoDAO();
+        Carrito carrito = carritoDAO.find(new Carrito(nombreCarritoSeleccionado, usuario.getNombre()));
+        if (carrito == null) {
+            System.out.println("Carrito no encontrado: " + nombreCarritoSeleccionado);
+            return;
+        }
+        if (carrito.getListaNombresProductos().isEmpty()) {
+            System.out.println("El carrito está vacío.");
+            precio.setText("Total: $0.0");
+            return;
+        }
+        double total = 0.0;
+        Node<String> nodoProducto = carrito.getListaNombresProductos().getFirst();
+        while (nodoProducto != null) {
+            String nombreProducto = nodoProducto.getInfo();
+            Object producto = buscarProductoPorNombre(nombreProducto);
+            if (producto != null && estaEnProductosAleatorios(nombreProducto)) {
+                double precioProducto = obtenerPrecioProducto(producto);
+                total += precioProducto;
+            }
+            nodoProducto = nodoProducto.getNext();
+        }
+        precio.setText( String.format("%.2f", total));
+    }
+
 
     // Getters y Setters
     public JLabel getFondo() {
@@ -332,4 +391,33 @@ public class PanelCarrito extends JPanel {
     public UsuarioDTO getUsuario() {
         return usuario;
     }
+
+	public JButton getEliminar() {
+		return eliminar;
+	}
+
+	public void setEliminar(JButton eliminar) {
+		this.eliminar = eliminar;
+	}
+
+	public JTextArea getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(JTextArea precio) {
+		this.precio = precio;
+		precio.setText(total);
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
+	}
+
+	public String getTotal() {
+		return total;
+	}
+	
+
+
+    
 }

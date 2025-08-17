@@ -66,6 +66,8 @@ public class Controller implements ActionListener {
         vf.getVp().getPh().getBtnLimpiar().setActionCommand("limpiarHistorial");
         vf.getVp().getPh().getBtnVolver().addActionListener(this);
         vf.getVp().getPh().getBtnVolver().setActionCommand("volverH");
+        vf.getVp().getPc().getEliminar().addActionListener(this);
+        vf.getVp().getPc().getEliminar().setActionCommand("eliminar");
     }
 
     @Override
@@ -237,7 +239,12 @@ public class Controller implements ActionListener {
             default:
                 agregarProductoAlCarrito(command, nombreCarritoActual);
                 break;
+            case "eliminar":
+                eliminarProductoDelCarrito();
+                break;
+        
         }
+        
     }
 
     private void ocultarOtrosPaneles(String tipoProducto) {
@@ -317,4 +324,53 @@ public class Controller implements ActionListener {
             }
         }
     }
+    
+    private void eliminarProductoDelCarrito() {
+        if (nombreUsuarioActual == null || nombreCarritoActual == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un carrito primero.");
+            return;
+        }
+        String input = JOptionPane.showInputDialog(null, "Ingrese la posición del producto a eliminar (1, 2, 3, ...):", "Eliminar Producto", JOptionPane.QUESTION_MESSAGE);
+        if (input == null) {
+            return; // El usuario canceló la operación
+        }
+        try {
+            int posicion = Integer.parseInt(input) - 1; // Convertir a índice basado en 0
+            CarritoDAO carritoDAO = mf.getCarritoDAO();
+            Carrito carrito = carritoDAO.find(new Carrito(nombreCarritoActual, nombreUsuarioActual));
+            if (carrito == null) {
+                JOptionPane.showMessageDialog(null, "Carrito no encontrado.");
+                return;
+            }
+            LinkedList<String> listaProductos = carrito.getListaNombresProductos();
+            if (posicion < 0 || posicion >= listaProductos.size()) {
+                JOptionPane.showMessageDialog(null, "Posición inválida.");
+                return;
+            }
+            Node<String> nodoActual = listaProductos.getFirst();
+            Node<String> nodoAnterior = null;
+            for (int i = 0; i < posicion && nodoActual != null; i++) {
+                nodoAnterior = nodoActual;
+                nodoActual = nodoActual.getNext();
+            }
+            if (nodoActual != null) {
+                if (nodoAnterior == null) {
+                    // Si es el primer nodo
+                    listaProductos.setFirst(nodoActual.getNext());
+                } else {
+                    // Si no es el primer nodo
+                    nodoAnterior.setNext(nodoActual.getNext());
+                }
+                // Actualizar el carrito en la base de datos
+                CarritoDTO carritoDTO = DataMapper.carritoToCarritoDTO(carrito);
+                carritoDAO.update(carritoDTO, carritoDTO);
+                vf.getVp().getPc().cargarProductosDelCarrito();
+                JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido.");
+        }
+    }
+
+
 }
