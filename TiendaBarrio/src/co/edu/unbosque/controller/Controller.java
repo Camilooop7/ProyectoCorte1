@@ -15,6 +15,7 @@ public class Controller implements ActionListener {
 	private ViewFacade vf;
 	private ModelFacade mf;
 	private String nombreUsuarioActual;
+	private String nombreCarritoActual;
 
 	public Controller() throws IOException {
 		vf = new ViewFacade();
@@ -52,6 +53,12 @@ public class Controller implements ActionListener {
 		vf.getVp().getPpr().getCarrito().setActionCommand("verCarrito");
 		vf.getVp().getPpr().getHistorial().addActionListener(this);
 		vf.getVp().getPpr().getHistorial().setActionCommand("verHistorial");
+		vf.getVp().getPc().getAgregarCarrito().addActionListener(this);
+		vf.getVp().getPc().getAgregarCarrito().setActionCommand("crearCarrito");
+		vf.getVp().getPc().getVolver().addActionListener(this);
+		vf.getVp().getPc().getVolver().setActionCommand("volverC");
+		vf.getVp().getPc().getCombocarrito().addActionListener(this);
+		vf.getVp().getPc().getCombocarrito().setActionCommand("seleccionCarrito");
 	}
 
 	@Override
@@ -71,53 +78,52 @@ public class Controller implements ActionListener {
 			vf.getVp().getPcu().setVisible(true);
 			break;
 		case "entrar":
-		    int identificacion = vf.getVp().getPs().getIdentificacion();
-		    if (mf.getUsuarioDAO().find(new Usuario("", identificacion, null)) != null) {
-		        Usuario u = mf.getUsuarioDAO().find(new Usuario("", identificacion, null));
-		        nombreUsuarioActual = u.getNombre();
-		        vf.getVe().mostrar("Ingreso como: " + u.getNombre());
-		        vf.getVp().getPs().setVisible(false);
-		        vf.getVp().getPpr().setVisible(true);
-
-		        // Crear un carrito para el usuario si no existe
-		        Carrito carritoUsuario = new Carrito("Mi Carrito", u.getNombre());
-		        Carrito carritoExistente = mf.getCarritoDAO().find(carritoUsuario);
-		        if (carritoExistente == null) {
-		            mf.getCarritoDAO().add(DataMapper.carritoToCarritoDTO(carritoUsuario));
-		            System.out.println("Carrito creado para el usuario: " + u.getNombre());
-		        }
-		        VerduraDAO a = new VerduraDAO();
+			int identificacion = vf.getVp().getPs().getIdentificacion();
+			if (mf.getUsuarioDAO().find(new Usuario("", identificacion, null)) != null) {
+				Usuario u = mf.getUsuarioDAO().find(new Usuario("", identificacion, null));
+				nombreUsuarioActual = u.getNombre();
+				vf.getVe().mostrar("Ingreso como: " + u.getNombre());
+				vf.getVp().getPs().setVisible(false);
+				vf.getVp().getPpr().setVisible(true);
+				// Crear un carrito para el usuario si no existe
+				Carrito carritoUsuario = new Carrito("Mi Carrito", u.getNombre());
+				Carrito carritoExistente = mf.getCarritoDAO().find(carritoUsuario);
+				if (carritoExistente == null) {
+					mf.getCarritoDAO().add(DataMapper.carritoToCarritoDTO(carritoUsuario));
+					System.out.println("Carrito creado para el usuario: " + u.getNombre());
+				}
+				VerduraDAO a = new VerduraDAO();
 				GaseosaDAO b = new GaseosaDAO();
 				PaquetePapaDAO c = new PaquetePapaDAO();
 				FrutaDAO d = new FrutaDAO();
 				JugoDAO eg = new JugoDAO();
 				mf.crearStock(a.getListaVerduras(), b.getListaGaseosas(), eg.getListaJugos(), d.getListaFrutas(),
 						c.getListaPaquetePapas());
-		    }
-		    break;
+			}
+			break;
 		case "crear":
-		    int identificacionCrear = vf.getVp().getPcu().getIdentificacion();
-		    String nombre = vf.getVp().getPcu().getNombre();
-		    try {
-		        ExceptionCheker.checkerIsBlank(nombre);
-		        ExceptionCheker.checkerText(nombre);
-		        if (mf.getUsuarioDAO().find(new Usuario("", identificacionCrear, null)) == null) {
-		            mf.getUsuarioDAO().add(new UsuarioDTO(nombre, identificacionCrear, null));
-		            // Crear un carrito para el nuevo usuario
-		            Carrito nuevoCarrito = new Carrito("Mi Carrito", nombre);
-		            mf.getCarritoDAO().add(DataMapper.carritoToCarritoDTO(nuevoCarrito));
-		            vf.getVe().mostrar("Usuario creado exitosamente");
-		            vf.getVp().getPcu().setVisible(false);
-		            vf.getVp().getPs().setVisible(true);
-		        } else {
-		            vf.getVe().mostrarError("Identificación ya registrada, vuelva para ingresar");
-		        }
-		    } catch (IsBlackException e2) {
-		        vf.getVe().mostrar("Complete la información de nombre");
-		    } catch (TextException e2) {
-		        vf.getVe().mostrar("Únicamente se aceptan letras");
-		    }
-		    break;
+			int identificacionCrear = vf.getVp().getPcu().getIdentificacion();
+			String nombre = vf.getVp().getPcu().getNombre();
+			try {
+				ExceptionCheker.checkerIsBlank(nombre);
+				ExceptionCheker.checkerText(nombre);
+				if (mf.getUsuarioDAO().find(new Usuario("", identificacionCrear, null)) == null) {
+					mf.getUsuarioDAO().add(new UsuarioDTO(nombre, identificacionCrear, null));
+					// Crear un carrito para el nuevo usuario
+					Carrito nuevoCarrito = new Carrito("Mi Carrito", nombre);
+					mf.getCarritoDAO().add(DataMapper.carritoToCarritoDTO(nuevoCarrito));
+					vf.getVe().mostrar("Usuario creado exitosamente");
+					vf.getVp().getPcu().setVisible(false);
+					vf.getVp().getPs().setVisible(true);
+				} else {
+					vf.getVe().mostrarError("Identificación ya registrada, vuelva para ingresar");
+				}
+			} catch (IsBlackException e2) {
+				vf.getVe().mostrar("Complete la información de nombre");
+			} catch (TextException e2) {
+				vf.getVe().mostrar("Únicamente se aceptan letras");
+			}
+			break;
 		case "verdura":
 			vf.getVp().getPpr().getEstInfV().setVisible(true);
 			vf.getVp().getPpr().getEstSuV().setVisible(true);
@@ -154,19 +160,40 @@ public class Controller implements ActionListener {
 			asignarFuncionesComponentesProducto("Paquete");
 			break;
 		case "verCarrito":
-		    vf.getVp().getPc().setUsuario(new UsuarioDTO(nombreUsuarioActual, 0, null));
-		    vf.getVp().getPc().recargarComboBox();
-		    vf.getVp().getPc().cargarProductosDelCarrito();
-		    vf.getVp().getPc().setVisible(true);
-		    vf.getVp().getPpr().setVisible(false);
-		    break;
+			vf.getVp().getPc().setUsuario(new UsuarioDTO(nombreUsuarioActual, 0, null));
+			vf.getVp().getPc().recargarComboBox();
+			vf.getVp().getPc().cargarProductosDelCarrito();
+			vf.getVp().getPc().setVisible(true);
+			vf.getVp().getPpr().setVisible(false);
+			break;
+
 		case "verHistorial":
 			// mostrarHistorial();
 			break;
-		default:
-			// Agregar producto al carrito
-			agregarProductoAlCarrito(command);
+		case "volverC":
+			vf.getVp().getPc().setVisible(false);
+			vf.getVp().getPpr().setVisible(true);
 			break;
+		case "seleccionCarrito":
+			nombreCarritoActual = vf.getVp().getPc().getCombocarritoS();
+			vf.getVp().getPc().recargarComboBox();
+			vf.getVp().getPc().cargarProductosDelCarrito();
+			break;
+		default:
+			agregarProductoAlCarrito(command, nombreCarritoActual);
+			break;
+		case "crearCarrito":
+			String nombreC = vf.getVe().leerTexto("Ingrese el nombre del nuevo Carrito");
+			String nombreU = nombreUsuarioActual;
+			Carrito nuevoCarrito = new Carrito(nombreC, nombreU);
+			mf.getCarritoDAO().add(DataMapper.carritoToCarritoDTO(nuevoCarrito));
+			vf.getVe().mostrar("Carrito creado exitosamente");
+
+			vf.getVp().getPc().recargarComboBox();
+			vf.getVp().getPc().cargarProductosDelCarrito();
+			vf.getVp().getPc().getTablaCarrito().repaint();
+			break;
+
 		}
 	}
 
@@ -181,7 +208,6 @@ public class Controller implements ActionListener {
 		vf.getVp().getPpr().getEstSuG().setVisible(false);
 		vf.getVp().getPpr().getEstInfV().setVisible(false);
 		vf.getVp().getPpr().getEstSuV().setVisible(false);
-
 		switch (tipoProducto) {
 		case "Verdura":
 			vf.getVp().getPpr().getEstInfV().setVisible(true);
@@ -239,18 +265,15 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	private void agregarProductoAlCarrito(String nombreProducto) {
-	    if (nombreUsuarioActual != null) {
-	        boolean agregado = mf.getCarritoDAO().agregarNombreProductoACarrito(nombreUsuarioActual, "Mi Carrito", nombreProducto);
-	        if (agregado) {
-	            JOptionPane.showMessageDialog(null, "Producto agregado al carrito: " + nombreProducto);
-	            System.out.println("Producto '" + nombreProducto + "' agregado al carrito de " + nombreUsuarioActual);
-	        } else {
-	            JOptionPane.showMessageDialog(null, "Error al agregar el producto al carrito.");
-	        }
-	    } else {
-	        JOptionPane.showMessageDialog(null, "Debe iniciar sesión para agregar productos al carrito.");
-	    }
+	private void agregarProductoAlCarrito(String nombreProducto, String nombreCarrito) {
+		if (nombreUsuarioActual != null) {
+			Carrito c = mf.getCarritoDAO().find(new Carrito(nombreCarrito, nombreUsuarioActual));
+			boolean agregado = mf.getCarritoDAO().agregarNombreProductoACarrito(nombreUsuarioActual, nombreCarrito,
+					nombreProducto);
+			if (agregado) {
+				JOptionPane.showMessageDialog(null, "Producto agregado al carrito: " + nombreProducto);
+			}
+		}
 	}
 
 	private void mostrarCarrito() {

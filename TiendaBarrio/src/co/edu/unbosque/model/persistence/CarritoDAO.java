@@ -171,11 +171,7 @@ public class CarritoDAO implements OperacionDAO<CarritoDTO, Carrito>, Serializab
 			return;
 		}
 		String[] columna = filas[index].split(";");
-		if (columna.length < 3) {
-			System.err.println("Línea mal formateada: " + filas[index]);
-			cargarRecursivo(filas, index + 1);
-			return;
-		}
+
 		try {
 			String nombreU = columna[0];
 			String nombreCarrito = columna[1];
