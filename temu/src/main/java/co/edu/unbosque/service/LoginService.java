@@ -1,25 +1,28 @@
 package co.edu.unbosque.service;
 
-
-import co.edu.unbosque.model.ModelFacade;
 import co.edu.unbosque.model.PersonaDTO;
-import co.edu.unbosque.model.persistence.FileManager;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginService {
-	
-	public LoginService() {
-		FileManager.crearCarpeta();
-		// TODO Auto-generated constructor stub
-	}
+    private List<PersonaDTO> usuarios;
 
-	public void crear(PersonaDTO nuevo) {
+    public LoginService() {
+        this.usuarios = new ArrayList<>();
+        // Datos de prueba
+        usuarios.add(new PersonaDTO("admin", "1234", "admin@example.com"));
+    }
 
-		ModelFacade.personaDAO.add(nuevo);
+    public boolean encontrar(PersonaDTO dto) {
+        for (PersonaDTO usuario : usuarios) {
+            if (usuario.getCorreo().equals(dto.getCorreo()) && usuario.getContrasena().equals(dto.getContrasena())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	}
-
-	  public boolean encontrar(PersonaDTO dto) {
-	        PersonaDTO encontrado = ModelFacade.personaDAO.findC(dto.getCorreo(), dto.getContrasena());
-	        return encontrado != null; // true si existe, false si no
-	    }
+    public void crear(PersonaDTO nuevo) {
+        usuarios.add(nuevo);
+    }
 }
