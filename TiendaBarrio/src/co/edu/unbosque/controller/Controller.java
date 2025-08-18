@@ -94,7 +94,6 @@ public class Controller implements ActionListener {
                     vf.getVe().mostrar("Ingreso como: " + u.getNombre());
                     vf.getVp().getPs().setVisible(false);
                     vf.getVp().getPpr().setVisible(true);
-                    // Crear un carrito para el usuario si no existe
                     Carrito carritoUsuario = new Carrito("Mi Carrito", u.getNombre());
                     Carrito carritoExistente = mf.getCarritoDAO().find(carritoUsuario);
                     if (carritoExistente == null) {
@@ -117,7 +116,6 @@ public class Controller implements ActionListener {
                     ExceptionCheker.checkerText(nombre);
                     if (mf.getUsuarioDAO().find(new Usuario("", identificacionCrear, null)) == null) {
                         mf.getUsuarioDAO().add(new UsuarioDTO(nombre, identificacionCrear, null));
-                        // Crear un carrito para el nuevo usuario
                         Carrito nuevoCarrito = new Carrito("Mi Carrito", nombre);
                         mf.getCarritoDAO().add(DataMapper.carritoToCarritoDTO(nuevoCarrito));
                         vf.getVe().mostrar("Usuario creado exitosamente");
@@ -208,18 +206,11 @@ public class Controller implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Carrito no encontrado.");
                     break;
                 }
-                // Generar la factura
                 GenerarPDF.generarFactura(usuarioActual, carritoSeleccionado, vf.getVp().getPc());
-                // Clonar el carrito para guardar en el historial
                 Carrito copiaCarrito = new Carrito(carritoSeleccionado.getNombre(), carritoSeleccionado.getNombreU());
-                Node<String> nodoActual = carritoSeleccionado.getListaNombresProductos().getFirst();
-                while (nodoActual != null) {
-                    copiaCarrito.getListaNombresProductos().addLastR(nodoActual.getInfo());
-                    nodoActual = nodoActual.getNext();
-                }
-                // Agregar el carrito al historial
+                // Copiar productos recursivamente
+                copiarProductosRecursivo(carritoSeleccionado.getListaNombresProductos().getFirst(), copiaCarrito.getListaNombresProductos());
                 vf.getVp().getPh().agregarCompraAlHistorial(copiaCarrito);
-                // Opcional: Limpiar el carrito después de comprar
                 carritoSeleccionado.getListaNombresProductos().clear();
                 vf.getVp().getPc().cargarProductosDelCarrito();
                 JOptionPane.showMessageDialog(null, "Compra realizada con éxito. Se ha guardado en el historial.");
@@ -242,22 +233,45 @@ public class Controller implements ActionListener {
             case "eliminar":
                 eliminarProductoDelCarrito();
                 break;
-        
         }
-        
     }
 
+    // Método recursivo para ocultar paneles
     private void ocultarOtrosPaneles(String tipoProducto) {
-        vf.getVp().getPpr().getEstInfP().setVisible(false);
-        vf.getVp().getPpr().getEstSuP().setVisible(false);
-        vf.getVp().getPpr().getEstInfF().setVisible(false);
-        vf.getVp().getPpr().getEstSuF().setVisible(false);
-        vf.getVp().getPpr().getEstInfJ().setVisible(false);
-        vf.getVp().getPpr().getEstSuJ().setVisible(false);
-        vf.getVp().getPpr().getEstInfG().setVisible(false);
-        vf.getVp().getPpr().getEstSuG().setVisible(false);
-        vf.getVp().getPpr().getEstInfV().setVisible(false);
-        vf.getVp().getPpr().getEstSuV().setVisible(false);
+        ocultarPanelRecursivo("P", tipoProducto);
+        ocultarPanelRecursivo("F", tipoProducto);
+        ocultarPanelRecursivo("J", tipoProducto);
+        ocultarPanelRecursivo("G", tipoProducto);
+        ocultarPanelRecursivo("V", tipoProducto);
+        mostrarPanel(tipoProducto);
+    }
+
+    private void ocultarPanelRecursivo(String prefijo, String tipoProducto) {
+        switch (prefijo) {
+            case "P":
+                vf.getVp().getPpr().getEstInfP().setVisible(false);
+                vf.getVp().getPpr().getEstSuP().setVisible(false);
+                break;
+            case "F":
+                vf.getVp().getPpr().getEstInfF().setVisible(false);
+                vf.getVp().getPpr().getEstSuF().setVisible(false);
+                break;
+            case "J":
+                vf.getVp().getPpr().getEstInfJ().setVisible(false);
+                vf.getVp().getPpr().getEstSuJ().setVisible(false);
+                break;
+            case "G":
+                vf.getVp().getPpr().getEstInfG().setVisible(false);
+                vf.getVp().getPpr().getEstSuG().setVisible(false);
+                break;
+            case "V":
+                vf.getVp().getPpr().getEstInfV().setVisible(false);
+                vf.getVp().getPpr().getEstSuV().setVisible(false);
+                break;
+        }
+    }
+
+    private void mostrarPanel(String tipoProducto) {
         switch (tipoProducto) {
             case "Verdura":
                 vf.getVp().getPpr().getEstInfV().setVisible(true);
@@ -282,39 +296,41 @@ public class Controller implements ActionListener {
         }
     }
 
+    // Método recursivo para asignar ActionListeners
+    private void asignarActionListeners(Node<JButton> nodoActual) {
+        if (nodoActual != null) {
+            nodoActual.getInfo().addActionListener(this);
+            asignarActionListeners(nodoActual.getNext());
+        }
+    }
+
+    // Método para asignar funciones a los componentes de producto
     private void asignarFuncionesComponentesProducto(String tipoProducto) {
         switch (tipoProducto) {
             case "Verdura":
-                asignarActionListeners(vf.getVp().getPpr().getEstSuV().getBotonesAnadir());
-                asignarActionListeners(vf.getVp().getPpr().getEstInfV().getBotonesAnadir());
+                asignarActionListeners(vf.getVp().getPpr().getEstSuV().getBotonesAnadir().getFirst());
+                asignarActionListeners(vf.getVp().getPpr().getEstInfV().getBotonesAnadir().getFirst());
                 break;
             case "Fruta":
-                asignarActionListeners(vf.getVp().getPpr().getEstSuF().getBotonesAnadir());
-                asignarActionListeners(vf.getVp().getPpr().getEstInfF().getBotonesAnadir());
+                asignarActionListeners(vf.getVp().getPpr().getEstSuF().getBotonesAnadir().getFirst());
+                asignarActionListeners(vf.getVp().getPpr().getEstInfF().getBotonesAnadir().getFirst());
                 break;
             case "Gaseosa":
-                asignarActionListeners(vf.getVp().getPpr().getEstSuG().getBotonesAnadir());
-                asignarActionListeners(vf.getVp().getPpr().getEstInfG().getBotonesAnadir());
+                asignarActionListeners(vf.getVp().getPpr().getEstSuG().getBotonesAnadir().getFirst());
+                asignarActionListeners(vf.getVp().getPpr().getEstInfG().getBotonesAnadir().getFirst());
                 break;
             case "Jugo":
-                asignarActionListeners(vf.getVp().getPpr().getEstSuJ().getBotonesAnadir());
-                asignarActionListeners(vf.getVp().getPpr().getEstInfJ().getBotonesAnadir());
+                asignarActionListeners(vf.getVp().getPpr().getEstSuJ().getBotonesAnadir().getFirst());
+                asignarActionListeners(vf.getVp().getPpr().getEstInfJ().getBotonesAnadir().getFirst());
                 break;
             case "Paquete":
-                asignarActionListeners(vf.getVp().getPpr().getEstSuP().getBotonesAnadir());
-                asignarActionListeners(vf.getVp().getPpr().getEstInfP().getBotonesAnadir());
+                asignarActionListeners(vf.getVp().getPpr().getEstSuP().getBotonesAnadir().getFirst());
+                asignarActionListeners(vf.getVp().getPpr().getEstInfP().getBotonesAnadir().getFirst());
                 break;
         }
     }
 
-    private void asignarActionListeners(LinkedList<JButton> botones) {
-        Node<JButton> nodoActual = botones.getFirst();
-        while (nodoActual != null) {
-            nodoActual.getInfo().addActionListener(this);
-            nodoActual = nodoActual.getNext();
-        }
-    }
-
+    // Método recursivo para agregar productos al carrito
     private void agregarProductoAlCarrito(String nombreProducto, String nombreCarrito) {
         if (nombreUsuarioActual != null) {
             Carrito c = mf.getCarritoDAO().find(new Carrito(nombreCarrito, nombreUsuarioActual));
@@ -324,7 +340,8 @@ public class Controller implements ActionListener {
             }
         }
     }
-    
+
+    // Método recursivo para eliminar producto del carrito
     private void eliminarProductoDelCarrito() {
         if (nombreUsuarioActual == null || nombreCarritoActual == null) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un carrito primero.");
@@ -332,10 +349,10 @@ public class Controller implements ActionListener {
         }
         String input = JOptionPane.showInputDialog(null, "Ingrese la posición del producto a eliminar (1, 2, 3, ...):", "Eliminar Producto", JOptionPane.QUESTION_MESSAGE);
         if (input == null) {
-            return; // El usuario canceló la operación
+            return;
         }
         try {
-            int posicion = Integer.parseInt(input) - 1; // Convertir a índice basado en 0
+            int posicion = Integer.parseInt(input) - 1;
             CarritoDAO carritoDAO = mf.getCarritoDAO();
             Carrito carrito = carritoDAO.find(new Carrito(nombreCarritoActual, nombreUsuarioActual));
             if (carrito == null) {
@@ -343,34 +360,35 @@ public class Controller implements ActionListener {
                 return;
             }
             LinkedList<String> listaProductos = carrito.getListaNombresProductos();
-            if (posicion < 0 || posicion >= listaProductos.size()) {
-                JOptionPane.showMessageDialog(null, "Posición inválida.");
-                return;
+            Node<String> nodoAnterior = encontrarNodoEnPosicion(listaProductos.getFirst(), null, 0, posicion);
+            if (nodoAnterior == null && posicion == 0) {
+                listaProductos.setFirst(listaProductos.getFirst().getNext());
+            } else if (nodoAnterior != null) {
+                Node<String> nodoAEliminar = nodoAnterior.getNext();
+                nodoAnterior.setNext(nodoAEliminar.getNext());
             }
-            Node<String> nodoActual = listaProductos.getFirst();
-            Node<String> nodoAnterior = null;
-            for (int i = 0; i < posicion && nodoActual != null; i++) {
-                nodoAnterior = nodoActual;
-                nodoActual = nodoActual.getNext();
-            }
-            if (nodoActual != null) {
-                if (nodoAnterior == null) {
-                    // Si es el primer nodo
-                    listaProductos.setFirst(nodoActual.getNext());
-                } else {
-                    // Si no es el primer nodo
-                    nodoAnterior.setNext(nodoActual.getNext());
-                }
-                // Actualizar el carrito en la base de datos
-                CarritoDTO carritoDTO = DataMapper.carritoToCarritoDTO(carrito);
-                carritoDAO.update(carritoDTO, carritoDTO);
-                vf.getVp().getPc().cargarProductosDelCarrito();
-                JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
-            }
+            CarritoDTO carritoDTO = DataMapper.carritoToCarritoDTO(carrito);
+            carritoDAO.update(carritoDTO, carritoDTO);
+            vf.getVp().getPc().cargarProductosDelCarrito();
+            JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido.");
         }
     }
 
+    // Método recursivo para encontrar el nodo en una posición
+    private Node<String> encontrarNodoEnPosicion(Node<String> nodoActual, Node<String> nodoAnterior, int posicionActual, int posicionObjetivo) {
+        if (nodoActual == null || posicionActual == posicionObjetivo) {
+            return nodoAnterior;
+        }
+        return encontrarNodoEnPosicion(nodoActual.getNext(), nodoActual, posicionActual + 1, posicionObjetivo);
+    }
 
+    // Método recursivo para copiar productos de un carrito a otro
+    private void copiarProductosRecursivo(Node<String> nodoOrigen, LinkedList<String> listaDestino) {
+        if (nodoOrigen != null) {
+            listaDestino.addLastR(nodoOrigen.getInfo());
+            copiarProductosRecursivo(nodoOrigen.getNext(), listaDestino);
+        }
+    }
 }

@@ -40,14 +40,12 @@ public class PanelCarrito extends JPanel {
         this.usuario = usuario;
         setBounds(0, 0, 1290, 750);
         setLayout(null);
-
         fondo = new JLabel();
         BufferedImage fd = ImageIO.read(new File("src/co/edu/unbosque/view/Carrote.png"));
         ImageIcon imagenFondo = new ImageIcon(fd);
         Image fdRedim = fd.getScaledInstance(1290, 750, Image.SCALE_SMOOTH);
         fondo.setIcon(new ImageIcon(fdRedim));
         fondo.setBounds(0, 0, 1290, 750);
-
         volver = new JButton();
         volver.setBounds(1100, 72, 97, 95);
         volver.setFocusable(false);
@@ -57,7 +55,6 @@ public class PanelCarrito extends JPanel {
         volver.setBorderPainted(true);
         volver.setVisible(true);
         add(volver);
-
         comprar = new JButton();
         comprar.setBounds(949, 590, 260, 95);
         comprar.setFocusable(false);
@@ -67,7 +64,6 @@ public class PanelCarrito extends JPanel {
         comprar.setBorderPainted(true);
         comprar.setVisible(true);
         add(comprar);
-
         agregarCarrito = new JButton();
         agregarCarrito.setBounds(535, 126, 85, 82);
         agregarCarrito.setFocusable(false);
@@ -77,7 +73,7 @@ public class PanelCarrito extends JPanel {
         agregarCarrito.setBorderPainted(true);
         agregarCarrito.setVisible(true);
         add(agregarCarrito);
-        
+
         eliminar = new JButton();
         eliminar.setBounds(638, 126, 85, 82);
         eliminar.setFocusable(false);
@@ -87,7 +83,7 @@ public class PanelCarrito extends JPanel {
         eliminar.setBorderPainted(true);
         eliminar.setVisible(true);
         add(eliminar);
-        
+
         precio = new JTextArea();
         precio.setText(total);
         precio.setEditable(false);
@@ -97,13 +93,10 @@ public class PanelCarrito extends JPanel {
         precio.setBackground(new Color(0, 0, 0, 0));
         precio.setBorder(null);
         add(precio);
-        
 
         combocarritos = new JComboBox<>();
         combocarritos.setBounds(125, 130, 385, 70);
         add(combocarritos);
-
-        // Quitar la columna "Imagen"
         String[] columnas = { "Nombre", "Precio", "Disponibilidad" };
         DefaultTableModel modelo = new DefaultTableModel(null, columnas) {
             @Override
@@ -116,12 +109,11 @@ public class PanelCarrito extends JPanel {
             }
         };
         tablaCarrito = new JTable(modelo);
-        tablaCarrito.setRowHeight(30); // Ajustar altura de fila
+        tablaCarrito.setRowHeight(30);
         tablaCarrito.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                // Si es la columna "Disponibilidad" y el valor es "No disponible", cambiar el color a rojo
                 if (column == 2 && "No disponible".equals(value)) {
                     c.setForeground(Color.RED);
                 } else {
@@ -144,6 +136,7 @@ public class PanelCarrito extends JPanel {
         this.productosAleatorios = productosAleatorios;
     }
 
+    // Método recursivo para recargar el ComboBox de carritos
     public void recargarComboBox() {
         combocarritos.removeAllItems();
         if (usuario == null) {
@@ -152,19 +145,23 @@ public class PanelCarrito extends JPanel {
         }
         CarritoDAO carritoDAO = new CarritoDAO();
         LinkedList<Carrito> listaCarritos = carritoDAO.getListaCarritos();
-        Node<Carrito> nodoActual = listaCarritos.getFirst();
-        while (nodoActual != null) {
-            Carrito carrito = nodoActual.getInfo();
-            if (carrito.getNombreU().equals(usuario.getNombre())) {
-                combocarritos.addItem(carrito.getNombre());
-                System.out.println("Carrito encontrado: " + carrito.getNombre());
-            }
-            nodoActual = nodoActual.getNext();
-        }
+        recargarComboBoxRecursivo(listaCarritos.getFirst(), usuario.getNombre());
         combocarritos.revalidate();
         combocarritos.repaint();
     }
 
+    private void recargarComboBoxRecursivo(Node<Carrito> nodoActual, String nombreUsuario) {
+        if (nodoActual != null) {
+            Carrito carrito = nodoActual.getInfo();
+            if (carrito.getNombreU().equals(nombreUsuario)) {
+                combocarritos.addItem(carrito.getNombre());
+                System.out.println("Carrito encontrado: " + carrito.getNombre());
+            }
+            recargarComboBoxRecursivo(nodoActual.getNext(), nombreUsuario);
+        }
+    }
+
+    // Método recursivo para cargar productos del carrito
     public void cargarProductosDelCarrito() {
         DefaultTableModel modelo = (DefaultTableModel) tablaCarrito.getModel();
         modelo.setRowCount(0);
@@ -183,8 +180,12 @@ public class PanelCarrito extends JPanel {
             System.out.println("El carrito está vacío.");
             return;
         }
-        Node<String> nodoProducto = carrito.getListaNombresProductos().getFirst();
-        while (nodoProducto != null) {
+        cargarProductosDelCarritoRecursivo(carrito.getListaNombresProductos().getFirst(), modelo);
+        calcularTotal();
+    }
+
+    private void cargarProductosDelCarritoRecursivo(Node<String> nodoProducto, DefaultTableModel modelo) {
+        if (nodoProducto != null) {
             String nombreProducto = nodoProducto.getInfo();
             Object producto = buscarProductoPorNombre(nombreProducto);
             if (producto != null) {
@@ -196,75 +197,87 @@ public class PanelCarrito extends JPanel {
             } else {
                 System.out.println("Producto no encontrado: " + nombreProducto);
             }
-            nodoProducto = nodoProducto.getNext();
+            cargarProductosDelCarritoRecursivo(nodoProducto.getNext(), modelo);
         }
-        calcularTotal(); // Llamar al método para calcular el total
     }
 
-
+    // Método recursivo para verificar si un producto está en la lista de productos aleatorios
     public boolean estaEnProductosAleatorios(String nombreProducto) {
-        Node<String> nodoActual = productosAleatorios.getFirst();
-        while (nodoActual != null) {
-            if (nodoActual.getInfo().equalsIgnoreCase(nombreProducto)) {
-                return true;
-            }
-            nodoActual = nodoActual.getNext();
-        }
-        return false;
+        return estaEnProductosAleatoriosRecursivo(productosAleatorios.getFirst(), nombreProducto);
     }
 
+    private boolean estaEnProductosAleatoriosRecursivo(Node<String> nodoActual, String nombreProducto) {
+        if (nodoActual == null) {
+            return false;
+        }
+        if (nodoActual.getInfo().equalsIgnoreCase(nombreProducto)) {
+            return true;
+        }
+        return estaEnProductosAleatoriosRecursivo(nodoActual.getNext(), nombreProducto);
+    }
+
+    // Método recursivo para buscar un producto por nombre
     public Object buscarProductoPorNombre(String nombre) {
-        FrutaDAO frutaDAO = new FrutaDAO();
-        VerduraDAO verduraDAO = new VerduraDAO();
-        GaseosaDAO gaseosaDAO = new GaseosaDAO();
-        JugoDAO jugoDAO = new JugoDAO();
-        PaquetePapaDAO paquetePapaDAO = new PaquetePapaDAO();
-        // Buscar en frutas
-        LinkedList<Fruta> listaFrutas = frutaDAO.getListaFrutas();
-        Node<Fruta> nodoFruta = listaFrutas.getFirst();
-        while (nodoFruta != null) {
-            if (nodoFruta.getInfo().getNombre().equals(nombre)) {
-                return nodoFruta.getInfo();
-            }
-            nodoFruta = nodoFruta.getNext();
+        Object producto = buscarEnFrutasRecursivo(new FrutaDAO().getListaFrutas().getFirst(), nombre);
+        if (producto != null) return producto;
+        producto = buscarEnVerdurasRecursivo(new VerduraDAO().getListaVerduras().getFirst(), nombre);
+        if (producto != null) return producto;
+        producto = buscarEnGaseosasRecursivo(new GaseosaDAO().getListaGaseosas().getFirst(), nombre);
+        if (producto != null) return producto;
+        producto = buscarEnJugosRecursivo(new JugoDAO().getListaJugos().getFirst(), nombre);
+        if (producto != null) return producto;
+        producto = buscarEnPaquetesPapaRecursivo(new PaquetePapaDAO().getListaPaquetePapas().getFirst(), nombre);
+        return producto;
+    }
+
+    private Object buscarEnFrutasRecursivo(Node<Fruta> nodoActual, String nombre) {
+        if (nodoActual == null) {
+            return null;
         }
-        // Buscar en verduras
-        LinkedList<Verdura> listaVerduras = verduraDAO.getListaVerduras();
-        Node<Verdura> nodoVerdura = listaVerduras.getFirst();
-        while (nodoVerdura != null) {
-            if (nodoVerdura.getInfo().getNombre().equals(nombre)) {
-                return nodoVerdura.getInfo();
-            }
-            nodoVerdura = nodoVerdura.getNext();
+        if (nodoActual.getInfo().getNombre().equals(nombre)) {
+            return nodoActual.getInfo();
         }
-        // Buscar en gaseosas
-        LinkedList<Gaseosa> listaGaseosas = gaseosaDAO.getListaGaseosas();
-        Node<Gaseosa> nodoGaseosa = listaGaseosas.getFirst();
-        while (nodoGaseosa != null) {
-            if (nodoGaseosa.getInfo().getNombre().equals(nombre)) {
-                return nodoGaseosa.getInfo();
-            }
-            nodoGaseosa = nodoGaseosa.getNext();
+        return buscarEnFrutasRecursivo(nodoActual.getNext(), nombre);
+    }
+
+    private Object buscarEnVerdurasRecursivo(Node<Verdura> nodoActual, String nombre) {
+        if (nodoActual == null) {
+            return null;
         }
-        // Buscar en jugos
-        LinkedList<Jugo> listaJugos = jugoDAO.getListaJugos();
-        Node<Jugo> nodoJugo = listaJugos.getFirst();
-        while (nodoJugo != null) {
-            if (nodoJugo.getInfo().getNombre().equals(nombre)) {
-                return nodoJugo.getInfo();
-            }
-            nodoJugo = nodoJugo.getNext();
+        if (nodoActual.getInfo().getNombre().equals(nombre)) {
+            return nodoActual.getInfo();
         }
-        // Buscar en paquetes de papa
-        LinkedList<PaquetePapa> listaPaquetesPapa = paquetePapaDAO.getListaPaquetePapas();
-        Node<PaquetePapa> nodoPaquetePapa = listaPaquetesPapa.getFirst();
-        while (nodoPaquetePapa != null) {
-            if (nodoPaquetePapa.getInfo().getNombre().equals(nombre)) {
-                return nodoPaquetePapa.getInfo();
-            }
-            nodoPaquetePapa = nodoPaquetePapa.getNext();
+        return buscarEnVerdurasRecursivo(nodoActual.getNext(), nombre);
+    }
+
+    private Object buscarEnGaseosasRecursivo(Node<Gaseosa> nodoActual, String nombre) {
+        if (nodoActual == null) {
+            return null;
         }
-        return null;
+        if (nodoActual.getInfo().getNombre().equals(nombre)) {
+            return nodoActual.getInfo();
+        }
+        return buscarEnGaseosasRecursivo(nodoActual.getNext(), nombre);
+    }
+
+    private Object buscarEnJugosRecursivo(Node<Jugo> nodoActual, String nombre) {
+        if (nodoActual == null) {
+            return null;
+        }
+        if (nodoActual.getInfo().getNombre().equals(nombre)) {
+            return nodoActual.getInfo();
+        }
+        return buscarEnJugosRecursivo(nodoActual.getNext(), nombre);
+    }
+
+    private Object buscarEnPaquetesPapaRecursivo(Node<PaquetePapa> nodoActual, String nombre) {
+        if (nodoActual == null) {
+            return null;
+        }
+        if (nodoActual.getInfo().getNombre().equals(nombre)) {
+            return nodoActual.getInfo();
+        }
+        return buscarEnPaquetesPapaRecursivo(nodoActual.getNext(), nombre);
     }
 
     public String obtenerNombreProducto(Object producto) {
@@ -294,10 +307,12 @@ public class PanelCarrito extends JPanel {
             return ((PaquetePapa) producto).getPrecio();
         return 0.0;
     }
-    
+
+    // Método recursivo para calcular el total
     public void calcularTotal() {
         if (usuario == null || combocarritos.getSelectedItem() == null || productosAleatorios == null) {
             System.out.println("Usuario, carrito o lista de productos aleatorios no seleccionado.");
+            precio.setText("Total: $0.0");
             return;
         }
         String nombreCarritoSeleccionado = (String) combocarritos.getSelectedItem();
@@ -305,6 +320,7 @@ public class PanelCarrito extends JPanel {
         Carrito carrito = carritoDAO.find(new Carrito(nombreCarritoSeleccionado, usuario.getNombre()));
         if (carrito == null) {
             System.out.println("Carrito no encontrado: " + nombreCarritoSeleccionado);
+            precio.setText("Total: $0.0");
             return;
         }
         if (carrito.getListaNombresProductos().isEmpty()) {
@@ -312,20 +328,21 @@ public class PanelCarrito extends JPanel {
             precio.setText("Total: $0.0");
             return;
         }
-        double total = 0.0;
-        Node<String> nodoProducto = carrito.getListaNombresProductos().getFirst();
-        while (nodoProducto != null) {
-            String nombreProducto = nodoProducto.getInfo();
-            Object producto = buscarProductoPorNombre(nombreProducto);
-            if (producto != null && estaEnProductosAleatorios(nombreProducto)) {
-                double precioProducto = obtenerPrecioProducto(producto);
-                total += precioProducto;
-            }
-            nodoProducto = nodoProducto.getNext();
-        }
-        precio.setText( String.format("%.2f", total));
+        double total = calcularTotalRecursivo(carrito.getListaNombresProductos().getFirst(), 0.0);
+        precio.setText(String.format("Total: $%.2f", total));
     }
 
+    private double calcularTotalRecursivo(Node<String> nodoProducto, double totalAcumulado) {
+        if (nodoProducto == null) {
+            return totalAcumulado;
+        }
+        String nombreProducto = nodoProducto.getInfo();
+        Object producto = buscarProductoPorNombre(nombreProducto);
+        if (producto != null && estaEnProductosAleatorios(nombreProducto)) {
+            totalAcumulado += obtenerPrecioProducto(producto);
+        }
+        return calcularTotalRecursivo(nodoProducto.getNext(), totalAcumulado);
+    }
 
     // Getters y Setters
     public JLabel getFondo() {
@@ -392,32 +409,28 @@ public class PanelCarrito extends JPanel {
         return usuario;
     }
 
-	public JButton getEliminar() {
-		return eliminar;
-	}
+    public JButton getEliminar() {
+        return eliminar;
+    }
 
-	public void setEliminar(JButton eliminar) {
-		this.eliminar = eliminar;
-	}
+    public void setEliminar(JButton eliminar) {
+        this.eliminar = eliminar;
+    }
 
-	public JTextArea getPrecio() {
-		return precio;
-	}
+    public JTextArea getPrecio() {
+        return precio;
+    }
 
-	public void setPrecio(JTextArea precio) {
-		this.precio = precio;
-		precio.setText(total);
-	}
+    public void setPrecio(JTextArea precio) {
+        this.precio = precio;
+        precio.setText(total);
+    }
 
-	public void setTotal(String total) {
-		this.total = total;
-	}
+    public void setTotal(String total) {
+        this.total = total;
+    }
 
-	public String getTotal() {
-		return total;
-	}
-	
-
-
-    
+    public String getTotal() {
+        return total;
+    }
 }
