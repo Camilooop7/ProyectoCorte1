@@ -36,7 +36,7 @@ public class Audifono extends DispositivoElectronico implements Serializable {
 
 	@Override
 	public String toString() {
-		return super.toString() + "Audifono [tipoConexion=" + tipoConexion + "]";
+		return super.toString() + "Audifono [tipoConexion=" + tipoConexion;
 	}
 
 }

@@ -15,67 +15,28 @@ import co.edu.unbosque.model.persistence.PeliculaDAO;
 import co.edu.unbosque.model.persistence.PersonaDAO;
 import co.edu.unbosque.model.persistence.PestaninaDAO;
 
+
 /**
- * Clase que actúa como fachada para manejar los DAOs y la lógica del modelo.
+ * Fachada del modelo gestionada por CDI. Todos los DAOs se inyectan; no hay
+ * 'static' ni inicialización manual.
  */
 public class ModelFacade {
 
-	/**
-	 * DAO para gestionar animales.
-	 */
-	public static AnimalDAO animalDAO;
-	/**
-	 * DAO para gestionar audífonos.
-	 */
-	public static AudifonoDAO audifonoDAO;
-	/**
-	 * DAO para gestionar colegios.
-	 */
-	public static ColegioDAO colegioDAO;
-	/**
-	 * DAO para gestionar productos educativos.
-	 */
-	public static EducativoDAO educativoDAO;
-	/**
-	 * DAO para gestionar hombres.
-	 */
-	public static HombreDAO hombreDAO;
-	/**
-	 * DAO para gestionar juegos de mesa.
-	 */
-	public static JuegoMesaDAO juegoMesaDAO;
-	/**
-	 * DAO para gestionar labiales.
-	 */
-	public static LabialDAO labialDAO;
-	/**
-	 * DAO para gestionar dispositivos móviles.
-	 */
-	public static MovilDAO movilDAO;
-	/**
-	 * DAO para gestionar mujeres.
-	 */
-	public static MujerDAO mujerDAO;
-	/**
-	 * DAO para gestionar productos de oficina.
-	 */
-	public static OficinaDAO oficinaDAO;
-	/**
-	 * DAO para gestionar películas.
-	 */
-	public static PeliculaDAO peliculaDAO;
-	/**
-	 * DAO para gestionar pestañinas.
-	 */
-	public static PestaninaDAO pestaninaDAO;
-	
-	public static PersonaDAO personaDAO;
-	
-	public static CarritoDAO carritoDAO;
+	private AnimalDAO animalDAO;
+	private AudifonoDAO audifonoDAO;
+	private ColegioDAO colegioDAO;
+	private EducativoDAO educativoDAO;
+	private HombreDAO hombreDAO;
+	private JuegoMesaDAO juegoMesaDAO;
+	private LabialDAO labialDAO;
+	private MovilDAO movilDAO;
+	private MujerDAO mujerDAO;
+	private OficinaDAO oficinaDAO;
+	private PeliculaDAO peliculaDAO;
+	private PestaninaDAO pestaninaDAO;
+	private PersonaDAO personaDAO;
+	private CarritoDAO carritoDAO;
 
-	/**
-	 * Constructor de la clase. Inicializa los DAOs.
-	 */
 	public ModelFacade() {
 		animalDAO = new AnimalDAO();
 		audifonoDAO = new AudifonoDAO();
@@ -91,11 +52,10 @@ public class ModelFacade {
 		pestaninaDAO = new PestaninaDAO();
 		personaDAO = new PersonaDAO();
 		carritoDAO = new CarritoDAO();
-	}
 
-	/**
-	 * GETTERS & SETTERS
-	 */
+		// TODO Auto-generated constructor stub
+	}
+	// --- Getters para exponer los DAOs (agrega los que necesites usar) ---
 
 	public AnimalDAO getAnimalDAO() {
 		return animalDAO;
@@ -193,12 +153,21 @@ public class ModelFacade {
 		this.pestaninaDAO = pestaninaDAO;
 	}
 
-	public static PersonaDAO getPersonaDAO() {
+	public PersonaDAO getPersonaDAO() {
 		return personaDAO;
 	}
 
-	public static void setPersonaDAO(PersonaDAO personaDAO) {
-		ModelFacade.personaDAO = personaDAO;
+	public void setPersonaDAO(PersonaDAO personaDAO) {
+		this.personaDAO = personaDAO;
 	}
-	
+
+	public CarritoDAO getCarritoDAO() {
+		return carritoDAO;
+	}
+
+	public void setCarritoDAO(CarritoDAO carritoDAO) {
+		this.carritoDAO = carritoDAO;
+	}
+
+	// Sin setters: las dependencias las gestiona el contenedor.
 }

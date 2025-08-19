@@ -12,45 +12,48 @@ import co.edu.unbosque.model.OficinaDTO;
 import co.edu.unbosque.model.PestaninaDTO;
 
 public class PrincipalService {
+	private ModelFacade mf;
 	
 	public PrincipalService() {
+		mf = new ModelFacade();
 		// TODO Auto-generated constructor stub
 	}
 	
 	 public void crearAu(AudifonoDTO eliminar) {
-	        ModelFacade.audifonoDAO.delete(eliminar);
+		 
+	        mf.getAudifonoDAO().delete(eliminar);
 	    }
 
 	    public void crearMo(MovilDTO eliminar) {
-	        ModelFacade.movilDAO.delete(eliminar);
+	        mf.getMovilDAO().delete(eliminar);
 	    }
 
 	    public void crearLa(LabialDTO eliminar) {
-	        ModelFacade.labialDAO.delete(eliminar);
+	        mf.getLabialDAO().delete(eliminar);
 	    }
 
 	    public void crearPes(PestaninaDTO eliminar) {
-	        ModelFacade.pestaninaDAO.delete(eliminar);
+	        mf.getPestaninaDAO().delete(eliminar);
 	    }
 
 	    public void crearJue(JuegoMesaDTO eliminar) {
-	        ModelFacade.juegoMesaDAO.delete(eliminar);
+	        mf.getJuegoMesaDAO().delete(eliminar);
 	    }
 
 	    public void crearCo(ColegioDTO eliminar) {
-	        ModelFacade.colegioDAO.delete(eliminar);
+	        mf.getColegioDAO().delete(eliminar);
 	    }
 
 	    public void crearOfi(OficinaDTO eliminar) {
-	        ModelFacade.oficinaDAO.delete(eliminar);
+	       mf.getOficinaDAO().delete(eliminar);
 	    }
 
 	    public void crearHom(HombreDTO eliminar) {
-	        ModelFacade.hombreDAO.add(eliminar);
+	        mf.getHombreDAO().delete(eliminar);
 	    }
 
 	    public void crearMuj(MujerDTO eliminar) {
-	        ModelFacade.mujerDAO.add(eliminar);
+	        mf.getMujerDAO().delete(eliminar);
 	    }
 
 }

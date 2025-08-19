@@ -13,44 +13,50 @@ import co.edu.unbosque.model.OficinaDTO;
 import co.edu.unbosque.model.PestaninaDTO;
 
 public class AddService {
+	private ModelFacade mf;
 
     public AddService() {
+    	mf = new ModelFacade();
         // TODO Auto-generated constructor stub
     }
 
-    public void crearAu(AudifonoDTO nuevo) {
-        ModelFacade.audifonoDAO.add(nuevo);
-    }
+	 public void crearAu(AudifonoDTO eliminar) {
+		 
+	        mf.getAudifonoDAO().add(eliminar);
+	        System.out.println("añadido");
+	        System.out.println(mf.getAudifonoDAO().toString());
+	        System.out.println(mf.getAudifonoDAO().getListaAudifono().size());
+	    }
 
-    public void crearMo(MovilDTO nuevo) {
-        ModelFacade.movilDAO.add(nuevo);
-    }
+	    public void crearMo(MovilDTO eliminar) {
+	        mf.getMovilDAO().add(eliminar);
+	    }
 
-    public void crearLa(LabialDTO nuevo) {
-        ModelFacade.labialDAO.add(nuevo);
-    }
+	    public void crearLa(LabialDTO eliminar) {
+	        mf.getLabialDAO().add(eliminar);
+	    }
 
-    public void crearPes(PestaninaDTO nuevo) {
-        ModelFacade.pestaninaDAO.add(nuevo);
-    }
+	    public void crearPes(PestaninaDTO eliminar) {
+	        mf.getPestaninaDAO().add(eliminar);
+	    }
 
-    public void crearJue(JuegoMesaDTO nuevo) {
-        ModelFacade.juegoMesaDAO.add(nuevo);
-    }
+	    public void crearJue(JuegoMesaDTO eliminar) {
+	        mf.getJuegoMesaDAO().add(eliminar);
+	    }
 
-    public void crearCo(ColegioDTO nuevo) {
-        ModelFacade.colegioDAO.add(nuevo);
-    }
+	    public void crearCo(ColegioDTO eliminar) {
+	        mf.getColegioDAO().add(eliminar);
+	    }
 
-    public void crearOfi(OficinaDTO nuevo) {
-        ModelFacade.oficinaDAO.add(nuevo);
-    }
+	    public void crearOfi(OficinaDTO eliminar) {
+	       mf.getOficinaDAO().add(eliminar);
+	    }
 
-    public void crearHom(HombreDTO nuevo) {
-        ModelFacade.hombreDAO.add(nuevo);
-    }
+	    public void crearHom(HombreDTO eliminar) {
+	        mf.getHombreDAO().add(eliminar);
+	    }
 
-    public void crearMuj(MujerDTO nuevo) {
-        ModelFacade.mujerDAO.add(nuevo);
-    }
+	    public void crearMuj(MujerDTO eliminar) {
+	        mf.getMujerDAO().add(eliminar);
+	    }
 }

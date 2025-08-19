@@ -68,7 +68,10 @@ public class AddBean implements Serializable {
 		tipos = new ArrayList<>();
 		subtipos = new ArrayList<>();
 		subsubtipos = new ArrayList<>();
+		
+		aService = new AddService();
 	}
+	
 
 	// ========== MANEJAR UPLOAD ==========
 	public void handleFileUpload(FileUploadEvent event) {
@@ -203,7 +206,7 @@ public class AddBean implements Serializable {
                 case "DispositivoElectronico":
                     switch (subtipo) {
                         case "Audifono":
-                            AudifonoDTO audifono = new AudifonoDTO(nombre, precio, imageBase64 , tipo, subsubtipo);
+                            AudifonoDTO audifono = new AudifonoDTO("Jeisson", 88, "ok" , "imbecil","dsads");
                             aService.crearAu(audifono);
                             break;
                         case "Movil":
