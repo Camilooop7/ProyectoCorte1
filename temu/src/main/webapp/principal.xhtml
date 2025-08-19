@@ -79,135 +79,72 @@
 				<button class="btn-effect-18 nav-link"
 					style="border: none; background: orange;">AGREGAR</button>
 			</h:outputLink></li>
-		<li class="nav-item"><p:commandButton value="ELIMINAR"
-				actionListener="#{principalbean.eliminar}"
-				styleClass="btn-effect-18 nav-link"
-				style="border: none; background: orange;" /></li>
+			
+			
+			
+		
+
+<p:commandButton
+    value="#{paginaprincipalbean.modoEliminar ? 'COMPRAR' : 'ELIMINAR'}"
+    action="#{paginaprincipalbean.cambiarModoEliminar}"
+    oncomplete="actualizarBotones()"
+    styleClass="btn-effect-18 nav-link"
+    style="border: none; background: orange; text-decoration: none;"
+    update="formProductos"
+/>
+
+
+
+
+
 		<li class="nav-item"><p:commandButton value="ACTUALIZAR"
 				actionListener="#{principalbean.actualizar}"
 				styleClass="btn-effect-18 nav-link"
 				style="border: none; background: orange;" /></li>
 	</ul>
 	</nav> </header>
-	<br />
-	<br />
-	<section class="services" id="services">
+	
+	<br></br><br></br>
+	
+	<h:form id="formProductos">
+    <p:remoteCommand name="actualizarBotones" update="formProductos" action="#{paginaprincipalbean.cambiarModoEliminar}" />
+    <p:growl id="messages" showDetail="true" />
+
+    <section class="services" id="services">
         <div class="heading1">
             <h1>TEMU PRODUCTS</h1>
         </div>
         <div class="services-container">
-            <div class="box">
-                <div class="box-img"><img src="https://m.media-amazon.com/images/I/81Ax3qHF-cL._UF894,1000_QL80_.jpg" alt="car image"></img></div>
-                <p>JEAN</p>
-                <h3>CARGO PANT BLACK</h3>
-                <h2>$90.000</h2>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                
-                
-   <!-- En este caso me falta el update por si quiero update algun form -->             
-                <p:commandButton 
-    value="COMPRAR"
-    actionListener="#{paginaprincipalbean.comprar}"
-    
-    styleClass="btn"
-    style="border: none; background: orange; text-decoration: none;"
-/>
-            </div>
+            <ui:repeat var="producto" value="#{paginaprincipalbean.productos}">
+                <div class="box">
+                    <div class="box-img">
+                        <img src="#{producto.imagen}" alt="product image"/>
+                    </div>
+                    <p>#{producto.tipo}</p>
+                    <h3>#{producto.nombre}</h3>
+                    <h2>#{producto.precio}</h2>
+                    <i class="bi bi-star-fill star"></i>
+                    <i class="bi bi-star-fill star"></i>
+                    <i class="bi bi-star-fill star"></i>
+                    <i class="bi bi-star-fill star"></i>
+                    <i class="bi bi-star-fill star"></i>
+                    <p:commandButton
+                        value="#{paginaprincipalbean.modoEliminar ? 'ELIMINAR' : 'COMPRAR'}"
+                        action="#{paginaprincipalbean.accionProducto}"
+                        styleClass="btn"
+                        style="border: none; background: orange; text-decoration: none;"
+                        update="formProductos">
+                        <f:setPropertyActionListener
+                            target="#{paginaprincipalbean.idProductoSeleccionado}"
+                            value="#{producto.id}" />
+                    </p:commandButton>
+                </div>
+            </ui:repeat>
+        </div>
+    </section>
+</h:form>
 
-            <div class="box">
-                <div class="box-img"><img src="https://acdn-us.mitiendanube.com/stores/001/642/173/products/buzo-hoodie-rojo-b2e6d774c33c3375fb17197766136403-1024-1024.png" alt="car image"></img></div>
-                <p>BUZO</p>
-                <h3>RED HOODIE</h3>
-                <h2>$28,450</h2>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-       
-       <!-- En este caso me falta el update por si quiero update algun form -->         
-                <p:commandButton 
-    value="COMPRAR"
-    actionListener="#{paginaprincipalbean.comprar}"
-    
-    styleClass="btn"
-    style="border: none; background: orange; text-decoration: none;"
-/>
-            </div>
 
-            <div class="box">
-                <div class="box-img"><img src="https://img.freepik.com/fotos-premium/modelo-camiseta-verde-adelante-atras-vista-aislada-camisa-verde-plana-plantilla-diseno-camisa_21336-10799.jpg" alt="car image"></img></div>
-                <p>CAMISAS</p>
-                <h3>CAMISA verde</h3>
-                <h2>$29,000</h2>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                
-                
-              <!-- En este caso me falta el update por si quiero update algun form -->  
-                <p:commandButton 
-    value="COMPRAR"
-    actionListener="#{paginaprincipalbean.comprar}"
-    
-    styleClass="btn"
-    style="border: none; background: orange; text-decoration: none;"
-/>
-            </div>
-            
-            
-            <div class="box">
-                <div class="box-img"><img src="https://sm.mashable.com/mashable_in/seo/default/z3wq-71_57j7.jpg" alt="car image"></img></div>
-                <p>Iphone</p>
-                <h3>Iphone 19</h3>
-                <h2>$500,000</h2>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                
-                
-<!-- En este caso me falta el update por si quiero update algun form -->
-                <p:commandButton 
-    value="COMPRAR"
-    actionListener="#{paginaprincipalbean.comprar}"
-    
-    styleClass="btn"
-    style="border: none; background: orange; text-decoration: none;"
-/>
-            </div>
-            
-            <div class="box">
-                <div class="box-img"><img src="https://www.shutterstock.com/image-photo/monopoly-3d-character-cartoon-funny-260nw-2453789293.jpg" alt="car image"></img></div>
-                <p>Juego de mesas</p>
-                <h3>monopoly</h3>
-                <h2>$75,000</h2>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                <i class="bi bi-star-fill star"></i>
-                
-                
-                <!-- En este caso me falta el update por si quiero update algun form -->
-                <p:commandButton 
-    value="COMPRAR"
-    actionListener="#{paginaprincipalbean.comprar}"
-    
-    styleClass="btn"
-    style="border: none; background: orange; text-decoration: none;"
-/>
-            </div>
-
-</div>
-</section>
 	<br></br>
 
 <footer>
