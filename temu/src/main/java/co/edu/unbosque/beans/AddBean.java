@@ -7,12 +7,15 @@ import jakarta.faces.view.ViewScoped;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
+
+
 
 @Named("addBean") // <--- ahora CDI, accesible en las páginas como #{addBean}
 @SessionScoped // <--- versión moderna de JSF ViewScoped
@@ -31,12 +34,13 @@ public class AddBean implements Serializable {
 	private List<String> tipos;
 	private List<String> subtipos;
 	private List<String> subsubtipos;
+	
+	 private String imageBase64;
 
 	// === Campos para la imagen ===
 	private UploadedFile originalImageFile;
 	private StreamedContent image; // imagen original
-	private StreamedContent cropped; // imagen recortada
-	private byte[] croppedImage; // bytes de la imagen recortada
+	
 
 	// ====== Constructor ======
 	public AddBean() {
@@ -55,30 +59,20 @@ public class AddBean implements Serializable {
 
 	// ========== MANEJAR UPLOAD ==========
 	public void handleFileUpload(FileUploadEvent event) {
-	    try {
-	        this.originalImageFile = event.getFile();
+        try {
+            byte[] fileContent = event.getFile().getContent();
 
-	        // Guardar los bytes en memoria
-	        byte[] fileContent = originalImageFile.getContent();
+            // Convertir a Base64
+            this.imageBase64 = "data:" + event.getFile().getContentType() + ";base64," +
+                               Base64.getEncoder().encodeToString(fileContent);
 
-	        this.image = DefaultStreamedContent.builder()
-	                .stream(() -> new ByteArrayInputStream(fileContent))
-	                .contentType(originalImageFile.getContentType())
-	                .name(originalImageFile.getFileName())
-	                .build();
+            System.out.println("Imagen cargada como Base64");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	        System.out.println("Imagen cargada: " + originalImageFile.getFileName());
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	}
 
-	// ========== MANEJAR CROP ==========
-	
-
-	// ==============================
-	// LÓGICA DE PRODUCTOS
-	// ==============================
 
 	public void onProductoChange() {
 		subtipos.clear();
@@ -287,21 +281,6 @@ public class AddBean implements Serializable {
 		this.image = image;
 	}
 
-	public StreamedContent getCropped() {
-		return cropped;
-	}
-
-	public void setCropped(StreamedContent cropped) {
-		this.cropped = cropped;
-	}
-
-	public byte[] getCroppedImage() {
-		return croppedImage;
-	}
-
-	public void setCroppedImage(byte[] croppedImage) {
-		this.croppedImage = croppedImage;
-	}
 	
 	private String searchText;
 
@@ -312,5 +291,20 @@ public class AddBean implements Serializable {
 	public void setSearchText(String searchText) {
 	    this.searchText = searchText;
 	}
+
+	public String getImageBase64() {
+		return imageBase64;
+	}
+
+	public void setImageBase64(String imageBase64) {
+		this.imageBase64 = imageBase64;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
+	
 
 }

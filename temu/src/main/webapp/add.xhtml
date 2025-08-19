@@ -79,19 +79,21 @@
 	            <div class="col">
     <div class="card">
         <h:form enctype="multipart/form-data">
-            <p:growl id="messagesUpload" showDetail="true" />
+    <p:growl id="messagesUpload" showDetail="true" />
 
-            <p:fileUpload mode="advanced" multiple="false"
-                          update="messagesUpload imagePanel"
-                          listener="#{addBean.handleFileUpload}">
-                <p:validateFile sizeLimit="512000" allowTypes="/(\.|\/)(gif|jpeg|jpg|png)$/" />
-            </p:fileUpload>
+    <!-- Subida de imagen -->
+    <p:fileUpload mode="advanced" multiple="false"
+                  update="messagesUpload imagePanel"
+                  listener="#{addBean.handleFileUpload}">
+        <p:validateFile sizeLimit="512000" allowTypes="/(\.|\/)(gif|jpeg|jpg|png)$/" />
+    </p:fileUpload>
 
-            <p:outputPanel id="imagePanel">
-                <p:graphicImage rendered="#{not empty addBean.image}"
-                                value="#{addBean.image}" cache="false" />
-            </p:outputPanel>
-        </h:form>
+    <!-- Mostrar imagen -->
+    <p:outputPanel id="imagePanel">
+        <h:graphicImage rendered="#{not empty addBean.imageBase64}" 
+                        value="#{addBean.imageBase64}" />
+    </p:outputPanel>
+</h:form>
     </div>
 </div>
 	
