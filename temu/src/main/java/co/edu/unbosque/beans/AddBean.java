@@ -1,242 +1,316 @@
 package co.edu.unbosque.beans;
 
-import jakarta.faces.bean.ManagedBean;
-import jakarta.faces.bean.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.view.ViewScoped;
+
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("deprecation")
-@ManagedBean(name = "addbean")
-@ViewScoped
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.file.UploadedFile;
+
+@Named("addBean") // <--- ahora CDI, accesible en las páginas como #{addBean}
+@SessionScoped // <--- versión moderna de JSF ViewScoped
 public class AddBean implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private String producto;
-    private String tipo; // Nuevo campo
-    private String subtipo;
-    private String subsubtipo;
-    private String nombre;
-    private int precio;
-    private List<String> productos;
-    private List<String> tipos; // Nueva lista
-    private List<String> subtipos;
-    private List<String> subsubtipos;
 
-    public AddBean() {
-        productos = new ArrayList<>();
-        productos.add("DispositivoElectronico");
-        productos.add("Maquillaje");
-        productos.add("Juguete");
-        productos.add("Peluche");
-        productos.add("Papeleria");
-        productos.add("Ropa");
-        tipos = new ArrayList<>();
-        subtipos = new ArrayList<>();
-        subsubtipos = new ArrayList<>();
-    }
+	private static final long serialVersionUID = 1L;
 
-    public void onProductoChange() {
-        subtipos.clear();
-        tipos.clear(); // Limpiar tipos al cambiar producto
-        subsubtipos.clear();
-        subtipo = null;
-        tipo = null; // Resetear valor seleccionado
-        subsubtipo = null;
+	private String producto;
+	private String tipo;
+	private String subtipo;
+	private String subsubtipo;
+	private String nombre;
+	private int precio;
 
-        // Cargar subtipos según el producto
-        if ("DispositivoElectronico".equals(producto)) {
-            subtipos.add("Audifono");
-            subtipos.add("Movil");
-        } else if ("Maquillaje".equals(producto)) {
-            subtipos.add("Labial");
-            subtipos.add("Pestanina");
-        } else if ("Juguete".equals(producto)) {
-            subtipos.add("JuegoMesa");
-            subtipos.add("Educativo");
-        } else if ("Peluche".equals(producto)) {
-            subtipos.add("Pelicula");
-            subtipos.add("Animal");
-        } else if ("Papeleria".equals(producto)) {
-            subtipos.add("Colegio");
-            subtipos.add("Oficina");
-        } else if ("Ropa".equals(producto)) {
-            subtipos.add("Hombre");
-            subtipos.add("Mujer");
-        }
+	private List<String> productos;
+	private List<String> tipos;
+	private List<String> subtipos;
+	private List<String> subsubtipos;
 
-        // Cargar tipos según el producto (independiente de subtipos)
-        if ("DispositivoElectronico".equals(producto)) {
-            tipos.add("MODELO: 5464");
-            tipos.add("MODELO: 54655");
-            tipos.add("MODELO: 5FS655");
-            tipos.add("MODELO: 54SEF55");
-        } else if ("Maquillaje".equals(producto)) {
-            tipos.add("ES aprueba de agua SI");
-            tipos.add("ES aprueba de agua NO");
-        } else if ("Juguete".equals(producto)) {
-            tipos.add("EDAD: +5");
-            tipos.add("EDAD: +8");
-            tipos.add("EDAD: +12");
-            tipos.add("EDAD: +18");
-        } else if ("Peluche".equals(producto)) {
-            tipos.add("TAMANO: PEQUEÑO");
-            tipos.add("TAMANO: MEDIANO");
-            tipos.add("TAMANO: GRANDE");
-        } else if ("Papeleria".equals(producto)) {
-            tipos.add("CANTIDAD: 5 UND");
-            tipos.add("CANTIDAD: 10 UND");
-            tipos.add("CANTIDAD: 15 UND");
-            tipos.add("CANTIDAD: 20 UND");
-        } else if ("Ropa".equals(producto)) {
-            tipos.add("TALLA L - COLOR BLANCO");
-            tipos.add("TALLA M - COLOR AZUL");
-            tipos.add("TALLA S - ROJO");
-       
-        }
-    }
+	// === Campos para la imagen ===
+	private UploadedFile originalImageFile;
+	private StreamedContent image; // imagen original
+	private StreamedContent cropped; // imagen recortada
+	private byte[] croppedImage; // bytes de la imagen recortada
 
-    public void onSubtipoChange() {
-        subsubtipos.clear();  // limpiar opciones anteriores
-        subsubtipo = null;    // reset valor seleccionado
-        if ("Audifono".equals(subtipo)) {
-            subsubtipos.add("Con cable");
-            subsubtipos.add("Bluetooth");
-        } else if ("Movil".equals(subtipo)) {
-            subsubtipos.add("64 GB");
-            subsubtipos.add("128 GB");
-            subsubtipos.add("256 GB");
-        } else if ("Labial".equals(subtipo)) {
-            subsubtipos.add("Rojo");
-            subsubtipos.add("morado");
-            subsubtipos.add("Rosa");
-        } else if ("Pestanina".equals(subtipo)) {
-            subsubtipos.add("Duración 6 meses");
-            subsubtipos.add("Duración 12 meses");
-            subsubtipos.add("Duración 1 mes");
-        } else if ("JuegoMesa".equals(subtipo)) {
-             subsubtipos.add("4 personas");
-             subsubtipos.add("8 personas");
-             subsubtipos.add("2 personas");
-        } else if ("Educativo".equals(subtipo)) {
-             subsubtipos.add("Es didactico SI");
-             subsubtipos.add("Es didactico NO");
-        } else if ("Pelicula".equals(subtipo)) {
-             subsubtipos.add("PERSONAJE PELICULA AVATAR");
-             subsubtipos.add("PERSONAJE PELICULA UP");
-             subsubtipos.add("PERSONAJE PELICULA STRANGER");
-        } else if ("Animal".equals(subtipo)) {
-            subsubtipos.add("PERRO");
-            subsubtipos.add("GATO");
-            subsubtipos.add("MONO");
-            subsubtipos.add("PEZ");
-            subsubtipos.add("OSO");
-        } else if ("Colegio".equals(subtipo)) {
-            subsubtipos.add("ES seguro SI");
-            subsubtipos.add("ES seguro NO");
-        } else if ("Oficina".equals(subtipo)) {
-            subsubtipos.add("Es decorativo SI");
-            subsubtipos.add("Es decorativo NO");
-        } else if ("Hombre".equals(subtipo)) {
-            subsubtipos.add("Es deportiva SI");
-            subsubtipos.add("Es deportiva NO");
-        } else if ("Mujer".equals(subtipo)) {
-            subsubtipos.add("Es conjunto SI");
-            subsubtipos.add("Es conjunto NO");
-        }
-    }
+	// ====== Constructor ======
+	public AddBean() {
+		productos = new ArrayList<>();
+		productos.add("DispositivoElectronico");
+		productos.add("Maquillaje");
+		productos.add("Juguete");
+		productos.add("Peluche");
+		productos.add("Papeleria");
+		productos.add("Ropa");
 
-    // Guardar datos
-    public void guardar() {
-        System.out.println("Producto: " + producto);
-        System.out.println("Tipo: " + tipo); // Nuevo campo
-        System.out.println("Subtipo: " + subtipo);
-        System.out.println("Sub-subtipo: " + subsubtipo);
-        System.out.println("Nombre: " + nombre);
-        System.out.println("Precio: " + precio);
-    }
+		tipos = new ArrayList<>();
+		subtipos = new ArrayList<>();
+		subsubtipos = new ArrayList<>();
+	}
 
-    // ===== GETTERS y SETTERS =====
-    public String getProducto() {
-        return producto;
-    }
+	// ========== MANEJAR UPLOAD ==========
+	public void handleFileUpload(FileUploadEvent event) {
+	    try {
+	        this.originalImageFile = event.getFile();
 
-    public void setProducto(String producto) {
-        this.producto = producto;
-    }
+	        // Guardar los bytes en memoria
+	        byte[] fileContent = originalImageFile.getContent();
 
-    public String getTipo() {
-        return tipo;
-    }
+	        this.image = DefaultStreamedContent.builder()
+	                .stream(() -> new ByteArrayInputStream(fileContent))
+	                .contentType(originalImageFile.getContentType())
+	                .name(originalImageFile.getFileName())
+	                .build();
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+	        System.out.println("Imagen cargada: " + originalImageFile.getFileName());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 
-    public String getSubtipo() {
-        return subtipo;
-    }
+	// ========== MANEJAR CROP ==========
+	
 
-    public void setSubtipo(String subtipo) {
-        this.subtipo = subtipo;
-    }
+	// ==============================
+	// LÓGICA DE PRODUCTOS
+	// ==============================
 
-    public String getSubsubtipo() {
-        return subsubtipo;
-    }
+	public void onProductoChange() {
+		subtipos.clear();
+		tipos.clear();
+		subsubtipos.clear();
+		subtipo = null;
+		tipo = null;
+		subsubtipo = null;
 
-    public void setSubsubtipo(String subsubtipo) {
-        this.subsubtipo = subsubtipo;
-    }
+		if ("DispositivoElectronico".equals(producto)) {
+			subtipos.add("Audifono");
+			subtipos.add("Movil");
+			tipos.add("MODELO: 5464");
+			tipos.add("MODELO: 54655");
+			tipos.add("MODELO: 5FS655");
+			tipos.add("MODELO: 54SEF55");
+		} else if ("Maquillaje".equals(producto)) {
+			subtipos.add("Labial");
+			subtipos.add("Pestanina");
+			tipos.add("ES aprueba de agua SI");
+			tipos.add("ES aprueba de agua NO");
+		} else if ("Juguete".equals(producto)) {
+			subtipos.add("JuegoMesa");
+			subtipos.add("Educativo");
+			tipos.add("EDAD: +5");
+			tipos.add("EDAD: +8");
+			tipos.add("EDAD: +12");
+			tipos.add("EDAD: +18");
+		} else if ("Peluche".equals(producto)) {
+			subtipos.add("Pelicula");
+			subtipos.add("Animal");
+			tipos.add("TAMANO: PEQUEÑO");
+			tipos.add("TAMANO: MEDIANO");
+			tipos.add("TAMANO: GRANDE");
+		} else if ("Papeleria".equals(producto)) {
+			subtipos.add("Colegio");
+			subtipos.add("Oficina");
+			tipos.add("CANTIDAD: 5 UND");
+			tipos.add("CANTIDAD: 10 UND");
+			tipos.add("CANTIDAD: 15 UND");
+			tipos.add("CANTIDAD: 20 UND");
+		} else if ("Ropa".equals(producto)) {
+			subtipos.add("Hombre");
+			subtipos.add("Mujer");
+			tipos.add("TALLA L - COLOR BLANCO");
+			tipos.add("TALLA M - COLOR AZUL");
+			tipos.add("TALLA S - ROJO");
+		}
+	}
 
-    public List<String> getProductos() {
-        return productos;
-    }
+	public void onSubtipoChange() {
+		subsubtipos.clear();
+		subsubtipo = null;
 
-    public void setProductos(List<String> productos) {
-        this.productos = productos;
-    }
+		if ("Audifono".equals(subtipo)) {
+			subsubtipos.add("Con cable");
+			subsubtipos.add("Bluetooth");
+		} else if ("Movil".equals(subtipo)) {
+			subsubtipos.add("64 GB");
+			subsubtipos.add("128 GB");
+			subsubtipos.add("256 GB");
+		} else if ("Labial".equals(subtipo)) {
+			subsubtipos.add("Rojo");
+			subsubtipos.add("Morado");
+			subsubtipos.add("Rosa");
+		} else if ("Pestanina".equals(subtipo)) {
+			subsubtipos.add("Duración 6 meses");
+			subsubtipos.add("Duración 12 meses");
+			subsubtipos.add("Duración 1 mes");
+		} else if ("JuegoMesa".equals(subtipo)) {
+			subsubtipos.add("4 personas");
+			subsubtipos.add("8 personas");
+			subsubtipos.add("2 personas");
+		} else if ("Educativo".equals(subtipo)) {
+			subsubtipos.add("Es didáctico SI");
+			subsubtipos.add("Es didáctico NO");
+		} else if ("Pelicula".equals(subtipo)) {
+			subsubtipos.add("PERSONAJE PELICULA AVATAR");
+			subsubtipos.add("PERSONAJE PELICULA UP");
+			subsubtipos.add("PERSONAJE PELICULA STRANGER");
+		} else if ("Animal".equals(subtipo)) {
+			subsubtipos.add("PERRO");
+			subsubtipos.add("GATO");
+			subsubtipos.add("MONO");
+			subsubtipos.add("PEZ");
+			subsubtipos.add("OSO");
+		} else if ("Colegio".equals(subtipo)) {
+			subsubtipos.add("ES seguro SI");
+			subsubtipos.add("ES seguro NO");
+		} else if ("Oficina".equals(subtipo)) {
+			subsubtipos.add("Es decorativo SI");
+			subsubtipos.add("Es decorativo NO");
+		} else if ("Hombre".equals(subtipo)) {
+			subsubtipos.add("Es deportiva SI");
+			subsubtipos.add("Es deportiva NO");
+		} else if ("Mujer".equals(subtipo)) {
+			subsubtipos.add("Es conjunto SI");
+			subsubtipos.add("Es conjunto NO");
+		}
+	}
 
-    public List<String> getTipos() {
-        return tipos;
-    }
+	// Guardar datos
+	public void guardar() {
+		System.out.println("Producto: " + producto);
+		System.out.println("Tipo: " + tipo);
+		System.out.println("Subtipo: " + subtipo);
+		System.out.println("Sub-subtipo: " + subsubtipo);
+		System.out.println("Nombre: " + nombre);
+		System.out.println("Precio: " + precio);
+	}
 
-    public void setTipos(List<String> tipos) {
-        this.tipos = tipos;
-    }
+	// ====== GETTERS y SETTERS ======
+	public String getProducto() {
+		return producto;
+	}
 
-    public List<String> getSubtipos() {
-        return subtipos;
-    }
+	public void setProducto(String producto) {
+		this.producto = producto;
+	}
 
-    public void setSubtipos(List<String> subtipos) {
-        this.subtipos = subtipos;
-    }
+	public String getTipo() {
+		return tipo;
+	}
 
-    public List<String> getSubsubtipos() {
-        return subsubtipos;
-    }
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
-    public void setSubsubtipos(List<String> subsubtipos) {
-        this.subsubtipos = subsubtipos;
-    }
+	public String getSubtipo() {
+		return subtipo;
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	public void setSubtipo(String subtipo) {
+		this.subtipo = subtipo;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public String getSubsubtipo() {
+		return subsubtipo;
+	}
 
-    public int getPrecio() {
-        return precio;
-    }
+	public void setSubsubtipo(String subsubtipo) {
+		this.subsubtipo = subsubtipo;
+	}
 
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
+	public List<String> getProductos() {
+		return productos;
+	}
 
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
+	public void setProductos(List<String> productos) {
+		this.productos = productos;
+	}
+
+	public List<String> getTipos() {
+		return tipos;
+	}
+
+	public void setTipos(List<String> tipos) {
+		this.tipos = tipos;
+	}
+
+	public List<String> getSubtipos() {
+		return subtipos;
+	}
+
+	public void setSubtipos(List<String> subtipos) {
+		this.subtipos = subtipos;
+	}
+
+	public List<String> getSubsubtipos() {
+		return subsubtipos;
+	}
+
+	public void setSubsubtipos(List<String> subsubtipos) {
+		this.subsubtipos = subsubtipos;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public int getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(int precio) {
+		this.precio = precio;
+	}
+
+	public UploadedFile getOriginalImageFile() {
+		return originalImageFile;
+	}
+
+	public void setOriginalImageFile(UploadedFile originalImageFile) {
+		this.originalImageFile = originalImageFile;
+	}
+
+	public StreamedContent getImage() {
+		return image;
+	}
+
+	public void setImage(StreamedContent image) {
+		this.image = image;
+	}
+
+	public StreamedContent getCropped() {
+		return cropped;
+	}
+
+	public void setCropped(StreamedContent cropped) {
+		this.cropped = cropped;
+	}
+
+	public byte[] getCroppedImage() {
+		return croppedImage;
+	}
+
+	public void setCroppedImage(byte[] croppedImage) {
+		this.croppedImage = croppedImage;
+	}
+	
+	private String searchText;
+
+	public String getSearchText() {
+	    return searchText;
+	}
+
+	public void setSearchText(String searchText) {
+	    this.searchText = searchText;
+	}
+
 }

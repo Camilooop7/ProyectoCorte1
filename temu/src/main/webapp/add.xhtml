@@ -77,73 +77,63 @@
 	
 	            <!-- IMAGE CROPPER -->
 	            <div class="col">
-	                <div class="card">
-	                    <h:form enctype="multipart/form-data">
-	                        <p:growl id="messagesUpload" showDetail="true" />
-	
-	                        <p:fileUpload mode="advanced" multiple="false"
-	                                      update="messagesUpload cropperPanel"
-	                                      listener="#{addBean.handleFileUpload}">
-	                            <p:validateFile sizeLimit="512000" allowTypes="/(\.|\/)(gif|jpeg|jpg|png)$/" />
-	                        </p:fileUpload>
-	
-	                        <p:outputPanel id="cropperPanel">
-	                            <h:panelGrid columns="1" rendered="#{not empty addBean.originalImageFile}">
-	                                <p:commandButton value="Crop" action="#{addBean.crop}" update="cropped messagesUpload" styleClass="my-3" />
-	                                <h:panelGrid columns="2" cellpadding="7">
-	                                    <p:imageCropper value="#{addBean.croppedImage}" id="imageCropper" cache="false"
-	                                                    image="#{addBean.image}" initialCoords="50,50,150,300"
-	                                                    minSize="50,50" maxSize="350,350" />
-	                                    <p:outputPanel id="cropped">
-	                                        <p:graphicImage cache="false" rendered="#{not empty addBean.croppedImage}"
-	                                                        value="#{addBean.cropped}" />
-	                                    </p:outputPanel>
-	                                </h:panelGrid>
-	                            </h:panelGrid>
-	                        </p:outputPanel>
-	                    </h:form>
-	                </div>
-	            </div>
+    <div class="card">
+        <h:form enctype="multipart/form-data">
+            <p:growl id="messagesUpload" showDetail="true" />
+
+            <p:fileUpload mode="advanced" multiple="false"
+                          update="messagesUpload imagePanel"
+                          listener="#{addBean.handleFileUpload}">
+                <p:validateFile sizeLimit="512000" allowTypes="/(\.|\/)(gif|jpeg|jpg|png)$/" />
+            </p:fileUpload>
+
+            <p:outputPanel id="imagePanel">
+                <p:graphicImage rendered="#{not empty addBean.image}"
+                                value="#{addBean.image}" cache="false" />
+            </p:outputPanel>
+        </h:form>
+    </div>
+</div>
 	
 	            <!-- PRODUCT FORM -->
 	            <div class="card">
     <h:form id="form">
     <!-- Producto -->
-    <h:selectOneMenu value="#{addbean.producto}">
+    <h:selectOneMenu value="#{addBean.producto}">
         <f:selectItem itemLabel="Seleccione producto" itemValue="" />
-        <f:selectItems value="#{addbean.productos}" />
-        <p:ajax listener="#{addbean.onProductoChange}" update="tipo subtipo subsubtipo" />
+        <f:selectItems value="#{addBean.productos}" />
+        <p:ajax listener="#{addBean.onProductoChange}" update="tipo subtipo subsubtipo" />
     </h:selectOneMenu>
 
     <!-- Tipo (Nuevo campo) -->
-    <h:selectOneMenu id="tipo" value="#{addbean.tipo}">
+    <h:selectOneMenu id="tipo" value="#{addBean.tipo}">
         <f:selectItem itemLabel="Seleccione tipo" itemValue="" />
-        <f:selectItems value="#{addbean.tipos}" />
+        <f:selectItems value="#{addBean.tipos}" />
     </h:selectOneMenu>
 
     <!-- Subtipo -->
-    <h:selectOneMenu id="subtipo" value="#{addbean.subtipo}">
+    <h:selectOneMenu id="subtipo" value="#{addBean.subtipo}">
         <f:selectItem itemLabel="Seleccione subtipo" itemValue="" />
-        <f:selectItems value="#{addbean.subtipos}" />
-        <p:ajax listener="#{addbean.onSubtipoChange}" update="subsubtipo" />
+        <f:selectItems value="#{addBean.subtipos}" />
+        <p:ajax listener="#{addBean.onSubtipoChange}" update="subsubtipo" />
     </h:selectOneMenu>
 
     <!-- Nombre -->
-    <p:inputText id="nombre" value="#{addbean.nombre}" placeholder="Ingrese nombre" required="true" />
+    <p:inputText id="nombre" value="#{addBean.nombre}" placeholder="Ingrese nombre" required="true" />
 
     <!-- Precio -->
-    <p:inputText id="precio" value="#{addbean.precio}" placeholder="Ingrese precio" required="true">
+    <p:inputText id="precio" value="#{addBean.precio}" placeholder="Ingrese precio" required="true">
         <f:convertNumber maxFractionDigits="2" />
     </p:inputText>
 
     <!-- Sub-subtipo -->
-    <h:selectOneMenu id="subsubtipo" value="#{addbean.subsubtipo}">
+    <h:selectOneMenu id="subsubtipo" value="#{addBean.subsubtipo}">
         <f:selectItem itemLabel="Seleccione sub-subtipo" itemValue="" />
-        <f:selectItems value="#{addbean.subsubtipos}" />
+        <f:selectItems value="#{addBean.subsubtipos}" />
     </h:selectOneMenu>
 
     <!-- Botón guardar -->
-    <p:commandButton value="Guardar" actionListener="#{addbean.guardar}" update="@form" />
+    <p:commandButton value="Guardar" actionListener="#{addBean.guardar}" update="@form" />
 </h:form>
 
 </div>
