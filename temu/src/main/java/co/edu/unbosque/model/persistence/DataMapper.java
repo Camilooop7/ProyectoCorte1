@@ -6,6 +6,8 @@ import co.edu.unbosque.model.Animal;
 import co.edu.unbosque.model.AnimalDTO;
 import co.edu.unbosque.model.Audifono;
 import co.edu.unbosque.model.AudifonoDTO;
+import co.edu.unbosque.model.Carrito;
+import co.edu.unbosque.model.CarritoDTO;
 import co.edu.unbosque.model.Colegio;
 import co.edu.unbosque.model.ColegioDTO;
 import co.edu.unbosque.model.Educativo;
@@ -148,7 +150,7 @@ public class DataMapper {
 	 */
 	public static Colegio colegioDTOToColegio(ColegioDTO dto) {
 		Colegio entity = new Colegio(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getCantidadPaquete(),
-				dto.isEsSeguro());
+				dto.getEsSeguro());
 		return entity;
 	}
 
@@ -160,7 +162,7 @@ public class DataMapper {
 	 */
 	public static ColegioDTO colegioToColegioDTO(Colegio entity) {
 		ColegioDTO dto = new ColegioDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-				entity.getCantidadPaquete(), entity.isEsSeguro());
+				entity.getCantidadPaquete(), entity.getEsSeguro());
 		return dto;
 	}
 
@@ -174,7 +176,7 @@ public class DataMapper {
 		ArrayList<ColegioDTO> dtoList = new ArrayList<>();
 		for (Colegio m : entityList) {
 			dtoList.add(new ColegioDTO(m.getNombre(), m.getPrecio(), m.getImagen(), m.getCantidadPaquete(),
-					m.isEsSeguro()));
+					m.getEsSeguro()));
 		}
 		return dtoList;
 	}
@@ -189,7 +191,7 @@ public class DataMapper {
 		ArrayList<Colegio> entityList = new ArrayList<>();
 		for (ColegioDTO d : dtoList) {
 			entityList.add(
-					new Colegio(d.getNombre(), d.getPrecio(), d.getImagen(), d.getCantidadPaquete(), d.isEsSeguro()));
+					new Colegio(d.getNombre(), d.getPrecio(), d.getImagen(), d.getCantidadPaquete(), d.getEsSeguro()));
 		}
 		return entityList;
 	}
@@ -202,7 +204,7 @@ public class DataMapper {
 	 */
 	public static Educativo educativoDTOToEducativo(EducativoDTO dto) {
 		Educativo entity = new Educativo(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getEdadRecomendada(),
-				dto.isEsDidactico());
+				dto.getEsDidactico());
 		return entity;
 	}
 
@@ -214,7 +216,7 @@ public class DataMapper {
 	 */
 	public static EducativoDTO educativoToEducativoDTO(Educativo entity) {
 		EducativoDTO dto = new EducativoDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(),
-				entity.getEdadRecomendada(), entity.isEsDidactico());
+				entity.getEdadRecomendada(), entity.getEsDidactico());
 		return dto;
 	}
 
@@ -228,7 +230,7 @@ public class DataMapper {
 		ArrayList<EducativoDTO> dtoList = new ArrayList<>();
 		for (Educativo e : entityList) {
 			dtoList.add(new EducativoDTO(e.getNombre(), e.getPrecio(), e.getImagen(), e.getEdadRecomendada(),
-					e.isEsDidactico()));
+					e.getEsDidactico()));
 		}
 		return dtoList;
 	}
@@ -243,7 +245,7 @@ public class DataMapper {
 		ArrayList<Educativo> entityList = new ArrayList<>();
 		for (EducativoDTO d : dtoList) {
 			entityList.add(new Educativo(d.getNombre(), d.getPrecio(), d.getImagen(), d.getEdadRecomendada(),
-					d.isEsDidactico()));
+					d.getEsDidactico()));
 		}
 		return entityList;
 	}
@@ -254,9 +256,10 @@ public class DataMapper {
 	 * @param dto El HombreDTO a convertir.
 	 * @return El Hombre resultante.
 	 */
+	
 	public static Hombre hombreDTOToHombre(HombreDTO dto) {
 		Hombre entity = new Hombre(dto.getNombre(), dto.getPrecio(), dto.getImagen(), dto.getTalla(), dto.getColor(),
-				dto.isEsDeportiva());
+				dto.getEsDeportiva());
 		return entity;
 	}
 
@@ -268,7 +271,7 @@ public class DataMapper {
 	 */
 	public static HombreDTO hombreToHombreDTO(Hombre entity) {
 		HombreDTO dto = new HombreDTO(entity.getNombre(), entity.getPrecio(), entity.getImagen(), entity.getTalla(),
-				entity.getColor(), entity.isEsDeportiva());
+				entity.getColor(), entity.getEsDeportiva());
 		return dto;
 	}
 
@@ -282,7 +285,7 @@ public class DataMapper {
 		ArrayList<HombreDTO> dtoList = new ArrayList<>();
 		for (Hombre e : entityList) {
 			dtoList.add(new HombreDTO(e.getNombre(), e.getPrecio(), e.getImagen(), e.getTalla(), e.getColor(),
-					e.isEsDeportiva()));
+					e.getEsDeportiva()));
 		}
 		return dtoList;
 	}
@@ -297,7 +300,7 @@ public class DataMapper {
 		ArrayList<Hombre> entityList = new ArrayList<>();
 		for (HombreDTO d : dtoList) {
 			entityList.add(new Hombre(d.getNombre(), d.getPrecio(), d.getImagen(), d.getTalla(), d.getColor(),
-					d.isEsDeportiva()));
+					d.getEsDeportiva()));
 		}
 		return entityList;
 	}
@@ -734,5 +737,55 @@ public class DataMapper {
 		}
 		return entityList;
 	}
+	/**
+	 * Convierte un CarritoDTO a un Carrito.
+	 *
+	 * @param dto El CarritoDTO a convertir.
+	 * @return El Carrito resultante.
+	 */
+	public static Carrito carritoDTOToCarrito(CarritoDTO dto) {
+	    Carrito entity = new Carrito(dto.getNombre(), dto.getListaCarrito());
+	    return entity;
+	}
+
+	/**
+	 * Convierte un Carrito a un CarritoDTO.
+	 *
+	 * @param entity El Carrito a convertir.
+	 * @return El CarritoDTO resultante.
+	 */
+	public static CarritoDTO carritoToCarritoDTO(Carrito entity) {
+	    CarritoDTO dto = new CarritoDTO(entity.getNombre(), entity.getListaCarrito());
+	    return dto;
+	}
+
+	/**
+	 * Convierte una lista de Carrito a una lista de CarritoDTO.
+	 *
+	 * @param entityList La lista de Carrito a convertir.
+	 * @return La lista de CarritoDTO resultante.
+	 */
+	public static ArrayList<CarritoDTO> listaCarritoToListaCarritoDTO(ArrayList<Carrito> entityList) {
+	    ArrayList<CarritoDTO> dtoList = new ArrayList<>();
+	    for (Carrito e : entityList) {
+	        dtoList.add(new CarritoDTO(e.getNombre(), e.getListaCarrito()));
+	    }
+	    return dtoList;
+	}
+
+	/**
+	 * Convierte una lista de CarritoDTO a una lista de Carrito.
+	 *
+	 * @param dtoList La lista de CarritoDTO a convertir.
+	 * @return La lista de Carrito resultante.
+	 */
+	public static ArrayList<Carrito> listaCarritoDTOToListaCarrito(ArrayList<CarritoDTO> dtoList) {
+	    ArrayList<Carrito> entityList = new ArrayList<>();
+	    for (CarritoDTO d : dtoList) {
+	        entityList.add(new Carrito(d.getNombre(), d.getListaCarrito()));
+	    }
+	    return entityList;
+	}
+
 
 }

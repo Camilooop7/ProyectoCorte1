@@ -15,6 +15,18 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 
+import co.edu.unbosque.model.AudifonoDTO;
+import co.edu.unbosque.model.ColegioDTO;
+import co.edu.unbosque.model.EducativoDTO;
+import co.edu.unbosque.model.HombreDTO;
+import co.edu.unbosque.model.JuegoMesaDTO;
+import co.edu.unbosque.model.LabialDTO;
+import co.edu.unbosque.model.MovilDTO;
+import co.edu.unbosque.model.MujerDTO;
+import co.edu.unbosque.model.OficinaDTO;
+import co.edu.unbosque.model.PestaninaDTO;
+import co.edu.unbosque.service.AddService;
+
 
 
 @Named("addBean") // <--- ahora CDI, accesible en las páginas como #{addBean}
@@ -40,6 +52,7 @@ public class AddBean implements Serializable {
 	// === Campos para la imagen ===
 	private UploadedFile originalImageFile;
 	private StreamedContent image; // imagen original
+	private AddService aService;
 	
 
 	// ====== Constructor ======
@@ -183,6 +196,78 @@ public class AddBean implements Serializable {
 		System.out.println("Nombre: " + nombre);
 		System.out.println("Precio: " + precio);
 	}
+	
+	public void guardarPro() {
+        try {
+            switch (producto) {
+                case "DispositivoElectronico":
+                    switch (subtipo) {
+                        case "Audifono":
+                            AudifonoDTO audifono = new AudifonoDTO(nombre, precio, imageBase64 , tipo, subsubtipo);
+                            aService.crearAu(audifono);
+                            break;
+                        case "Movil":
+                            MovilDTO movil = new MovilDTO(nombre, precio,imageBase64 ,tipo, subsubtipo);
+                            aService.crearMo(movil);
+                            break;
+                    }
+                    break;
+                case "Maquillaje":
+                    switch (subtipo) {
+                        case "Labial":
+                            LabialDTO labial = new LabialDTO(nombre, precio, imageBase64,tipo, subsubtipo);
+                            aService.crearLa(labial);
+                            break;
+                        case "Pestanina":
+                            PestaninaDTO pestanina = new PestaninaDTO(nombre, precio,imageBase64, tipo, subsubtipo);
+                            aService.crearPes(pestanina);
+                            break;
+                    }
+                    break;
+                case "Juguete":
+                    switch (subtipo) {
+                        case "JuegoMesa":
+                            JuegoMesaDTO juegoMesa = new JuegoMesaDTO(nombre, precio,imageBase64, tipo, subsubtipo);
+                            aService.crearJue(juegoMesa);
+                            break;
+                        case "Educativo":
+                            EducativoDTO educativo = new EducativoDTO(nombre, precio,imageBase64, tipo, subsubtipo);
+                            // Asegúrate de que el servicio tenga un método para EducativoDTO
+                            break;
+                    }
+                    break;
+                case "Papeleria":
+                    switch (subtipo) {
+                        case "Colegio":
+                            ColegioDTO colegio = new ColegioDTO(nombre, precio,imageBase64, tipo, subsubtipo);
+                            aService.crearCo(colegio);
+                            break;
+                        case "Oficina":
+                            OficinaDTO oficina = new OficinaDTO(nombre, precio,imageBase64, tipo, subsubtipo);
+                            aService.crearOfi(oficina);
+                            break;
+                    }
+                    break;
+                case "Ropa":
+                    switch (subtipo) {
+                        case "Hombre":
+                            HombreDTO hombre = new HombreDTO(nombre, precio,imageBase64,tipo, subsubtipo);
+                            aService.crearHom(hombre);
+                            break;
+                        case "Mujer":
+                            MujerDTO mujer = new MujerDTO(nombre, precio,imageBase64, tipo, subsubtipo);
+                            aService.crearMuj(mujer);
+                            break;
+                    }
+                    break;
+                default:
+                    System.out.println("Tipo de producto no soportado.");
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 	// ====== GETTERS y SETTERS ======
 	public String getProducto() {

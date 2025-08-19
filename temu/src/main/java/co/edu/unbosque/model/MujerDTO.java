@@ -4,33 +4,33 @@ import java.io.Serializable;
 
 public class MujerDTO extends Ropa implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private boolean esConjunto;
+	private String esConjunto;
 
 	public MujerDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MujerDTO(boolean esConjunto) {
+	public MujerDTO(String esConjunto) {
 		super();
 		this.esConjunto = esConjunto;
 	}
 
-	public MujerDTO(String nombre, int precio,  String imagen, int talla, String color,
-			boolean esConjunto) {
+	public MujerDTO(String nombre, int precio,  String imagen, String talla, String color,
+			String esConjunto) {
 		super(nombre, precio, imagen, talla, color);
 		this.esConjunto = esConjunto;
 	}
 
-	public MujerDTO(String nombre, int precio,  String imagen, int talla, String color) {
+	public MujerDTO(String nombre, int precio,  String imagen, String talla, String color) {
 		super(nombre, precio,  imagen, talla, color);
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean isEsConjunto() {
+	public String isEsConjunto() {
 		return esConjunto;
 	}
 
-	public void setEsConjunto(boolean esConjunto) {
+	public void setEsConjunto(String esConjunto) {
 		this.esConjunto = esConjunto;
 	}
 

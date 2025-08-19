@@ -6,7 +6,7 @@ public abstract class Ropa extends Producto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** talla de la prenda */
-	private int talla;
+	private String talla;
 	/** color de la ropa */
 	private String color;
 	/**
@@ -22,7 +22,7 @@ public abstract class Ropa extends Producto implements Serializable {
 	 * @param color de la ropa.
 	
 	 */
-	public Ropa(int talla, String color) {
+	public Ropa(String talla, String color) {
 		super();
 		this.talla = talla;
 		this.color = color;
@@ -47,17 +47,17 @@ public abstract class Ropa extends Producto implements Serializable {
 	 * @param color de la ropa.
 	 */
 
-	public Ropa(String nombre, int precio, String imagen, int talla, String color) {
+	public Ropa(String nombre, int precio, String imagen, String talla, String color) {
 		super(nombre, precio, imagen);
 		this.talla = talla;
 		this.color = color;
 	}
 
-	public int getTalla() {
+	public String getTalla() {
 		return talla;
 	}
 
-	public void setTalla(int talla) {
+	public void setTalla(String talla) {
 		this.talla = talla;
 	}
 

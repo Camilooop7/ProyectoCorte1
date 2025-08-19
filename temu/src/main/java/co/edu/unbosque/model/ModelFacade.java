@@ -2,6 +2,7 @@ package co.edu.unbosque.model;
 
 import co.edu.unbosque.model.persistence.AnimalDAO;
 import co.edu.unbosque.model.persistence.AudifonoDAO;
+import co.edu.unbosque.model.persistence.CarritoDAO;
 import co.edu.unbosque.model.persistence.ColegioDAO;
 import co.edu.unbosque.model.persistence.EducativoDAO;
 import co.edu.unbosque.model.persistence.HombreDAO;
@@ -69,6 +70,8 @@ public class ModelFacade {
 	public static PestaninaDAO pestaninaDAO;
 	
 	public static PersonaDAO personaDAO;
+	
+	public static CarritoDAO carritoDAO;
 
 	/**
 	 * Constructor de la clase. Inicializa los DAOs.
@@ -87,6 +90,7 @@ public class ModelFacade {
 		peliculaDAO = new PeliculaDAO();
 		pestaninaDAO = new PestaninaDAO();
 		personaDAO = new PersonaDAO();
+		carritoDAO = new CarritoDAO();
 	}
 
 	/**

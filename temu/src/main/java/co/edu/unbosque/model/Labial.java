@@ -15,12 +15,12 @@ public class Labial extends Maquillaje implements Serializable {
 		this.tono = tono;
 	}
 
-	public Labial(String nombre, int precio, String imagen, boolean esApruebaDeAgua, String tono) {
+	public Labial(String nombre, int precio, String imagen, String esApruebaDeAgua, String tono) {
 		super(nombre, precio, imagen, esApruebaDeAgua);
 		this.tono = tono;
 	}
 
-	public Labial(String nombre, int precio, String imagen, boolean esApruebaDeAgua) {
+	public Labial(String nombre, int precio, String imagen, String esApruebaDeAgua) {
 		super(nombre, precio, imagen, esApruebaDeAgua);
 		// TODO Auto-generated constructor stub
 	}

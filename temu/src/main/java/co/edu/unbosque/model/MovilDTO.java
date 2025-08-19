@@ -5,18 +5,18 @@ import java.io.Serializable;
 public class MovilDTO extends DispositivoElectronico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int almacenamiento;
+	private String almacenamiento;
 
 	public MovilDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MovilDTO(int almacenamiento) {
+	public MovilDTO(String almacenamiento) {
 		super();
 		this.almacenamiento = almacenamiento;
 	}
 
-	public MovilDTO(String nombre, int precio, String imagen, String modelo, int almacenamiento) {
+	public MovilDTO(String nombre, int precio, String imagen, String modelo, String almacenamiento) {
 		super(nombre, precio, imagen, modelo);
 		this.almacenamiento = almacenamiento;
 	}
@@ -26,11 +26,11 @@ public class MovilDTO extends DispositivoElectronico implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getAlmacenamiento() {
+	public String getAlmacenamiento() {
 		return almacenamiento;
 	}
 
-	public void setAlmacenamiento(int almacenamiento) {
+	public void setAlmacenamiento(String almacenamiento) {
 		this.almacenamiento = almacenamiento;
 	}
 

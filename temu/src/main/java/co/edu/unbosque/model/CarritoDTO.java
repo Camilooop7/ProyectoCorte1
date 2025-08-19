@@ -8,10 +8,11 @@ import java.util.ArrayList;
  */
 public class CarritoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;		
+	private String nombre;
 	/**
 	 * Lista de productos en el carrito.
 	 */
-	private ArrayList<Producto> listaCarrito;
+	private ArrayList<String> listaCarrito;
 
 	/**
 	 * Constructor vacío.
@@ -19,23 +20,55 @@ public class CarritoDTO implements Serializable {
 	public CarritoDTO() {
 		listaCarrito = new ArrayList<>();
 	}
+	
+	
+
+	public CarritoDTO(String nombre, ArrayList<String> listaCarrito) {
+		super();
+		this.nombre = nombre;
+		this.listaCarrito = listaCarrito;
+	}
+
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+
+	public ArrayList<String> getListaCarrito() {
+		return listaCarrito;
+	}
+
+
+
+	public void setListaCarrito(ArrayList<String> listaCarrito) {
+		this.listaCarrito = listaCarrito;
+	}
+
+
+
+
 
 	/**
 	 * Obtiene la lista de productos en el carrito.
 	 * 
 	 * @return Lista de productos en el carrito.
 	 */
-	public ArrayList<Producto> getListaCarrito() {
-		return listaCarrito;
-	}
 
+	
+	
 	/**
 	 * Establece la lista de productos en el carrito.
 	 * 
 	 * @param listaCarrito Nueva lista de productos.
 	 */
-	public void setListaCarrito(ArrayList<Producto> listaCarrito) {
-		this.listaCarrito = listaCarrito;
-	}
-}
 
+}

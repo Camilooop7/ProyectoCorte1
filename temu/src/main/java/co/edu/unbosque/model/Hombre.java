@@ -4,33 +4,34 @@ import java.io.Serializable;
 
 public class Hombre extends Ropa implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private boolean esDeportiva;
+	private String esDeportiva;
 
 	public Hombre() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Hombre(boolean esDeportiva) {
+	public Hombre(String esDeportiva) {
 		super();
 		this.esDeportiva = esDeportiva;
 	}
 
-	public Hombre(String nombre, int precio, String imagen, int talla, String color,
-			boolean esDeportiva) {
+	public Hombre(String nombre, int precio, String imagen, String talla, String color,
+			String esDeportiva) {
 		super(nombre, precio, imagen, talla, color);
 		this.esDeportiva = esDeportiva;
 	}
 
-	public Hombre(String nombre, int precio, String imagen, int talla, String color) {
+	public Hombre(String nombre, int precio, String imagen, String talla, String color) {
 		super(nombre, precio, imagen, talla, color);
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean isEsDeportiva() {
+
+	public String getEsDeportiva() {
 		return esDeportiva;
 	}
 
-	public void setEsDeportiva(boolean esDeportiva) {
+	public void setEsDeportiva(String esDeportiva) {
 		this.esDeportiva = esDeportiva;
 	}
 

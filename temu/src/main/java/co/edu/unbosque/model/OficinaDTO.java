@@ -4,32 +4,32 @@ import java.io.Serializable;
 
 public class OficinaDTO extends Papeleria implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private boolean esDecorativo;
+	private String esDecorativo;
 
 	public OficinaDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public OficinaDTO(boolean esDecorativo) {
+	public OficinaDTO(String esDecorativo) {
 		super();
 		this.esDecorativo = esDecorativo;
 	}
 
-	public OficinaDTO(String nombre, int precio, String imagen, int cantidadPaquete, boolean esDecorativo) {
+	public OficinaDTO(String nombre, int precio, String imagen, String cantidadPaquete, String esDecorativo) {
 		super(nombre, precio, imagen, cantidadPaquete);
 		this.esDecorativo = esDecorativo;
 	}
 
-	public OficinaDTO(String nombre, int precio, String imagen, int cantidadPaquete) {
+	public OficinaDTO(String nombre, int precio, String imagen, String cantidadPaquete) {
 		super(nombre, precio, imagen, cantidadPaquete);
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean isEsDecorativo() {
+	public String isEsDecorativo() {
 		return esDecorativo;
 	}
 
-	public void setEsDecorativo(boolean esDecorativo) {
+	public void setEsDecorativo(String esDecorativo) {
 		this.esDecorativo = esDecorativo;
 	}
 

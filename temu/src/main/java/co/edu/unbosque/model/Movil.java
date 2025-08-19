@@ -5,18 +5,18 @@ import java.io.Serializable;
 public class Movil extends DispositivoElectronico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int almacenamiento;
+	private String almacenamiento;
 
 	public Movil() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Movil(int almacenamiento) {
+	public Movil(String almacenamiento) {
 		super();
 		this.almacenamiento = almacenamiento;
 	}
 
-	public Movil(String nombre, int precio, String imagen, String modelo, int almacenamiento) {
+	public Movil(String nombre, int precio, String imagen, String modelo, String almacenamiento) {
 		super(nombre, precio, imagen, modelo);
 		this.almacenamiento = almacenamiento;
 	}
@@ -26,11 +26,11 @@ public class Movil extends DispositivoElectronico implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getAlmacenamiento() {
+	public String getAlmacenamiento() {
 		return almacenamiento;
 	}
 
-	public void setAlmacenamiento(int almacenamiento) {
+	public void setAlmacenamiento(String almacenamiento) {
 		this.almacenamiento = almacenamiento;
 	}
 

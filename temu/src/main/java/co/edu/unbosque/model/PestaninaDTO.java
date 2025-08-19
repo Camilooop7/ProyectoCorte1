@@ -4,32 +4,32 @@ import java.io.Serializable;
 
 public class PestaninaDTO extends Maquillaje implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int duracion;
+	private String duracion;
 
 	public PestaninaDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PestaninaDTO(int duracion) {
+	public PestaninaDTO(String duracion) {
 		super();
 		this.duracion = duracion;
 	}
 
-	public PestaninaDTO(String nombre, int precio, String imagen, boolean esApruebaDeAgua, int duracion) {
+	public PestaninaDTO(String nombre, int precio, String imagen, String esApruebaDeAgua, String duracion) {
 		super(nombre, precio, imagen, esApruebaDeAgua);
 		this.duracion = duracion;
 	}
 
-	public PestaninaDTO(String nombre, int precio, String imagen, boolean esApruebaDeAgua) {
+	public PestaninaDTO(String nombre, int precio, String imagen, String esApruebaDeAgua) {
 		super(nombre, precio, imagen, esApruebaDeAgua);
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getDuracion() {
+	public String getDuracion() {
 		return duracion;
 	}
 
-	public void setDuracion(int duracion) {
+	public void setDuracion(String duracion) {
 		this.duracion = duracion;
 	}
 

@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 public abstract class Juguete extends Producto implements Serializable{
 	private static final long serialVersionUID = 1L;
-	private int edadRecomendada;
+	private String edadRecomendada;
 	public Juguete() {
 		// TODO Auto-generated constructor stub
 	}
-	public Juguete(int edadRecomendada) {
+	public Juguete(String edadRecomendada) {
 		super();
 		this.edadRecomendada = edadRecomendada;
 	}
-	public Juguete(String nombre, int precio, String imagen, int edadRecomendada) {
+	public Juguete(String nombre, int precio, String imagen, String edadRecomendada) {
 		super(nombre, precio, imagen);
 		this.edadRecomendada = edadRecomendada;
 	}
@@ -20,10 +20,10 @@ public abstract class Juguete extends Producto implements Serializable{
 		super(nombre, precio, imagen);
 		// TODO Auto-generated constructor stub
 	}
-	public int getEdadRecomendada() {
+	public String getEdadRecomendada() {
 		return edadRecomendada;
 	}
-	public void setEdadRecomendada(int edadRecomendada) {
+	public void setEdadRecomendada(String edadRecomendada) {
 		this.edadRecomendada = edadRecomendada;
 	}
 	@Override
