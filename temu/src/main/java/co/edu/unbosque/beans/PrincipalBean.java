@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import co.edu.unbosque.service.AddService;
+import co.edu.unbosque.service.CarritoService;
 import co.edu.unbosque.model.*;
 
 @Named("paginaprincipalbean")
@@ -290,5 +291,27 @@ public class PrincipalBean implements Serializable {
 
     private String placeholder() {
         return "https://via.placeholder.com/400x300?text=Sin+imagen";
+    }
+    
+ // dentro de PrincipalBean
+    private String nombreCarrito = "CarritoGlobal"; // o el username
+    private transient CarritoService carritoService = new CarritoService();
+
+    public void comprarProducto() {
+        if (productoSeleccionado == null) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se seleccionó producto."));
+            return;
+        }
+
+        String nombre = productoSeleccionado.getNombre();
+        boolean ok = carritoService.agregarProducto(nombreCarrito, nombre);
+
+        FacesContext.getCurrentInstance().addMessage(null,
+            new FacesMessage(ok ? FacesMessage.SEVERITY_INFO : FacesMessage.SEVERITY_ERROR,
+                             ok ? "Añadido" : "Error",
+                             ok ? (nombre + " agregado al carrito.") : "No se pudo agregar."));
+        // limpiar selección
+        productoSeleccionado = null;
     }
 }
