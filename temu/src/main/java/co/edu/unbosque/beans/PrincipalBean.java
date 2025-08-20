@@ -305,13 +305,19 @@ public class PrincipalBean implements Serializable {
         }
 
         String nombre = productoSeleccionado.getNombre();
-        boolean ok = carritoService.agregarProducto(nombreCarrito, nombre);
+        int precio = 0;
+        try {
+            // si precio viene con símbolos, limpia:
+            precio = Integer.parseInt(productoSeleccionado.getPrecio().replaceAll("[^0-9-]", ""));
+        } catch (Exception ignored) {}
+
+        CarritoService carritoService = new CarritoService(); // o inyectado si ya lo tienes
+        boolean ok = carritoService.agregarProducto(nombreCarrito, nombre, precio);
 
         FacesContext.getCurrentInstance().addMessage(null,
             new FacesMessage(ok ? FacesMessage.SEVERITY_INFO : FacesMessage.SEVERITY_ERROR,
                              ok ? "Añadido" : "Error",
-                             ok ? (nombre + " agregado al carrito.") : "No se pudo agregar."));
-        // limpiar selección
+                             ok ? (nombre + " agregado al carrito por $" + precio) : "No se pudo agregar."));
         productoSeleccionado = null;
     }
 }

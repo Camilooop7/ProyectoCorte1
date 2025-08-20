@@ -34,25 +34,42 @@ public class LoginBean implements Serializable {
 	 @Inject
 	    private EnvioCorreo envioCorreo;
 
-	public String iniciar() {
-	    PersonaDTO encontrado = loginService.encontrarPorCorreoYContrasena(correo, contrasena);
+	 public String iniciar() {
+		    PersonaDTO encontrado = loginService.encontrarPorCorreoYContrasena(correo, contrasena);
 
-	    if (encontrado != null) {
-	        // Guarda el usuario en la sesión para que checkSession lo reconozca
-	        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-	        String valorSesion = (encontrado.getUsername() != null && !encontrado.getUsername().isBlank())
-	                ? encontrado.getUsername()
-	                : encontrado.getCorreo();
-	        ec.getSessionMap().put("usuario", valorSesion);
+		    if (encontrado != null) {
+		        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 
-	        // Navegación con redirect para evitar reenvíos del mismo request
-	        return "/userpp.xhtml"; // ajusta la ruta si está en carpeta
-	    }
+		        // Nombre/alias visible
+		        String valorSesion = (encontrado.getUsername() != null && !encontrado.getUsername().isBlank())
+		                ? encontrado.getUsername()
+		                : encontrado.getCorreo();
+		        ec.getSessionMap().put("usuario", valorSesion);
 
-	    FacesContext.getCurrentInstance().addMessage(null,
-	            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Correo o contraseña inválidos"));
-	    return null;
-	}
+		        // === CLAVE: guarda el correo autenticado ===
+		        ec.getSessionMap().put("correo", encontrado.getCorreo());
+
+		        // (Opcional) si tu PersonaDTO tiene dirección:
+		        try {
+		            String dir = (String) PersonaDTO.class.getMethod("getDireccion").invoke(encontrado);
+		            if (dir != null && !dir.isBlank()) {
+		                ec.getSessionMap().put("direccion", dir);
+		            }
+		        } catch (Exception ignored) {
+		            // Si no existe getDireccion o falla, lo ignoramos.
+		        }
+
+		        // Navegación
+		        return "userpp.xhtml"; // ajusta si tu ruta es distinta
+		    }
+
+		    FacesContext.getCurrentInstance().addMessage(null,
+		            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Correo o contraseña inválidos"));
+		    return null;
+		}
+
+
+
 
 	/**
 	 * Primer paso del registro (desde el dorso de la tarjeta en Login). Guarda
