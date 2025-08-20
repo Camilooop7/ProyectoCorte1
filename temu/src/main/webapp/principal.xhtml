@@ -88,10 +88,7 @@
 				<button class="btn-effect-18 nav-link"
 					style="border: none; background: orange;">AGREGAR</button>
 			</h:outputLink></li>
-		<li class="nav-item"><p:commandButton value="ACTUALIZAR"
-				actionListener="#{paginaprincipalbean.cargarProductos}"
-				update="formProductos" styleClass="btn-effect-18 nav-link"
-				style="border: none; background: orange;" /></li>
+		
 	</ul>
 	</nav> </header>
 
@@ -158,8 +155,61 @@
 
 	<br />
 
-	<!-- FOOTER igual a tu versión -->
-	<footer> <!-- ... (sin cambios) ... --> </footer>
+	<footer>
+        <section class="footer-section">
+            <div class="container footer-grid">
+                <div class="footer-col">
+                    <div class="footer-contact">
+                        <button class="btn-link">3222381555</button>
+                        <button class="btn-link">cpelaezp@unbosque.edu.co</button>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Collections</h4>
+                    <div class="btn-row">
+                        <button class="btn-link">All collections</button>
+                        <button class="btn-link">ROPA</button>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Information</h4>
+                    <div class="btn-column">
+                        <button class="btn-link">Home</button>
+                        <button class="btn-link">Contact us</button>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Conectate y compra</h4>
+                    <p>Compra todo lo que necesites en nuestra página web.</p>
+                </div>
+            </div>
+        </section>
+        <section class="footer-bottom">
+            <div class="container footer-bottom-grid">
+                <div class="footer-pay-logos-row">
+                    <h4>Formas de pago</h4>
+                    <div class="logos">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" />
+                    </div>
+                </div>
+                <div class="footer-social-logos-row">
+                    <h4>Stay Connected</h4>
+                    <div class="social-logos">
+                        <a href="#" aria-label="Facebook" target="_blank" rel="noopener">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
+                        </a>
+                        <a href="#" aria-label="Instagram" target="_blank" rel="noopener">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" />
+                        </a>
+                        <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
 
 </h:body>
 </html>
