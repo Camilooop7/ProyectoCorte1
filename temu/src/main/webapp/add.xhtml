@@ -37,7 +37,7 @@
 	            <div class="nav-menu" id="nav-menu">
 	                <ul class="nav-list">
 	                    <li class="nav-item"><a href="index.html" class="nav-link active-link">Home</a></li>
-	                    <li class="nav-item"><a href="shop.html" class="nav-link">Shop</a></li>
+	                    <li class="nav-item"><a href="http://localhost:8080/temu/principal.xhtml" class="nav-link">Shop</a></li>
 	                    <li class="nav-item"><a href="http://localhost:8080/temu/cart.xhtml" class="nav-link">Cart</a></li>
 	                </ul>
 	                <div class="nav-close" id="nav-close"><i class="bx bx-x"></i></div>
@@ -135,7 +135,12 @@
     </h:selectOneMenu>
 
     <!-- Botón guardar -->
-    <p:commandButton value="Guardar" actionListener="#{addBean.guardarPro}" update="@form" />
+    <p:commandButton value="Guardar"
+                 action="#{addBean.guardarYNavegar}"
+                 process="@form"
+                 update="@none"
+                 ajax="false" />
+
 </h:form>
 
 </div>

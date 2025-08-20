@@ -1,20 +1,29 @@
 package co.edu.unbosque.beans;
 
+import jakarta.inject.Named;
+import jakarta.faces.view.ViewScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
-import jakarta.enterprise.context.RequestScoped;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
-@Named(value = "paginaprincipalbean")
-@RequestScoped
-public class PrincipalBean {
+import co.edu.unbosque.service.AddService;
+import co.edu.unbosque.model.*;
+
+@Named("paginaprincipalbean")
+@ViewScoped
+public class PrincipalBean implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private boolean modoEliminar = false;
     private int idProductoSeleccionado;
 
-    // Clase interna para representar un producto
     public static class Producto {
         private int id;
         private String tipo;
@@ -23,14 +32,8 @@ public class PrincipalBean {
         private String precio;
 
         public Producto(int id, String tipo, String nombre, String imagen, String precio) {
-            this.id = id;
-            this.tipo = tipo;
-            this.nombre = nombre;
-            this.imagen = imagen;
-            this.precio = precio;
+            this.id = id; this.tipo = tipo; this.nombre = nombre; this.imagen = imagen; this.precio = precio;
         }
-
-        // Getters
         public int getId() { return id; }
         public String getTipo() { return tipo; }
         public String getNombre() { return nombre; }
@@ -38,42 +41,75 @@ public class PrincipalBean {
         public String getPrecio() { return precio; }
     }
 
-    // Lista de productos
-    private List<Producto> productos;
+    private List<Producto> productos = new ArrayList<>();
 
-    public PrincipalBean() {
-        productos = new ArrayList<>();
-        productos.add(new Producto(1, "JEAN", "CARGO PANT BLACK", "https://m.media-amazon.com/images/I/81Ax3qHF-cL._UF894,1000_QL80_.jpg", "$90.000"));
-        productos.add(new Producto(2, "BUZO", "RED HOODIE", "https://acdn-us.mitiendanube.com/stores/001/642/173/products/buzo-hoodie-rojo-b2e6d774c33c3375fb17197766136403-1024-1024.png", "$28,450"));
-        productos.add(new Producto(3, "CAMISAS", "CAMISA verde", "https://img.freepik.com/fotos-premium/modelo-camiseta-verde-adelante-atras-vista-aislada-camisa-verde-plana-plantilla-diseno-camisa_21336-10799.jpg", "$29,000"));
-        productos.add(new Producto(4, "Iphone", "Iphone 19", "https://sm.mashable.com/mashable_in/seo/default/z3wq-71_57j7.jpg", "$500,000"));
-        productos.add(new Producto(5, "Juego de mesas", "monopoly", "https://www.shutterstock.com/image-photo/monopoly-3d-character-cartoon-funny-2453789293.jpg", "$75,000"));
+    @Inject
+    private AddService addService;
+
+    @PostConstruct
+    public void init() { cargarProductos(); }
+
+    public void cargarProductos() {
+        List<Producto> lista = new ArrayList<>();
+        int i = 1;
+
+        // Dispositivo
+        for (Movil m : addService.listarMoviles()) {
+            lista.add(new Producto(i++, "Dispositivo - Móvil", s(m::getNombre), s(m::getImagen), String.valueOf(m.getPrecio())));
+        }
+        for (Audifono a : addService.listarAudifonos()) {
+            lista.add(new Producto(i++, "Dispositivo - Audífono", s(a::getNombre), s(a::getImagen), String.valueOf(a.getPrecio())));
+        }
+
+        // Maquillaje
+        for (Labial l : addService.listarLabiales()) {
+            lista.add(new Producto(i++, "Maquillaje - Labial", s(l::getNombre), s(l::getImagen), String.valueOf(l.getPrecio())));
+        }
+        for (Pestanina p : addService.listarPestaninas()) {
+            lista.add(new Producto(i++, "Maquillaje - Pestañina", s(p::getNombre), s(p::getImagen), String.valueOf(p.getPrecio())));
+        }
+
+        // Juguete
+        for (JuegoMesa j : addService.listarJuegoMesa()) {
+            lista.add(new Producto(i++, "Juguete - Juego de mesa", s(j::getNombre), s(j::getImagen), String.valueOf(j.getPrecio())));
+        }
+        // (Si luego agregas Educativo, mapea aquí)
+
+        // Papelería
+        for (Colegio c : addService.listarColegios()) {
+            lista.add(new Producto(i++, "Papelería - Colegio", s(c::getNombre), s(c::getImagen), String.valueOf(c.getPrecio())));
+        }
+        for (Oficina o : addService.listarOficinas()) {
+            lista.add(new Producto(i++, "Papelería - Oficina", s(o::getNombre), s(o::getImagen), String.valueOf(o.getPrecio())));
+        }
+
+        // Ropa
+        for (Hombre h : addService.listarHombres()) {
+            lista.add(new Producto(i++, "Ropa - Hombre", s(h::getNombre), s(h::getImagen), String.valueOf(h.getPrecio())));
+        }
+        for (Mujer mu : addService.listarMujeres()) {
+            lista.add(new Producto(i++, "Ropa - Mujer", s(mu::getNombre), s(mu::getImagen), String.valueOf(mu.getPrecio())));
+        }
+
+        this.productos = lista;
     }
 
-    public List<Producto> getProductos() {
-        return productos;
+    private String s(Supplier<String> sup) {
+        try { String v = sup.get(); return v == null ? "" : v; } catch (Exception e) { return ""; }
     }
 
-    public boolean isModoEliminar() {
-        return modoEliminar;
-    }
-
-    public void cambiarModoEliminar() {
-        modoEliminar = !modoEliminar;
-    }
-
-    public void setIdProductoSeleccionado(int idProductoSeleccionado) {
-        this.idProductoSeleccionado = idProductoSeleccionado;
-    }
-
-    public int getIdProductoSeleccionado() {
-        return idProductoSeleccionado;
-    }
+    // Getters/acciones
+    public List<Producto> getProductos() { return productos; }
+    public boolean isModoEliminar() { return modoEliminar; }
+    public void cambiarModoEliminar() { modoEliminar = !modoEliminar; }
+    public int getIdProductoSeleccionado() { return idProductoSeleccionado; }
+    public void setIdProductoSeleccionado(int idProductoSeleccionado) { this.idProductoSeleccionado = idProductoSeleccionado; }
 
     public void eliminarProducto() {
-        productos.removeIf(producto -> producto.getId() == idProductoSeleccionado);
+        // Solo elimina en la vista (id artificial). Para borrado real, agrega métodos eliminarXxx en AddService.
+        productos.removeIf(p -> p.getId() == idProductoSeleccionado);
         FacesContext.getCurrentInstance().addMessage(null,
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Producto eliminado con éxito."));
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Producto eliminado (vista)."));
     }
 
     public void comprar() {
@@ -82,10 +118,7 @@ public class PrincipalBean {
     }
 
     public void accionProducto() {
-        if (modoEliminar) {
-            eliminarProducto();
-        } else {
-            comprar();
-        }
+        if (modoEliminar) eliminarProducto();
+        else comprar();
     }
 }

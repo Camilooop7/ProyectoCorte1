@@ -153,6 +153,7 @@ public class DataMapper {
 				dto.getEsSeguro());
 		return entity;
 	}
+	
 
 	/**
 	 * Convierte un Colegio a un ColegioDTO.
