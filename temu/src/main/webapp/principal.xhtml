@@ -121,16 +121,40 @@
         </div>
         <div class="services-container">
             <ui:repeat var="producto" value="#{paginaprincipalbean.productos}">
-    ...
-    <p:commandButton value="#{paginaprincipalbean.modoEliminar ? 'ELIMINAR' : 'COMPRAR'}"
-                     action="#{paginaprincipalbean.accionProducto}"
-                     styleClass="btn"
-                     style="border: none; background: orange; text-decoration: none;"
-                     update="formProductos">
-        <f:setPropertyActionListener target="#{paginaprincipalbean.idProductoSeleccionado}"
-                                     value="#{producto.id}" />
-    </p:commandButton>
+    <div class="card shadow-sm" style="width: 20rem; margin: 12px;">
+        <!-- IMAGEN -->
+        <h:graphicImage value="#{paginaprincipalbean.imagenSrc(producto)}"
+                        styleClass="card-img-top"
+                        style="object-fit:cover;height:200px;" />
+
+        <div class="card-body">
+            <span class="badge bg-secondary mb-2">#{producto.tipo}</span>
+            <h5 class="card-title mb-1">#{producto.nombre}</h5>
+
+            <!-- Precio formateado -->
+            <h6 class="mb-3">
+                <h:outputText value="#{producto.precio}">
+                    <f:convertNumber type="currency" currencySymbol="$" locale="es_CO"/>
+                </h:outputText>
+            </h6>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <small class="text-muted">ID: #{producto.id}</small>
+            </div>
+
+            <!-- Botón COMPRAR/ELIMINAR -->
+            <p:commandButton value="#{paginaprincipalbean.modoEliminar ? 'ELIMINAR' : 'COMPRAR'}"
+                             action="#{paginaprincipalbean.accionProducto}"
+                             styleClass="btn btn-warning w-100"
+                             style="border: none; text-decoration: none;"
+                             update="formProductos">
+                <f:setPropertyActionListener target="#{paginaprincipalbean.idProductoSeleccionado}"
+                                             value="#{producto.id}" />
+            </p:commandButton>
+        </div>
+    </div>
 </ui:repeat>
+
         </div>
     </section>
 </h:form>

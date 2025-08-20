@@ -5,6 +5,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 
 import java.io.Serializable;
@@ -120,5 +121,39 @@ public class PrincipalBean implements Serializable {
     public void accionProducto() {
         if (modoEliminar) eliminarProducto();
         else comprar();
+    }
+    
+    public String imagenSrc(Producto p) {
+        if (p == null) return placeholder();
+        String img = p.getImagen();
+        if (img == null || img.isBlank()) return placeholder();
+
+        String lower = img.toLowerCase();
+
+        // 1) URL absoluta (http/https) o data: uri -> úsala tal cual
+        if (lower.startsWith("http://") || lower.startsWith("https://") || lower.startsWith("data:")) {
+            return img;
+        }
+
+        // 2) ¿Parece Base64 crudo? (sin prefijo data:)
+        // Heurística: solo caracteres base64 y longitud considerable
+        boolean base64ish = img.matches("^[A-Za-z0-9+/=\\r\\n]+$") && img.length() > 100;
+        if (base64ish) {
+            // Si sabes que tus imágenes son JPG cambia a image/jpeg
+            return "data:image/png;base64," + img.replaceAll("\\s+", "");
+        }
+
+        // 3) Ruta relativa dentro de tu app (e.g. "uploads/foto.jpg")
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        String ctx = ec.getRequestContextPath(); // p.ej. /temu
+        if (!img.startsWith("/")) {
+            img = "/" + img;
+        }
+        return ctx + img;
+    }
+
+    private String placeholder() {
+        // Puedes servir una imagen estática de resources o una URL pública
+        return "https://via.placeholder.com/400x300?text=Sin+imagen";
     }
 }
