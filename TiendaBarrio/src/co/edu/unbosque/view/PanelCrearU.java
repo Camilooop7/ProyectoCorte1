@@ -70,7 +70,7 @@ public class PanelCrearU extends JPanel {
 		crear.setBackground(new Color(0, 0, 0));
 		crear.setContentAreaFilled(false);
 		crear.setOpaque(false);
-		crear.setBorderPainted(true);
+		crear.setBorderPainted(false);
 		crear.setVisible(true);
 		add(crear);
 

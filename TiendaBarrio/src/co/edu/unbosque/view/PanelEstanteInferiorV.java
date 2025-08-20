@@ -19,15 +19,34 @@ import co.edu.unbosque.model.Verdura;
 import co.edu.unbosque.util.structure.LinkedList;
 import co.edu.unbosque.util.structure.Node;
 
+/**
+ * Panel que representa el estante inferior de verduras en la interfaz gráfica.
+ * Muestra una lista de verduras disponibles y proporciona botones para agregarlas al carrito.
+ */
 public class PanelEstanteInferiorV extends JPanel {
+
+    /** Lista de botones "Agregar" asociados a cada verdura en el estante. */
     private LinkedList<JButton> botonesAnadir;
 
+    /**
+     * Constructor del panel del estante inferior de verduras.
+     * Configura el panel con un diseño de flujo a la izquierda y transparencia.
+     */
     public PanelEstanteInferiorV() {
         setOpaque(false);
         setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         botonesAnadir = new LinkedList<>();
     }
 
+    /**
+     * Agrega los productos (verduras) al panel de manera recursiva.
+     * Solo agrega la mitad inferior de la lista de verduras.
+     *
+     * @param listaVerduras   Lista enlazada de verduras disponibles.
+     * @param totalProductos  Cantidad total de verduras en la lista.
+     * @param nodoActual      Nodo actual de la lista de verduras.
+     * @param cont            Contador para controlar la cantidad de verduras agregadas.
+     */
     public void agregarProductos(LinkedList<Verdura> listaVerduras, int totalProductos, Node<Verdura> nodoActual, int cont) {
         if (nodoActual == null || cont >= totalProductos - (totalProductos / 2)) {
             return;
@@ -38,6 +57,13 @@ public class PanelEstanteInferiorV extends JPanel {
         agregarProductos(listaVerduras, totalProductos, nodoActual.getNext(), cont + 1);
     }
 
+    /**
+     * Crea un panel individual para cada verdura.
+     * El panel incluye la imagen de la verdura, su información y un botón para agregarla al carrito.
+     *
+     * @param verdura La verdura para la cual se crea el panel.
+     * @return JPanel configurado con la información y el botón de la verdura.
+     */
     private JPanel crearPanelProducto(Verdura verdura) {
         JPanel panelProducto = new JPanel(new BorderLayout());
         panelProducto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -68,6 +94,13 @@ public class PanelEstanteInferiorV extends JPanel {
         return panelProducto;
     }
 
+    /**
+     * Asigna una imagen redimensionada a una verdura.
+     * Carga la imagen desde la ruta especificada en el objeto Verdura.
+     *
+     * @param verdura La verdura de la cual se carga la imagen.
+     * @return ImageIcon con la imagen redimensionada de la verdura.
+     */
     private ImageIcon asignarImagen(Verdura verdura) {
         try {
             String ruta = verdura.getImagen().replace("\\", "/");
@@ -80,10 +113,20 @@ public class PanelEstanteInferiorV extends JPanel {
         }
     }
 
+    /**
+     * Obtiene la lista de botones "Agregar" asociados a las verduras.
+     *
+     * @return Lista enlazada de botones "Agregar".
+     */
     public LinkedList<JButton> getBotonesAnadir() {
         return botonesAnadir;
     }
 
+    /**
+     * Establece la lista de botones "Agregar" asociados a las verduras.
+     *
+     * @param botonesAnadir Lista enlazada de botones "Agregar" a establecer.
+     */
     public void setBotonesAnadir(LinkedList<JButton> botonesAnadir) {
         this.botonesAnadir = botonesAnadir;
     }

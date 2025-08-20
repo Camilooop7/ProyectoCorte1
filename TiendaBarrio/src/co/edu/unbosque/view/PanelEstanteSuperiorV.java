@@ -19,15 +19,34 @@ import co.edu.unbosque.model.Verdura;
 import co.edu.unbosque.util.structure.LinkedList;
 import co.edu.unbosque.util.structure.Node;
 
+/**
+ * Clase que representa un panel para mostrar verduras en la parte superior de
+ * una interfaz gráfica. Este panel permite agregar productos y visualizarlos
+ * con sus respectivas imágenes y botones de acción.
+ */
 public class PanelEstanteSuperiorV extends JPanel {
+
+	/** Lista enlazada de botones para añadir productos. */
 	private LinkedList<JButton> botonesAnadir;
 
+	/**
+	 * Constructor de la clase PanelEstanteSuperiorV. Inicializa el panel con un
+	 * diseño de flujo a la izquierda y transparencia.
+	 */
 	public PanelEstanteSuperiorV() {
 		setOpaque(false);
 		setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		botonesAnadir = new LinkedList<>();
 	}
 
+	/**
+	 * Agrega productos al panel de forma recursiva.
+	 *
+	 * @param listaVerduras  Lista enlazada de objetos Verdura a agregar.
+	 * @param totalProductos Número total de productos a agregar.
+	 * @param nodoActual     Nodo actual de la lista enlazada.
+	 * @param cont           Contador de productos agregados.
+	 */
 	public void agregarProductos(LinkedList<Verdura> listaVerduras, int totalProductos, Node<Verdura> nodoActual,
 			int cont) {
 		if (nodoActual == null || cont >= totalProductos / 2) {
@@ -39,6 +58,12 @@ public class PanelEstanteSuperiorV extends JPanel {
 		agregarProductos(listaVerduras, totalProductos, nodoActual.getNext(), cont + 1);
 	}
 
+	/**
+	 * Crea un panel para mostrar la información de una verdura.
+	 *
+	 * @param verdura Objeto Verdura que contiene la información del producto.
+	 * @return JPanel Panel configurado con la información del producto.
+	 */
 	private JPanel crearPanelProducto(Verdura verdura) {
 		JPanel panelProducto = new JPanel(new BorderLayout());
 		panelProducto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -69,6 +94,12 @@ public class PanelEstanteSuperiorV extends JPanel {
 		return panelProducto;
 	}
 
+	/**
+	 * Asigna una imagen a una verdura y la redimensiona.
+	 *
+	 * @param verdura Objeto Verdura que contiene la ruta de la imagen.
+	 * @return ImageIcon Imagen redimensionada para mostrar en el panel.
+	 */
 	private ImageIcon asignarImagen(Verdura verdura) {
 		try {
 			String ruta = verdura.getImagen().replace("\\", "/");
@@ -81,10 +112,20 @@ public class PanelEstanteSuperiorV extends JPanel {
 		}
 	}
 
+	/**
+	 * Obtiene la lista de botones para añadir productos.
+	 *
+	 * @return LinkedList<JButton> Lista enlazada de botones.
+	 */
 	public LinkedList<JButton> getBotonesAnadir() {
 		return botonesAnadir;
 	}
 
+	/**
+	 * Establece la lista de botones para añadir productos.
+	 *
+	 * @param botonesAnadir Nueva lista enlazada de botones.
+	 */
 	public void setBotonesAnadir(LinkedList<JButton> botonesAnadir) {
 		this.botonesAnadir = botonesAnadir;
 	}

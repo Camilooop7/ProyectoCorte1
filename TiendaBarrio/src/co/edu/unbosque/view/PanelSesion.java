@@ -66,7 +66,7 @@ public class PanelSesion extends JPanel {
 		entrar.setBackground(new Color(0, 0, 0));
 		entrar.setContentAreaFilled(false);
 		entrar.setOpaque(false);
-		entrar.setBorderPainted(true);
+		entrar.setBorderPainted(false);
 		entrar.setVisible(true);
 		add(entrar);
 
@@ -82,7 +82,7 @@ public class PanelSesion extends JPanel {
 		registrar.setBackground(new Color(0, 0, 0));
 		registrar.setContentAreaFilled(false);
 		registrar.setOpaque(false);
-		registrar.setBorderPainted(true);
+		registrar.setBorderPainted(false);
 		registrar.setVisible(true);
 		add(registrar);
 

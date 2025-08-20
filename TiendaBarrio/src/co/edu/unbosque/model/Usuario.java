@@ -1,53 +1,108 @@
 package co.edu.unbosque.model;
 
 import java.io.Serializable;
-
 import co.edu.unbosque.util.structure.LinkedList;
 
+/**
+ * Clase que representa un usuario del sistema.
+ * Implementa  Serializable para permitir la serialización de sus instancias.
+ */
 public class Usuario implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private String nombre;
-	private int identificacion;
-	private LinkedList<Carrito> listaCarrtio;
 
-	public Usuario() {
-		// TODO Auto-generated constructor stub
-	}
+    /** Versión por defecto para la serialización. */
+    private static final long serialVersionUID = 1L;
 
-	public Usuario(String nombre, int identificacion, LinkedList<Carrito> listaCarrtio) {
-		super();
-		this.nombre = nombre;
-		this.identificacion = identificacion;
-		this.listaCarrtio = listaCarrtio;
-	}
+    /** Nombre del usuario. */
+    private String nombre;
 
-	public LinkedList<Carrito> getListaCarrtio() {
-		return listaCarrtio;
-	}
+    /** Identificación del usuario. */
+    private int identificacion;
 
-	public void setListaCarrtio(LinkedList<Carrito> listaCarrtio) {
-		this.listaCarrtio = listaCarrtio;
-	}
+    /** Lista de carritos asociados al usuario. */
+    private LinkedList<Carrito> listaCarrtio;
 
-	public String getNombre() {
-		return nombre;
-	}
+    /**
+     * Constructor por defecto de la clase Usuario.
+     */
+    public Usuario() {
+        // TODO Auto-generated constructor stub
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    /**
+     * Constructor que inicializa el nombre, identificación y lista de carritos del usuario.
+     *
+     * @param nombre El nombre del usuario.
+     * @param identificacion La identificación del usuario.
+     * @param listaCarrtio La lista de carritos asociados al usuario.
+     */
+    public Usuario(String nombre, int identificacion, LinkedList<Carrito> listaCarrtio) {
+        super();
+        this.nombre = nombre;
+        this.identificacion = identificacion;
+        this.listaCarrtio = listaCarrtio;
+    }
 
-	public int getIdentificacion() {
-		return identificacion;
-	}
+    /**
+     * Obtiene la lista de carritos del usuario.
+     *
+     * @return La lista de carritos asociados al usuario.
+     */
+    public LinkedList<Carrito> getListaCarrtio() {
+        return listaCarrtio;
+    }
 
-	public void setIdentificacion(int identificacion) {
-		this.identificacion = identificacion;
-	}
+    /**
+     * Establece la lista de carritos del usuario.
+     *
+     * @param listaCarrtio La nueva lista de carritos del usuario.
+     */
+    public void setListaCarrtio(LinkedList<Carrito> listaCarrtio) {
+        this.listaCarrtio = listaCarrtio;
+    }
 
-	@Override
-	public String toString() {
-		return "Usuario [nombre=" + nombre + ", identificacion=" + identificacion + "]";
-	}
+    /**
+     * Obtiene el nombre del usuario.
+     *
+     * @return El nombre del usuario.
+     */
+    public String getNombre() {
+        return nombre;
+    }
 
+    /**
+     * Establece el nombre del usuario.
+     *
+     * @param nombre El nuevo nombre del usuario.
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * Obtiene la identificación del usuario.
+     *
+     * @return La identificación del usuario.
+     */
+    public int getIdentificacion() {
+        return identificacion;
+    }
+
+    /**
+     * Establece la identificación del usuario.
+     *
+     * @param identificacion La nueva identificación del usuario.
+     */
+    public void setIdentificacion(int identificacion) {
+        this.identificacion = identificacion;
+    }
+
+    /**
+     * Devuelve una representación en cadena del usuario.
+     *
+     * @return Una cadena que representa al usuario.
+     */
+    @Override
+    public String toString() {
+        return "Usuario [nombre=" + nombre + ", identificacion=" + identificacion + "]";
+    }
 }

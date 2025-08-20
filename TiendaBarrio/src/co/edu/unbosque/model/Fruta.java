@@ -1,54 +1,110 @@
 package co.edu.unbosque.model;
-
 import java.io.Serializable;
 
+/**
+ * Clase que representa una fruta, extendiendo la funcionalidad de  Producto.
+ * Implementa  Serializable para permitir la serialización de sus instancias.
+ */
 public class Fruta extends Producto implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	private String aroma;
+    /** Versión por defecto para la serialización. */
+    private static final long serialVersionUID = 1L;
 
-	private String sabor;
+    /** Aroma característico de la fruta. */
+    private String aroma;
 
-	public Fruta() {
-		// TODO Auto-generated constructor stub
-	}
+    /** Sabor característico de la fruta. */
+    private String sabor;
 
-	public Fruta(String aroma, String sabor) {
-		super();
-		this.aroma = aroma;
-		this.sabor = sabor;
-	}
+    /**
+     * Constructor por defecto de la clase Fruta.
+     */
+    public Fruta() {
+        // TODO Auto-generated constructor stub
+    }
 
-	public Fruta(String nombre, int precio, String imagen, String aroma, String sabor) {
-		super(nombre, precio, imagen);
-		this.aroma = aroma;
-		this.sabor = sabor;
-	}
+    /**
+     * Constructor que inicializa el aroma y el sabor de la fruta.
+     *
+     * @param aroma El aroma de la fruta.
+     * @param sabor El sabor de la fruta.
+     */
+    public Fruta(String aroma, String sabor) {
+        super();
+        this.aroma = aroma;
+        this.sabor = sabor;
+    }
 
-	public Fruta(String nombre, int precio, String imagen) {
-		super(nombre, precio, imagen);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Constructor que inicializa todos los atributos de la fruta.
+     *
+     * @param nombre  El nombre de la fruta.
+     * @param precio  El precio de la fruta.
+     * @param imagen  La ruta o nombre de la imagen asociada a la fruta.
+     * @param aroma   El aroma de la fruta.
+     * @param sabor   El sabor de la fruta.
+     */
+    public Fruta(String nombre, int precio, String imagen, String aroma, String sabor) {
+        super(nombre, precio, imagen);
+        this.aroma = aroma;
+        this.sabor = sabor;
+    }
 
-	public String getAroma() {
-		return aroma;
-	}
+    /**
+     * Constructor que inicializa los atributos básicos de la fruta.
+     *
+     * @param nombre  El nombre de la fruta.
+     * @param precio  El precio de la fruta.
+     * @param imagen  La ruta o nombre de la imagen asociada a la fruta.
+     */
+    public Fruta(String nombre, int precio, String imagen) {
+        super(nombre, precio, imagen);
+        // TODO Auto-generated constructor stub
+    }
 
-	public void setAroma(String aroma) {
-		this.aroma = aroma;
-	}
+    /**
+     * Obtiene el aroma de la fruta.
+     *
+     * @return El aroma de la fruta.
+     */
+    public String getAroma() {
+        return aroma;
+    }
 
-	public String getSabor() {
-		return sabor;
-	}
+    /**
+     * Establece el aroma de la fruta.
+     *
+     * @param aroma El nuevo aroma de la fruta.
+     */
+    public void setAroma(String aroma) {
+        this.aroma = aroma;
+    }
 
-	public void setSabor(String sabor) {
-		this.sabor = sabor;
-	}
+    /**
+     * Obtiene el sabor de la fruta.
+     *
+     * @return El sabor de la fruta.
+     */
+    public String getSabor() {
+        return sabor;
+    }
 
-	@Override
-	public String toString() {
-		return super.toString() + "Fruta [aroma=" + aroma + ", sabor=" + sabor + "]";
-	}
+    /**
+     * Establece el sabor de la fruta.
+     *
+     * @param sabor El nuevo sabor de la fruta.
+     */
+    public void setSabor(String sabor) {
+        this.sabor = sabor;
+    }
 
+    /**
+     * Devuelve una representación en cadena de la fruta, incluyendo su aroma y sabor.
+     *
+     * @return Una cadena que representa la fruta.
+     */
+    @Override
+    public String toString() {
+        return super.toString() + "Fruta [aroma=" + aroma + ", sabor=" + sabor + "]";
+    }
 }

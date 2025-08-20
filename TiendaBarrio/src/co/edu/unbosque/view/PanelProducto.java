@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import co.edu.unbosque.model.Fruta;
 import co.edu.unbosque.model.Gaseosa;
 import co.edu.unbosque.model.Jugo;
@@ -19,7 +18,13 @@ import co.edu.unbosque.model.Verdura;
 import co.edu.unbosque.util.structure.LinkedList;
 import co.edu.unbosque.util.structure.Node;
 
+/**
+ * Panel que muestra los productos disponibles en la aplicación. Permite
+ * visualizar y gestionar la información de verduras, frutas, jugos, gaseosas y
+ * paquetes de papa, organizados en estantes superiores e inferiores.
+ */
 public class PanelProducto extends JPanel {
+
 	private JLabel fondo;
 	private JButton verdura;
 	private JButton fruta;
@@ -39,9 +44,16 @@ public class PanelProducto extends JPanel {
 	private PanelEstanteInferiorF estInfF;
 	private PanelEstanteInferiorP estInfP;
 
+	/**
+	 * Constructor de la clase PanelProducto. Inicializa los componentes gráficos y
+	 * los paneles de estantes para cada tipo de producto.
+	 * 
+	 * @throws IOException Si ocurre un error al cargar la imagen de fondo.
+	 */
 	public PanelProducto() throws IOException {
 		setBounds(0, 0, 1290, 750);
 		setLayout(null);
+
 		fondo = new JLabel();
 		BufferedImage fd = ImageIO.read(new File("src/co/edu/unbosque/view/Producto.png"));
 		ImageIcon imagenFondo = new ImageIcon(fd);
@@ -49,26 +61,23 @@ public class PanelProducto extends JPanel {
 		fondo.setIcon(new ImageIcon(fdRedim));
 		fondo.setBounds(0, 0, 1290, 750);
 
+		// Inicialización de paneles de estantes
 		estSuV = new PanelEstanteSuperiorV();
 		estSuV.setBounds(160, 180, 970, 200);
 		estInfV = new PanelEstanteInferiorV();
 		estInfV.setBounds(160, 390, 970, 200);
-
 		estSuG = new PanelEstanteSuperiorG();
 		estSuG.setBounds(160, 180, 970, 200);
 		estInfG = new PanelEstanteInferiorG();
 		estInfG.setBounds(160, 390, 970, 200);
-
 		estSuJ = new PanelEstanteSuperiorJ();
 		estSuJ.setBounds(160, 180, 970, 200);
 		estInfJ = new PanelEstanteInferiorJ();
 		estInfJ.setBounds(160, 390, 970, 200);
-
 		estSuF = new PanelEstanteSuperiorF();
 		estSuF.setBounds(160, 180, 970, 200);
 		estInfF = new PanelEstanteInferiorF();
 		estInfF.setBounds(160, 390, 970, 200);
-
 		estSuP = new PanelEstanteSuperiorP();
 		estSuP.setBounds(160, 180, 970, 200);
 		estInfP = new PanelEstanteInferiorP();
@@ -76,16 +85,12 @@ public class PanelProducto extends JPanel {
 
 		add(estSuV);
 		add(estInfV);
-
 		add(estSuG);
 		add(estInfG);
-
 		add(estSuJ);
 		add(estInfJ);
-
 		add(estSuF);
 		add(estInfF);
-
 		add(estSuP);
 		add(estInfP);
 
@@ -95,39 +100,39 @@ public class PanelProducto extends JPanel {
 		carrito.setBackground(new Color(0, 0, 0));
 		carrito.setContentAreaFilled(false);
 		carrito.setOpaque(false);
-		carrito.setBorderPainted(true);
+		carrito.setBorderPainted(false);
 		carrito.setVisible(true);
 		add(carrito);
-		
+
 		historial = new JButton();
 		historial.setBounds(1048, 28, 92, 65);
 		historial.setFocusable(false);
 		historial.setBackground(new Color(0, 0, 0));
 		historial.setContentAreaFilled(false);
 		historial.setOpaque(false);
-		historial.setBorderPainted(true);
+		historial.setBorderPainted(false);
 		historial.setVisible(true);
 		add(historial);
-		
+
 		verdura = new JButton();
 		verdura.setBounds(95, 115, 185, 40);
 		verdura.setFocusable(false);
 		verdura.setBackground(new Color(0, 0, 0));
 		verdura.setContentAreaFilled(false);
 		verdura.setOpaque(false);
-		verdura.setBorderPainted(true);
+		verdura.setBorderPainted(false);
 		verdura.setVisible(true);
 		add(verdura);
+
 		fruta = new JButton();
 		fruta.setBounds(313, 115, 185, 40);
 		fruta.setFocusable(false);
 		fruta.setBackground(new Color(0, 0, 0));
 		fruta.setContentAreaFilled(false);
 		fruta.setOpaque(false);
-		fruta.setBorderPainted(true);
+		fruta.setBorderPainted(false);
 		fruta.setVisible(true);
 		add(fruta);
-
 
 		gaseosa = new JButton();
 		gaseosa.setBounds(535, 115, 185, 40);
@@ -135,7 +140,7 @@ public class PanelProducto extends JPanel {
 		gaseosa.setBackground(new Color(0, 0, 0));
 		gaseosa.setContentAreaFilled(false);
 		gaseosa.setOpaque(false);
-		gaseosa.setBorderPainted(true);
+		gaseosa.setBorderPainted(false);
 		gaseosa.setVisible(true);
 		add(gaseosa);
 
@@ -145,43 +150,60 @@ public class PanelProducto extends JPanel {
 		paquete.setBackground(new Color(0, 0, 0));
 		paquete.setContentAreaFilled(false);
 		paquete.setOpaque(false);
-		paquete.setBorderPainted(true);
+		paquete.setBorderPainted(false);
 		paquete.setVisible(true);
 		add(paquete);
+
 		jugo = new JButton();
 		jugo.setBounds(982, 115, 185, 40);
 		jugo.setFocusable(false);
 		jugo.setBackground(new Color(0, 0, 0));
 		jugo.setContentAreaFilled(false);
 		jugo.setOpaque(false);
-		jugo.setBorderPainted(true);
+		jugo.setBorderPainted(false);
 		jugo.setVisible(true);
 		add(jugo);
+
 		add(fondo);
 	}
+
+	/**
+	 * Actualiza la información de las verduras en los estantes superior e inferior.
+	 * 
+	 * @param listaVerduras Lista enlazada de verduras a mostrar.
+	 */
 	public void actualizarInfoVerdura(LinkedList<Verdura> listaVerduras) {
 		int totalProductos = contarNodos(listaVerduras.getFirst(), 0);
 		int mitad = totalProductos / 2;
-
-		// Estante superior: primera mitad
 		estSuV.removeAll();
 		estSuV.agregarProductos(listaVerduras, totalProductos, listaVerduras.getFirst(), 0);
-
-		// Estante inferior: segunda mitad
 		Node<Verdura> nodoMitad = obtenerNodoEnPosicion(listaVerduras.getFirst(), mitad);
 		estInfV.removeAll();
 		estInfV.agregarProductos(listaVerduras, totalProductos, nodoMitad, 0);
-
 		revalidate();
 		repaint();
 	}
 
+	/**
+	 * Cuenta el número de nodos en una lista enlazada de verduras.
+	 * 
+	 * @param nodo Nodo actual de la lista.
+	 * @param cont Contador actual de nodos.
+	 * @return Número total de nodos en la lista.
+	 */
 	private int contarNodos(Node<Verdura> nodo, int cont) {
 		if (nodo == null)
 			return cont;
 		return contarNodos(nodo.getNext(), cont + 1);
 	}
 
+	/**
+	 * Obtiene el nodo en una posición específica de la lista enlazada de verduras.
+	 * 
+	 * @param nodoActual Nodo actual de la lista.
+	 * @param pos        Posición del nodo deseado.
+	 * @return Nodo en la posición especificada.
+	 */
 	private Node<Verdura> obtenerNodoEnPosicion(Node<Verdura> nodoActual, int pos) {
 		if (pos == 0 || nodoActual == null) {
 			return nodoActual;
@@ -189,13 +211,16 @@ public class PanelProducto extends JPanel {
 		return obtenerNodoEnPosicion(nodoActual.getNext(), pos - 1);
 	}
 
+	/**
+	 * Actualiza la información de las frutas en los estantes superior e inferior.
+	 * 
+	 * @param listaFrutas Lista enlazada de frutas a mostrar.
+	 */
 	public void actualizarInfoFruta(LinkedList<Fruta> listaFrutas) {
 		int totalProductos = contarNodosF(listaFrutas.getFirst(), 0);
 		int mitad = totalProductos / 2;
-		// Estante superior: primera mitad
 		estSuF.removeAll();
 		estSuF.agregarProductos(listaFrutas, totalProductos, listaFrutas.getFirst(), 0);
-		// Estante inferior: segunda mitad
 		Node<Fruta> nodoMitad = obtenerNodoEnPosicionF(listaFrutas.getFirst(), mitad);
 		estInfF.removeAll();
 		estInfF.agregarProductos(listaFrutas, totalProductos, nodoMitad, 0);
@@ -203,12 +228,26 @@ public class PanelProducto extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Cuenta el número de nodos en una lista enlazada de frutas.
+	 * 
+	 * @param nodo Nodo actual de la lista.
+	 * @param cont Contador actual de nodos.
+	 * @return Número total de nodos en la lista.
+	 */
 	private int contarNodosF(Node<Fruta> nodo, int cont) {
 		if (nodo == null)
 			return cont;
 		return contarNodosF(nodo.getNext(), cont + 1);
 	}
 
+	/**
+	 * Obtiene el nodo en una posición específica de la lista enlazada de frutas.
+	 * 
+	 * @param nodoActual Nodo actual de la lista.
+	 * @param pos        Posición del nodo deseado.
+	 * @return Nodo en la posición especificada.
+	 */
 	private Node<Fruta> obtenerNodoEnPosicionF(Node<Fruta> nodoActual, int pos) {
 		if (pos == 0 || nodoActual == null) {
 			return nodoActual;
@@ -216,6 +255,12 @@ public class PanelProducto extends JPanel {
 		return obtenerNodoEnPosicionF(nodoActual.getNext(), pos - 1);
 	}
 
+	/**
+	 * Actualiza la información de los paquetes de papa en los estantes superior e
+	 * inferior.
+	 * 
+	 * @param listaPaquetesPapa Lista enlazada de paquetes de papa a mostrar.
+	 */
 	public void actualizarInfoPaquetePapa(LinkedList<PaquetePapa> listaPaquetesPapa) {
 		int totalProductos = contarNodosP(listaPaquetesPapa.getFirst(), 0);
 		int mitad = totalProductos / 2;
@@ -228,12 +273,27 @@ public class PanelProducto extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Cuenta el número de nodos en una lista enlazada de paquetes de papa.
+	 * 
+	 * @param nodo Nodo actual de la lista.
+	 * @param cont Contador actual de nodos.
+	 * @return Número total de nodos en la lista.
+	 */
 	private int contarNodosP(Node<PaquetePapa> nodo, int cont) {
 		if (nodo == null)
 			return cont;
 		return contarNodosP(nodo.getNext(), cont + 1);
 	}
 
+	/**
+	 * Obtiene el nodo en una posición específica de la lista enlazada de paquetes
+	 * de papa.
+	 * 
+	 * @param nodoActual Nodo actual de la lista.
+	 * @param pos        Posición del nodo deseado.
+	 * @return Nodo en la posición especificada.
+	 */
 	private Node<PaquetePapa> obtenerNodoEnPosicionP(Node<PaquetePapa> nodoActual, int pos) {
 		if (pos == 0 || nodoActual == null) {
 			return nodoActual;
@@ -241,13 +301,16 @@ public class PanelProducto extends JPanel {
 		return obtenerNodoEnPosicionP(nodoActual.getNext(), pos - 1);
 	}
 
+	/**
+	 * Actualiza la información de las gaseosas en los estantes superior e inferior.
+	 * 
+	 * @param listaGaseosas Lista enlazada de gaseosas a mostrar.
+	 */
 	public void actualizarInfoGaseosa(LinkedList<Gaseosa> listaGaseosas) {
 		int totalProductos = contarNodosG(listaGaseosas.getFirst(), 0);
 		int mitad = totalProductos / 2;
-		// Estante superior: primera mitad
 		estSuG.removeAll();
 		estSuG.agregarProductos(listaGaseosas, totalProductos, listaGaseosas.getFirst(), 0);
-		// Estante inferior: segunda mitad
 		Node<Gaseosa> nodoMitad = obtenerNodoEnPosicionG(listaGaseosas.getFirst(), mitad);
 		estInfG.removeAll();
 		estInfG.agregarProductos(listaGaseosas, totalProductos, nodoMitad, 0);
@@ -255,12 +318,26 @@ public class PanelProducto extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Cuenta el número de nodos en una lista enlazada de gaseosas.
+	 * 
+	 * @param nodo Nodo actual de la lista.
+	 * @param cont Contador actual de nodos.
+	 * @return Número total de nodos en la lista.
+	 */
 	private int contarNodosG(Node<Gaseosa> nodo, int cont) {
 		if (nodo == null)
 			return cont;
 		return contarNodosG(nodo.getNext(), cont + 1);
 	}
 
+	/**
+	 * Obtiene el nodo en una posición específica de la lista enlazada de gaseosas.
+	 * 
+	 * @param nodoActual Nodo actual de la lista.
+	 * @param pos        Posición del nodo deseado.
+	 * @return Nodo en la posición especificada.
+	 */
 	private Node<Gaseosa> obtenerNodoEnPosicionG(Node<Gaseosa> nodoActual, int pos) {
 		if (pos == 0 || nodoActual == null) {
 			return nodoActual;
@@ -268,13 +345,16 @@ public class PanelProducto extends JPanel {
 		return obtenerNodoEnPosicionG(nodoActual.getNext(), pos - 1);
 	}
 
+	/**
+	 * Actualiza la información de los jugos en los estantes superior e inferior.
+	 * 
+	 * @param listaJugos Lista enlazada de jugos a mostrar.
+	 */
 	public void actualizarInfoJugo(LinkedList<Jugo> listaJugos) {
 		int totalProductos = contarNodosJ(listaJugos.getFirst(), 0);
 		int mitad = totalProductos / 2;
-		// Estante superior: primera mitad
 		estSuJ.removeAll();
 		estSuJ.agregarProductos(listaJugos, totalProductos, listaJugos.getFirst(), 0);
-		// Estante inferior: segunda mitad
 		Node<Jugo> nodoMitad = obtenerNodoEnPosicionJ(listaJugos.getFirst(), mitad);
 		estInfJ.removeAll();
 		estInfJ.agregarProductos(listaJugos, totalProductos, nodoMitad, 0);
@@ -282,20 +362,32 @@ public class PanelProducto extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Cuenta el número de nodos en una lista enlazada de jugos.
+	 * 
+	 * @param nodo Nodo actual de la lista.
+	 * @param cont Contador actual de nodos.
+	 * @return Número total de nodos en la lista.
+	 */
 	private int contarNodosJ(Node<Jugo> nodo, int cont) {
 		if (nodo == null)
 			return cont;
 		return contarNodosJ(nodo.getNext(), cont + 1);
 	}
 
+	/**
+	 * Obtiene el nodo en una posición específica de la lista enlazada de jugos.
+	 * 
+	 * @param nodoActual Nodo actual de la lista.
+	 * @param pos        Posición del nodo deseado.
+	 * @return Nodo en la posición especificada.
+	 */
 	private Node<Jugo> obtenerNodoEnPosicionJ(Node<Jugo> nodoActual, int pos) {
 		if (pos == 0 || nodoActual == null) {
 			return nodoActual;
 		}
 		return obtenerNodoEnPosicionJ(nodoActual.getNext(), pos - 1);
 	}
-
-	// Getters y setters...
 
 	public JLabel getFondo() {
 		return fondo;
@@ -440,5 +532,4 @@ public class PanelProducto extends JPanel {
 	public void setHistorial(JButton historial) {
 		this.historial = historial;
 	}
-
 }

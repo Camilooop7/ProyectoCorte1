@@ -56,7 +56,7 @@ public class PanelPrincipal extends JPanel {
 		iniciar.setBackground(new Color(0, 0, 0));
 		iniciar.setContentAreaFilled(false);
 		iniciar.setOpaque(false);
-		iniciar.setBorderPainted(true);
+		iniciar.setBorderPainted(false);
 		iniciar.setVisible(true);
 		add(iniciar);
 
@@ -72,7 +72,7 @@ public class PanelPrincipal extends JPanel {
 		registrar.setBackground(new Color(0, 0, 0));
 		registrar.setContentAreaFilled(false);
 		registrar.setOpaque(false);
-		registrar.setBorderPainted(true);
+		registrar.setBorderPainted(false);
 		registrar.setVisible(true);
 		add(registrar);
 
