@@ -1,17 +1,17 @@
 package co.edu.unbosque.beans;
 
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 
-import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 
@@ -27,33 +27,42 @@ import co.edu.unbosque.model.OficinaDTO;
 import co.edu.unbosque.model.PestaninaDTO;
 import co.edu.unbosque.service.AddService;
 
-
-
-@Named("addBean") // <--- ahora CDI, accesible en las páginas como #{addBean}
-@SessionScoped // <--- versión moderna de JSF ViewScoped
+@Named("addBean")
+@ViewScoped
 public class AddBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String producto;
+	// Inyecciones
+	@Inject
+	private AddService aService;
+
+	@Inject
+	private PrincipalBean paginaprincipalbean;
+
+	// Campos del formulario
+	private String producto; // DispositivoElectronico, Maquillaje, Juguete, Peluche, Papeleria, Ropa
 	private String tipo;
 	private String subtipo;
 	private String subsubtipo;
 	private String nombre;
 	private int precio;
 
+	// Catálogos
 	private List<String> productos;
 	private List<String> tipos;
 	private List<String> subtipos;
 	private List<String> subsubtipos;
-	
-	 private String imageBase64;
 
-	// === Campos para la imagen ===
+	// Imagen Base64 (data URL) para mostrar/guardar
+	private String imageBase64;
+
+	// (Opcional) si necesitas mostrar/gestionar el archivo original
 	private UploadedFile originalImageFile;
-	private StreamedContent image; // imagen original
-	private AddService aService;
-	
+	private StreamedContent image;
+
+	// Búsqueda (si la usas en el header)
+	private String searchText;
 
 	// ====== Constructor ======
 	public AddBean() {
@@ -68,28 +77,24 @@ public class AddBean implements Serializable {
 		tipos = new ArrayList<>();
 		subtipos = new ArrayList<>();
 		subsubtipos = new ArrayList<>();
-		
-		aService = new AddService();
 	}
-	
 
-	// ========== MANEJAR UPLOAD ==========
+	// ========== Subida de imagen ==========
 	public void handleFileUpload(FileUploadEvent event) {
-        try {
-            byte[] fileContent = event.getFile().getContent();
+		try {
+			byte[] fileContent = event.getFile().getContent();
+			this.imageBase64 = "data:" + event.getFile().getContentType() + ";base64,"
+					+ Base64.getEncoder().encodeToString(fileContent);
+			// Si quieres conservar el file:
+			this.originalImageFile = event.getFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo cargar la imagen"));
+		}
+	}
 
-            // Convertir a Base64
-            this.imageBase64 = "data:" + event.getFile().getContentType() + ";base64," +
-                               Base64.getEncoder().encodeToString(fileContent);
-
-            System.out.println("Imagen cargada como Base64");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
+	// ========== Cambios de selects ==========
 	public void onProductoChange() {
 		subtipos.clear();
 		tipos.clear();
@@ -98,44 +103,53 @@ public class AddBean implements Serializable {
 		tipo = null;
 		subsubtipo = null;
 
-		if ("DispositivoElectronico".equals(producto)) {
+		switch (producto == null ? "" : producto) {
+		case "DispositivoElectronico":
 			subtipos.add("Audifono");
 			subtipos.add("Movil");
 			tipos.add("MODELO: 5464");
 			tipos.add("MODELO: 54655");
 			tipos.add("MODELO: 5FS655");
 			tipos.add("MODELO: 54SEF55");
-		} else if ("Maquillaje".equals(producto)) {
+			break;
+		case "Maquillaje":
 			subtipos.add("Labial");
 			subtipos.add("Pestanina");
 			tipos.add("ES aprueba de agua SI");
 			tipos.add("ES aprueba de agua NO");
-		} else if ("Juguete".equals(producto)) {
+			break;
+		case "Juguete":
 			subtipos.add("JuegoMesa");
 			subtipos.add("Educativo");
 			tipos.add("EDAD: +5");
 			tipos.add("EDAD: +8");
 			tipos.add("EDAD: +12");
 			tipos.add("EDAD: +18");
-		} else if ("Peluche".equals(producto)) {
+			break;
+		case "Peluche":
 			subtipos.add("Pelicula");
 			subtipos.add("Animal");
 			tipos.add("TAMANO: PEQUEÑO");
 			tipos.add("TAMANO: MEDIANO");
 			tipos.add("TAMANO: GRANDE");
-		} else if ("Papeleria".equals(producto)) {
+			break;
+		case "Papeleria":
 			subtipos.add("Colegio");
 			subtipos.add("Oficina");
 			tipos.add("CANTIDAD: 5 UND");
 			tipos.add("CANTIDAD: 10 UND");
 			tipos.add("CANTIDAD: 15 UND");
 			tipos.add("CANTIDAD: 20 UND");
-		} else if ("Ropa".equals(producto)) {
+			break;
+		case "Ropa":
 			subtipos.add("Hombre");
 			subtipos.add("Mujer");
 			tipos.add("TALLA L - COLOR BLANCO");
 			tipos.add("TALLA M - COLOR AZUL");
 			tipos.add("TALLA S - ROJO");
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -143,136 +157,183 @@ public class AddBean implements Serializable {
 		subsubtipos.clear();
 		subsubtipo = null;
 
-		if ("Audifono".equals(subtipo)) {
+		switch (subtipo == null ? "" : subtipo) {
+		case "Audifono":
 			subsubtipos.add("Con cable");
 			subsubtipos.add("Bluetooth");
-		} else if ("Movil".equals(subtipo)) {
+			break;
+		case "Movil":
 			subsubtipos.add("64 GB");
 			subsubtipos.add("128 GB");
 			subsubtipos.add("256 GB");
-		} else if ("Labial".equals(subtipo)) {
+			break;
+		case "Labial":
 			subsubtipos.add("Rojo");
 			subsubtipos.add("Morado");
 			subsubtipos.add("Rosa");
-		} else if ("Pestanina".equals(subtipo)) {
+			break;
+		case "Pestanina":
 			subsubtipos.add("Duración 6 meses");
 			subsubtipos.add("Duración 12 meses");
 			subsubtipos.add("Duración 1 mes");
-		} else if ("JuegoMesa".equals(subtipo)) {
+			break;
+		case "JuegoMesa":
 			subsubtipos.add("4 personas");
 			subsubtipos.add("8 personas");
 			subsubtipos.add("2 personas");
-		} else if ("Educativo".equals(subtipo)) {
+			break;
+		case "Educativo":
 			subsubtipos.add("Es didáctico SI");
 			subsubtipos.add("Es didáctico NO");
-		} else if ("Pelicula".equals(subtipo)) {
+			break;
+		case "Pelicula":
 			subsubtipos.add("PERSONAJE PELICULA AVATAR");
 			subsubtipos.add("PERSONAJE PELICULA UP");
 			subsubtipos.add("PERSONAJE PELICULA STRANGER");
-		} else if ("Animal".equals(subtipo)) {
+			break;
+		case "Animal":
 			subsubtipos.add("PERRO");
 			subsubtipos.add("GATO");
 			subsubtipos.add("MONO");
 			subsubtipos.add("PEZ");
 			subsubtipos.add("OSO");
-		} else if ("Colegio".equals(subtipo)) {
+			break;
+		case "Colegio":
 			subsubtipos.add("ES seguro SI");
 			subsubtipos.add("ES seguro NO");
-		} else if ("Oficina".equals(subtipo)) {
+			break;
+		case "Oficina":
 			subsubtipos.add("Es decorativo SI");
 			subsubtipos.add("Es decorativo NO");
-		} else if ("Hombre".equals(subtipo)) {
+			break;
+		case "Hombre":
 			subsubtipos.add("Es deportiva SI");
 			subsubtipos.add("Es deportiva NO");
-		} else if ("Mujer".equals(subtipo)) {
+			break;
+		case "Mujer":
 			subsubtipos.add("Es conjunto SI");
 			subsubtipos.add("Es conjunto NO");
+			break;
+		default:
+			break;
 		}
 	}
 
-	// Guardar datos
-	public void guardar() {
-		System.out.println("Producto: " + producto);
-		System.out.println("Tipo: " + tipo);
-		System.out.println("Subtipo: " + subtipo);
-		System.out.println("Sub-subtipo: " + subsubtipo);
-		System.out.println("Nombre: " + nombre);
-		System.out.println("Precio: " + precio);
-	}
-	
-	public void guardarPro() {
-        try {
-            switch (producto) {
-                case "DispositivoElectronico":
-                    switch (subtipo) {
-                        case "Audifono":
-                            AudifonoDTO audifono = new AudifonoDTO("Jeisson", 88, "ok" , "imbecil","dsads");
-                            aService.crearAu(audifono);
-                            break;
-                        case "Movil":
-                            MovilDTO movil = new MovilDTO(nombre, precio,imageBase64 ,tipo, subsubtipo);
-                            aService.crearMo(movil);
-                            break;
-                    }
-                    break;
-                case "Maquillaje":
-                    switch (subtipo) {
-                        case "Labial":
-                            LabialDTO labial = new LabialDTO(nombre, precio, imageBase64,tipo, subsubtipo);
-                            aService.crearLa(labial);
-                            break;
-                        case "Pestanina":
-                            PestaninaDTO pestanina = new PestaninaDTO(nombre, precio,imageBase64, tipo, subsubtipo);
-                            aService.crearPes(pestanina);
-                            break;
-                    }
-                    break;
-                case "Juguete":
-                    switch (subtipo) {
-                        case "JuegoMesa":
-                            JuegoMesaDTO juegoMesa = new JuegoMesaDTO(nombre, precio,imageBase64, tipo, subsubtipo);
-                            aService.crearJue(juegoMesa);
-                            break;
-                        case "Educativo":
-                            EducativoDTO educativo = new EducativoDTO(nombre, precio,imageBase64, tipo, subsubtipo);
-                            // Asegúrate de que el servicio tenga un método para EducativoDTO
-                            break;
-                    }
-                    break;
-                case "Papeleria":
-                    switch (subtipo) {
-                        case "Colegio":
-                            ColegioDTO colegio = new ColegioDTO(nombre, precio,imageBase64, tipo, subsubtipo);
-                            aService.crearCo(colegio);
-                            break;
-                        case "Oficina":
-                            OficinaDTO oficina = new OficinaDTO(nombre, precio,imageBase64, tipo, subsubtipo);
-                            aService.crearOfi(oficina);
-                            break;
-                    }
-                    break;
-                case "Ropa":
-                    switch (subtipo) {
-                        case "Hombre":
-                            HombreDTO hombre = new HombreDTO(nombre, precio,imageBase64,tipo, subsubtipo);
-                            aService.crearHom(hombre);
-                            break;
-                        case "Mujer":
-                            MujerDTO mujer = new MujerDTO(nombre, precio,imageBase64, tipo, subsubtipo);
-                            aService.crearMuj(mujer);
-                            break;
-                    }
-                    break;
-                default:
-                    System.out.println("Tipo de producto no soportado.");
-                    break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	// ========== Guardar y navegar ==========
+	public String guardarYNavegar() {
+		try {
+			if (producto == null || subtipo == null || nombre == null || nombre.isBlank()) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"Validación", "Completa producto, subtipo y nombre"));
+				return null;
+			}
 
-	// ====== GETTERS y SETTERS ======
+			switch (producto) {
+			case "DispositivoElectronico":
+				switch (subtipo) {
+				case "Audifono": {
+					// TODO: reemplaza estos valores de ejemplo por los del formulario si aplica
+					AudifonoDTO audifono = new AudifonoDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					aService.crearAu(audifono);
+					break;
+				}
+				case "Movil": {
+					MovilDTO movil = new MovilDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					aService.crearMo(movil);
+					break;
+				}
+				}
+				break;
+
+			case "Maquillaje":
+				switch (subtipo) {
+				case "Labial": {
+					LabialDTO labial = new LabialDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					aService.crearLa(labial);
+					break;
+				}
+				case "Pestanina": {
+					PestaninaDTO pestanina = new PestaninaDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					aService.crearPes(pestanina);
+					break;
+				}
+				}
+				break;
+
+			case "Juguete":
+				switch (subtipo) {
+				case "JuegoMesa": {
+					JuegoMesaDTO juegoMesa = new JuegoMesaDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					aService.crearJue(juegoMesa);
+					break;
+				}
+				case "Educativo": {
+					EducativoDTO educativo = new EducativoDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					// TODO: implementar en AddService si quieres persistirlo:
+					// aService.crearEdu(educativo);
+					break;
+				}
+				}
+				break;
+
+			case "Papeleria":
+				switch (subtipo) {
+				case "Colegio": {
+					ColegioDTO colegio = new ColegioDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					aService.crearCo(colegio);
+					break;
+				}
+				case "Oficina": {
+					OficinaDTO oficina = new OficinaDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					aService.crearOfi(oficina);
+					break;
+				}
+				}
+				break;
+
+			case "Ropa":
+				switch (subtipo) {
+				case "Hombre": {
+					HombreDTO hombre = new HombreDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					aService.crearHom(hombre);
+					break;
+				}
+				case "Mujer": {
+					MujerDTO mujer = new MujerDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					aService.crearMuj(mujer);
+					break;
+				}
+				}
+				break;
+
+			default:
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "Atención", "Tipo de producto no soportado"));
+				return null;
+			}
+
+			// (Opcional) refrescar la lista de la página principal si el bean está activo
+			if (paginaprincipalbean != null) {
+				paginaprincipalbean.cargarProductos();
+			}
+
+			// Mensaje + redirect con flash
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto agregado"));
+
+			// Redirigir a comprar.xhtml (ajusta el outcome según tu ruta real)
+			return "comprar?faces-redirect=true";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo guardar"));
+			return null;
+		}
+	}
+
+	// ====== Getters y Setters ======
 	public String getProducto() {
 		return producto;
 	}
@@ -369,15 +430,12 @@ public class AddBean implements Serializable {
 		this.image = image;
 	}
 
-	
-	private String searchText;
-
 	public String getSearchText() {
-	    return searchText;
+		return searchText;
 	}
 
 	public void setSearchText(String searchText) {
-	    this.searchText = searchText;
+		this.searchText = searchText;
 	}
 
 	public String getImageBase64() {
@@ -387,12 +445,4 @@ public class AddBean implements Serializable {
 	public void setImageBase64(String imageBase64) {
 		this.imageBase64 = imageBase64;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
-	
-	
-
 }
