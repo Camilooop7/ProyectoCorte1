@@ -1,6 +1,7 @@
 package co.edu.unbosque.beans;
 
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
@@ -24,10 +25,13 @@ public class UserBean {
     }
 
     public void cerrarSesion() {
-    	try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.invalidateSession(); 
+            ec.redirect(ec.getRequestContextPath() + "/index.xhtml");
         } catch (IOException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al redirigir"));
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al redirigir"));
         }
     }
     

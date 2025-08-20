@@ -9,6 +9,7 @@ import jakarta.inject.Named;
 import java.io.Serializable;
 
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 
 @Named("loginbean")
@@ -31,22 +32,23 @@ public class LoginBean implements Serializable {
 	private LoginService loginService;
 
 	public String iniciar() {
-		PersonaDTO intento = new PersonaDTO();
-		intento.setCorreo(correo);
-		intento.setContrasena(contrasena);
+	    PersonaDTO encontrado = loginService.encontrarPorCorreoYContrasena(correo, contrasena);
 
-		PersonaDTO encontrado = loginService.encontrarPorCorreoYContrasena(correo, contrasena);
-		System.out.println(encontrado);
-		if (encontrado != null) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", "Ingreso exitoso"));
-			// Ir a página principal (cámbiala por la tuya si aplica)
-			return "userpp.xhtml";
-		}
+	    if (encontrado != null) {
+	        // Guarda el usuario en la sesión para que checkSession lo reconozca
+	        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+	        String valorSesion = (encontrado.getUsername() != null && !encontrado.getUsername().isBlank())
+	                ? encontrado.getUsername()
+	                : encontrado.getCorreo();
+	        ec.getSessionMap().put("usuario", valorSesion);
 
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Correo o contraseña inválidos"));
-		return null;
+	        // Navegación con redirect para evitar reenvíos del mismo request
+	        return "/userpp.xhtml"; // ajusta la ruta si está en carpeta
+	    }
+
+	    FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Correo o contraseña inválidos"));
+	    return null;
 	}
 
 	/**
