@@ -2,7 +2,7 @@ package co.edu.unbosque.beans;
 
 import co.edu.unbosque.model.PersonaDTO;
 import co.edu.unbosque.service.LoginService;
-
+import co.edu.unbosque.util.mail.EnvioCorreo;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -30,6 +30,9 @@ public class LoginBean implements Serializable {
 
 	@Inject
 	private LoginService loginService;
+	
+	 @Inject
+	    private EnvioCorreo envioCorreo;
 
 	public String iniciar() {
 	    PersonaDTO encontrado = loginService.encontrarPorCorreoYContrasena(correo, contrasena);
@@ -56,20 +59,70 @@ public class LoginBean implements Serializable {
 	 * nombre/correo/contraseña en sesión y navega a registroPersona.xhtml
 	 */
 	public String crear() {
-		if (correoC == null || correoC.isBlank() || contrasenaC == null || contrasenaC.isBlank() || nombre == null
-				|| nombre.isBlank()) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-					"Campos incompletos", "Completa nombre, correo y contraseña."));
-			return null;
-		}
-		if (!contrasenaC.equals(confiContrasenaC)) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contraseña", "Las contraseñas no coinciden."));
-			return null;
-		}
-		// Ir a registro.xhtml con redirect (mejor práctica)
-		return "registro.xhtml";
+	    // Validaciones originales
+	    if (correoC == null || correoC.isBlank() ||
+	        contrasenaC == null || contrasenaC.isBlank() ||
+	        nombre == null || nombre.isBlank()) {
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_WARN,
+	                "Campos incompletos", "Completa nombre, correo y contraseña."));
+	        return null;
+	    }
+	    if (!contrasenaC.equals(confiContrasenaC)) {
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	                "Contraseña", "Las contraseñas no coinciden."));
+	        return null;
+	    }
+
+	    // (Tu persistencia si aplica)
+	    // usuarioService.crear(nombre, correoC, contrasenaC);
+
+	    // Asegurar que envioCorreo no sea null (fallback CDI si hiciera falta)
+	    try {
+	        if (envioCorreo == null) {
+	            envioCorreo = jakarta.enterprise.inject.spi.CDI.current()
+	                .select(co.edu.unbosque.util.mail.EnvioCorreo.class).get();
+	        }
+
+	        String asunto = "Confirmación de cuenta - TEMU";
+	        String cuerpoHtml =
+	            "<div style='font-family:Arial,sans-serif'>"
+	          + "  <h2>¡Hola, " + (nombre != null ? nombre : "usuario") + "!</h2>"
+	          + "  <p>Tu cuenta en <b>TEMU</b> ha sido registrada correctamente.</p>"
+	          + "  <p>Haz clic en el siguiente botón para confirmar tu cuenta:</p>"
+	          + "  <p style='margin:16px 0'>"
+	          + "    <a href='https://tu-dominio/confirmar?email=" + correoC + "' "
+	          + "       style='background:#ff7a00;color:#fff;padding:10px 16px;"
+	          + "              text-decoration:none;border-radius:6px;display:inline-block'>"
+	          + "       Confirmar cuenta"
+	          + "    </a>"
+	          + "  </p>"
+	          + "  <p>Si no fuiste tú, ignora este mensaje.</p>"
+	          + "  <hr/>"
+	          + "  <small>© " + java.time.Year.now() + " TEMU</small>"
+	          + "</div>";
+
+	        envioCorreo.createEmail(correoC, asunto, cuerpoHtml);
+	        envioCorreo.sendEmail();
+
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_INFO,
+	                "Registro exitoso",
+	                "Te enviamos un correo de confirmación a " + correoC));
+	    } catch (Exception e) {
+	        // Captura tanto NPE por inyección como MessagingException
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_WARN,
+	                "Registro realizado",
+	                "No se pudo enviar el correo de confirmación: " + (e.getCause() != null ? e.getCause().getMessage() : e.getMessage())));
+	    }
+
+	    // Mantener tu navegación
+	    return "registro.xhtml";
 	}
+
+
 
 	// Getters/Setters
 	public String getCorreo() {
