@@ -101,6 +101,6 @@ abstract class Producto implements Serializable {
 	 */
 	@Override
 	public String toString() { // Método para representar el objeto como cadena
-		return "Nombre: " + nombre + "\nPrecio: $" + precio  ;
+		return  nombre + "\n$" + precio  ;
 	}
 }
