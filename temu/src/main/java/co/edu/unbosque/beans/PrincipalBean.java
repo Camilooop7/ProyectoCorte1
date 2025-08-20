@@ -23,20 +23,38 @@ public class PrincipalBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private boolean modoEliminar = false;
-    private int idProductoSeleccionado;
 
+    /** 
+     * Objeto que recibiremos desde la vista al presionar ELIMINAR.
+     * Debes setearlo en el commandButton con f:setPropertyActionListener.
+     */
+    private Producto productoSeleccionado;
+
+    /**
+     * Clase de apoyo para pintar la tarjeta en la vista y saber qué borrar.
+     * - tipo: etiqueta legible (ej. "Dispositivo - Audífono") que muestras en el badge.
+     * - categoria: clave lógica (ej. "Audifono", "Movil", "Labial", etc.) para decidir a qué DAO llamar.
+     */
     public static class Producto {
-        private int id;
-        private String tipo;
+        private int id;              // id SOLO visual, no se usa para borrar
+        private String tipo;         // etiqueta visible en la UI
+        private String categoria;    // clave lógica para el switch de eliminación
         private String nombre;
         private String imagen;
         private String precio;
 
-        public Producto(int id, String tipo, String nombre, String imagen, String precio) {
-            this.id = id; this.tipo = tipo; this.nombre = nombre; this.imagen = imagen; this.precio = precio;
+        public Producto(int id, String tipo, String categoria, String nombre, String imagen, String precio) {
+            this.id = id;
+            this.tipo = tipo;
+            this.categoria = categoria;
+            this.nombre = nombre;
+            this.imagen = imagen;
+            this.precio = precio;
         }
+
         public int getId() { return id; }
         public String getTipo() { return tipo; }
+        public String getCategoria() { return categoria; }
         public String getNombre() { return nombre; }
         public String getImagen() { return imagen; }
         public String getPrecio() { return precio; }
@@ -56,40 +74,102 @@ public class PrincipalBean implements Serializable {
 
         // Dispositivo
         for (Movil m : addService.listarMoviles()) {
-            lista.add(new Producto(i++, "Dispositivo - Móvil", s(m::getNombre), s(m::getImagen), String.valueOf(m.getPrecio())));
+            lista.add(new Producto(
+                i++,
+                "Dispositivo - Móvil",
+                "Movil",
+                s(m::getNombre),
+                s(m::getImagen),
+                String.valueOf(m.getPrecio())
+            ));
         }
         for (Audifono a : addService.listarAudifonos()) {
-            lista.add(new Producto(i++, "Dispositivo - Audífono", s(a::getNombre), s(a::getImagen), String.valueOf(a.getPrecio())));
+            lista.add(new Producto(
+                i++,
+                "Dispositivo - Audífono",
+                "Audifono",
+                s(a::getNombre),
+                s(a::getImagen),
+                String.valueOf(a.getPrecio())
+            ));
         }
 
         // Maquillaje
         for (Labial l : addService.listarLabiales()) {
-            lista.add(new Producto(i++, "Maquillaje - Labial", s(l::getNombre), s(l::getImagen), String.valueOf(l.getPrecio())));
+            lista.add(new Producto(
+                i++,
+                "Maquillaje - Labial",
+                "Labial",
+                s(l::getNombre),
+                s(l::getImagen),
+                String.valueOf(l.getPrecio())
+            ));
         }
         for (Pestanina p : addService.listarPestaninas()) {
-            lista.add(new Producto(i++, "Maquillaje - Pestañina", s(p::getNombre), s(p::getImagen), String.valueOf(p.getPrecio())));
+            lista.add(new Producto(
+                i++,
+                "Maquillaje - Pestañina",
+                "Pestanina",
+                s(p::getNombre),
+                s(p::getImagen),
+                String.valueOf(p.getPrecio())
+            ));
         }
 
         // Juguete
         for (JuegoMesa j : addService.listarJuegoMesa()) {
-            lista.add(new Producto(i++, "Juguete - Juego de mesa", s(j::getNombre), s(j::getImagen), String.valueOf(j.getPrecio())));
+            lista.add(new Producto(
+                i++,
+                "Juguete - Juego de mesa",
+                "JuegoMesa",
+                s(j::getNombre),
+                s(j::getImagen),
+                String.valueOf(j.getPrecio())
+            ));
         }
-        // (Si luego agregas Educativo, mapea aquí)
 
         // Papelería
         for (Colegio c : addService.listarColegios()) {
-            lista.add(new Producto(i++, "Papelería - Colegio", s(c::getNombre), s(c::getImagen), String.valueOf(c.getPrecio())));
+            lista.add(new Producto(
+                i++,
+                "Papelería - Colegio",
+                "Colegio",
+                s(c::getNombre),
+                s(c::getImagen),
+                String.valueOf(c.getPrecio())
+            ));
         }
         for (Oficina o : addService.listarOficinas()) {
-            lista.add(new Producto(i++, "Papelería - Oficina", s(o::getNombre), s(o::getImagen), String.valueOf(o.getPrecio())));
+            lista.add(new Producto(
+                i++,
+                "Papelería - Oficina",
+                "Oficina",
+                s(o::getNombre),
+                s(o::getImagen),
+                String.valueOf(o.getPrecio())
+            ));
         }
 
         // Ropa
         for (Hombre h : addService.listarHombres()) {
-            lista.add(new Producto(i++, "Ropa - Hombre", s(h::getNombre), s(h::getImagen), String.valueOf(h.getPrecio())));
+            lista.add(new Producto(
+                i++,
+                "Ropa - Hombre",
+                "Hombre",
+                s(h::getNombre),
+                s(h::getImagen),
+                String.valueOf(h.getPrecio())
+            ));
         }
         for (Mujer mu : addService.listarMujeres()) {
-            lista.add(new Producto(i++, "Ropa - Mujer", s(mu::getNombre), s(mu::getImagen), String.valueOf(mu.getPrecio())));
+            lista.add(new Producto(
+                i++,
+                "Ropa - Mujer",
+                "Mujer",
+                s(mu::getNombre),
+                s(mu::getImagen),
+                String.valueOf(mu.getPrecio())
+            ));
         }
 
         this.productos = lista;
@@ -103,14 +183,72 @@ public class PrincipalBean implements Serializable {
     public List<Producto> getProductos() { return productos; }
     public boolean isModoEliminar() { return modoEliminar; }
     public void cambiarModoEliminar() { modoEliminar = !modoEliminar; }
-    public int getIdProductoSeleccionado() { return idProductoSeleccionado; }
-    public void setIdProductoSeleccionado(int idProductoSeleccionado) { this.idProductoSeleccionado = idProductoSeleccionado; }
 
+    public Producto getProductoSeleccionado() { return productoSeleccionado; }
+    public void setProductoSeleccionado(Producto productoSeleccionado) { this.productoSeleccionado = productoSeleccionado; }
+
+    /**
+     * Elimina realmente desde el almacenamiento (DAO/archivo) usando AddService
+     * y una clave real (nombre) según la categoria lógica del producto.
+     */
     public void eliminarProducto() {
-        // Solo elimina en la vista (id artificial). Para borrado real, agrega métodos eliminarXxx en AddService.
-        productos.removeIf(p -> p.getId() == idProductoSeleccionado);
-        FacesContext.getCurrentInstance().addMessage(null,
-            new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Producto eliminado (vista)."));
+        if (productoSeleccionado == null) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se seleccionó producto."));
+            return;
+        }
+
+        String categoria = productoSeleccionado.getCategoria();
+        String nombre = productoSeleccionado.getNombre();
+        boolean eliminado = false;
+
+        try {
+            switch (categoria) {
+                case "Audifono":
+                    eliminado = addService.eliminarAudifono(nombre);
+                    break;
+                case "Movil":
+                    eliminado = addService.eliminarMovil(nombre);
+                    break;
+                case "Labial":
+                    eliminado = addService.eliminarLabial(nombre);
+                    break;
+                case "Pestanina":
+                    eliminado = addService.eliminarPestanina(nombre);
+                    break;
+                case "JuegoMesa":
+                    eliminado = addService.eliminarJuegoMesa(nombre);
+                    break;
+                case "Colegio":
+                    eliminado = addService.eliminarColegio(nombre);
+                    break;
+                case "Oficina":
+                    eliminado = addService.eliminarOficina(nombre);
+                    break;
+                case "Hombre":
+                    eliminado = addService.eliminarHombre(nombre);
+                    break;
+                case "Mujer":
+                    eliminado = addService.eliminarMujer(nombre);
+                    break;
+                default:
+                    eliminado = false;
+            }
+        } catch (Exception e) {
+            eliminado = false;
+        }
+
+        if (eliminado) {
+            cargarProductos(); // refresca desde los DAOs -> ya no aparece
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto eliminado correctamente."));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo eliminar el producto."));
+        }
+
+        // limpiar selección
+        productoSeleccionado = null;
     }
 
     public void comprar() {
@@ -122,7 +260,7 @@ public class PrincipalBean implements Serializable {
         if (modoEliminar) eliminarProducto();
         else comprar();
     }
-    
+
     public String imagenSrc(Producto p) {
         if (p == null) return placeholder();
         String img = p.getImagen();
@@ -130,20 +268,18 @@ public class PrincipalBean implements Serializable {
 
         String lower = img.toLowerCase();
 
-        // 1) URL absoluta (http/https) o data: uri -> úsala tal cual
+        // 1) URL absoluta o data URI
         if (lower.startsWith("http://") || lower.startsWith("https://") || lower.startsWith("data:")) {
             return img;
         }
 
-        // 2) ¿Parece Base64 crudo? (sin prefijo data:)
-        // Heurística: solo caracteres base64 y longitud considerable
+        // 2) Base64 crudo (heurística)
         boolean base64ish = img.matches("^[A-Za-z0-9+/=\\r\\n]+$") && img.length() > 100;
         if (base64ish) {
-            // Si sabes que tus imágenes son JPG cambia a image/jpeg
             return "data:image/png;base64," + img.replaceAll("\\s+", "");
         }
 
-        // 3) Ruta relativa dentro de tu app (e.g. "uploads/foto.jpg")
+        // 3) Ruta relativa dentro de la app
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         String ctx = ec.getRequestContextPath(); // p.ej. /temu
         if (!img.startsWith("/")) {
@@ -153,7 +289,6 @@ public class PrincipalBean implements Serializable {
     }
 
     private String placeholder() {
-        // Puedes servir una imagen estática de resources o una URL pública
         return "https://via.placeholder.com/400x300?text=Sin+imagen";
     }
 }

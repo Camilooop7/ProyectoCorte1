@@ -134,14 +134,15 @@
 
                             <!-- Botón ELIMINAR -->
                             <p:commandButton value="ELIMINAR"
-                                             action="#{paginaprincipalbean.eliminarProducto}"
-                                             styleClass="btn btn-danger w-100"
-                                             style="border: none; text-decoration: none;"
-                                             update="formProductos"
-                                             process="@this">
-                                <f:setPropertyActionListener target="#{paginaprincipalbean.idProductoSeleccionado}"
-                                                             value="#{producto.id}" />
-                            </p:commandButton>
+                 action="#{paginaprincipalbean.eliminarProducto}"
+                 styleClass="btn btn-danger w-100"
+                 style="border: none; text-decoration: none;"
+                 update="formProductos"
+                 process="@this">
+    <!-- Enviar el objeto completo del loop -->
+    <f:setPropertyActionListener target="#{paginaprincipalbean.productoSeleccionado}"
+                                 value="#{producto}" />
+</p:commandButton>
                         </div>
                     </div>
                 </ui:repeat>
