@@ -15,12 +15,12 @@ public class Pelicula extends Peluche implements Serializable{
 		this.personaje = personaje;
 	}
 
-	public Pelicula(String nombre, int precio, String imagen, int tamano, String personaje) {
+	public Pelicula(String nombre, int precio, String imagen, String tamano, String personaje) {
 		super(nombre, precio, imagen, tamano);
 		this.personaje = personaje;
 	}
 
-	public Pelicula(String nombre, int precio, String imagen, int tamano) {
+	public Pelicula(String nombre, int precio, String imagen, String tamano) {
 		super(nombre, precio, imagen, tamano);
 		// TODO Auto-generated constructor stub
 	}

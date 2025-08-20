@@ -15,12 +15,12 @@ public class AnimalDTO extends Peluche implements Serializable{
 		this.animal = animal;
 	}
 
-	public AnimalDTO(String nombre, int precio, String imagen, int tamano, String animal) {
+	public AnimalDTO(String nombre, int precio, String imagen, String tamano, String animal) {
 		super(nombre, precio, imagen, tamano);
 		this.animal = animal;
 	}
 
-	public AnimalDTO(String nombre, int precio, String imagen, int tamano) {
+	public AnimalDTO(String nombre, int precio, String imagen, String tamano) {
 		super(nombre, precio, imagen, tamano);
 		// TODO Auto-generated constructor stub
 	}

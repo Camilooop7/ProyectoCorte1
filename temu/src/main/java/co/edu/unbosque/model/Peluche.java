@@ -4,20 +4,20 @@ import java.io.Serializable;
 
 public abstract class Peluche extends Producto implements Serializable{
 	private static final long serialVersionUID = 1L;
-	private int tamano;
+	private String tamano;
 	
 	public Peluche() {
 		// TODO Auto-generated constructor stub
 	}
 	
 
-	public Peluche(int tamano) {
+	public Peluche(String tamano) {
 		super();
 		this.tamano = tamano;
 	}
 
 
-	public Peluche(String nombre, int precio, String imagen, int tamano) {
+	public Peluche(String nombre, int precio, String imagen, String tamano) {
 		super(nombre, precio, imagen);
 		this.tamano = tamano;
 	}
@@ -29,11 +29,11 @@ public abstract class Peluche extends Producto implements Serializable{
 	}
 
 
-	public int getTamano() {
+	public String getTamano() {
 		return tamano;
 	}
 
-	public void setTamano(int tamano) {
+	public void setTamano(String tamano) {
 		this.tamano = tamano;
 	}
 
