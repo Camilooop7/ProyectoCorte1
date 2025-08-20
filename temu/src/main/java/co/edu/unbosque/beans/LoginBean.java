@@ -2,110 +2,119 @@ package co.edu.unbosque.beans;
 
 import co.edu.unbosque.model.PersonaDTO;
 import co.edu.unbosque.service.LoginService;
+
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import java.io.Serializable;
+
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
-import jakarta.enterprise.context.RequestScoped;
-import java.io.IOException;
 
-@Named(value = "loginbean")
-@RequestScoped
-public class LoginBean {
-    private String correo;
-    private String contrasena;
-    private String nombre;
-    private String correoC;
-    private String contrasenaC;
-    private String confiContrasenaC;
-    private LoginService loginService;
+@Named("loginbean")
+@SessionScoped
+public class LoginBean implements Serializable {
 
-    public LoginBean() {
-        this.loginService = new LoginService();
-    }
+	private static final long serialVersionUID = 1L;
 
-    // Getters y Setters
-    public String getCorreo() {
-        return correo;
-    }
+	// Login (frente)
+	private String correo;
+	private String contrasena;
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
+	// Sign Up (dorso)
+	private String nombre;
+	private String correoC;
+	private String contrasenaC;
+	private String confiContrasenaC;
 
-    public String getContrasena() {
-        return contrasena;
-    }
+	@Inject
+	private LoginService loginService;
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
+	public String iniciar() {
+		PersonaDTO intento = new PersonaDTO();
+		intento.setCorreo(correo);
+		intento.setContrasena(contrasena);
 
-    public String getNombre() {
-        return nombre;
-    }
+		PersonaDTO encontrado = loginService.encontrarPorCorreoYContrasena(correo, contrasena);
+		System.out.println(encontrado);
+		if (encontrado != null) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", "Ingreso exitoso"));
+			// Ir a página principal (cámbiala por la tuya si aplica)
+			return "userpp.xhtml";
+		}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Correo o contraseña inválidos"));
+		return null;
+	}
 
-    public String getCorreoC() {
-        return correoC;
-    }
+	/**
+	 * Primer paso del registro (desde el dorso de la tarjeta en Login). Guarda
+	 * nombre/correo/contraseña en sesión y navega a registroPersona.xhtml
+	 */
+	public String crear() {
+		if (correoC == null || correoC.isBlank() || contrasenaC == null || contrasenaC.isBlank() || nombre == null
+				|| nombre.isBlank()) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Campos incompletos", "Completa nombre, correo y contraseña."));
+			return null;
+		}
+		if (!contrasenaC.equals(confiContrasenaC)) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contraseña", "Las contraseñas no coinciden."));
+			return null;
+		}
+		// Ir a registro.xhtml con redirect (mejor práctica)
+		return "registro.xhtml";
+	}
 
-    public void setCorreoC(String correoC) {
-        this.correoC = correoC;
-    }
+	// Getters/Setters
+	public String getCorreo() {
+		return correo;
+	}
 
-    public String getContrasenaC() {
-        return contrasenaC;
-    }
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
 
-    public void setContrasenaC(String contrasenaC) {
-        this.contrasenaC = contrasenaC;
-    }
+	public String getContrasena() {
+		return contrasena;
+	}
 
-    public String getConfiContrasenaC() {
-        return confiContrasenaC;
-    }
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
+	}
 
-    public void setConfiContrasenaC(String confiContrasenaC) {
-        this.confiContrasenaC = confiContrasenaC;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public void iniciar() {
-        PersonaDTO dto = new PersonaDTO(nombre, contrasena, correo);
-        boolean acceso = loginService.encontrar(dto);
-        if (acceso) {
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", nombre);
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("userpp.xhtml");
-            } catch (IOException e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error al redirigir"));
-            }
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Usuario o contraseña incorrectos"));
-        }
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public void mostrarIniciar() {
-        System.out.println("Correo: " + correo);
-        System.out.println("Contraseña: " + contrasena);
-    }
+	public String getCorreoC() {
+		return correoC;
+	}
 
-    public void mostrarCrear() {
-        System.out.println("Nombre: " + nombre);
-        System.out.println("Correo: " + correoC);
-        System.out.println("Contraseña: " + contrasenaC);
-        System.out.println("Confirmar Contraseña: " + confiContrasenaC);
-    }
+	public void setCorreoC(String correoC) {
+		this.correoC = correoC;
+	}
 
-    public void crear() {
-        if (contrasenaC.equals(confiContrasenaC)) {
-            PersonaDTO nuevo = new PersonaDTO(nombre, contrasenaC, correoC);
-            loginService.crear(nuevo);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Usuario creado exitosamente"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Las contraseñas no coinciden"));
-        }
-    }
+	public String getContrasenaC() {
+		return contrasenaC;
+	}
+
+	public void setContrasenaC(String contrasenaC) {
+		this.contrasenaC = contrasenaC;
+	}
+
+	public String getConfiContrasenaC() {
+		return confiContrasenaC;
+	}
+
+	public void setConfiContrasenaC(String confiContrasenaC) {
+		this.confiContrasenaC = confiContrasenaC;
+	}
 }

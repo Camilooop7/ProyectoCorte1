@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+  <meta charset="UTF-8" />
+  <title>Registro de Persona</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5520/5520840.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.12/iconfont/material-icons.min.css" />
+  <link href="css/stylelogin.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</h:head>
+
+<h:body>
+  <section>
+    <div class="container">
+      <div class="row full-screen align-items-center">
+        <!-- Izquierda -->
+        <div class="left">
+          <span class="line"></span>
+          <h2>REGISTRO PERSONA</h2>
+          <button id="theme-toggle" class="btn-theme" type="button">
+            <i class="material-icons" id="theme-icon">brightness_4</i>
+          </button>
+        </div>
+
+        <!-- Derecha -->
+        <div class="right">
+          <h:form id="formPersona">
+            <p:messages id="msgs" autoUpdate="true" closable="true" />
+
+            <div class="card-3d-wrap">
+              <div class="card-3d-wrapper">
+                <div class="card-front">
+                  <div class="center-wrap">
+                    <h4 class="heading">Datos de la Persona</h4>
+
+                    <!-- NOMBRE (del primer paso; se permite editar aquí si quieres) -->
+                    <div class="form-group">
+                      <h:inputText id="nombre"
+                                   value="#{loginbean.nombre}"
+                                   styleClass="form-style"
+                                   maxlength="80"
+                                   autocomplete="off"
+                                   placeholder="Nombre completo">
+                        <f:validateLength minimum="1" maximum="80" />
+                      </h:inputText>
+                    </div>
+
+                    <!-- GÉNERO -->
+                    <div class="form-group">
+                      <h:selectOneMenu id="genero"
+                                       value="#{registroBean.genero}"
+                                       styleClass="form-style">
+                        <f:selectItem itemLabel="Seleccione su género" itemValue="" />
+                        <f:selectItem itemLabel="Femenino" itemValue="F" />
+                        <f:selectItem itemLabel="Masculino" itemValue="M" />
+                        <f:selectItem itemLabel="Otro" itemValue="O" />
+                        <f:selectItem itemLabel="Prefiero no decir" itemValue="N" />
+                      </h:selectOneMenu>
+                    </div>
+
+                    <!-- DIRECCIÓN -->
+                    <div class="form-group">
+                      <h:inputText id="direccion"
+                                   value="#{registroBean.direccion}"
+                                   styleClass="form-style"
+                                   maxlength="120"
+                                   autocomplete="off"
+                                   placeholder="Dirección">
+                        <f:validateLength minimum="3" maximum="120" />
+                      </h:inputText>
+                    </div>
+
+                    <!-- EDAD -->
+                    <div class="form-group">
+                      <h:inputText id="edad"
+                                   value="#{registroBean.edad}"
+                                   styleClass="form-style"
+                                   autocomplete="off"
+                                   placeholder="Edad">
+                        <f:convertNumber integerOnly="true" />
+                        <f:validateLongRange minimum="0" maximum="120" />
+                      </h:inputText>
+                    </div>
+
+                    <!-- IDENTIFICACIÓN -->
+                    <div class="form-group">
+                      <h:inputText id="identificacion"
+                                   value="#{registroBean.identificacion}"
+                                   styleClass="form-style"
+                                   autocomplete="off"
+                                   placeholder="Número de identificación">
+                        <f:convertNumber integerOnly="true" />
+                        <f:validateLongRange minimum="1" maximum="9999999999" />
+                      </h:inputText>
+                    </div>
+
+                    <!-- BOTONES -->
+                    <div class="d-flex gap-2">
+                      <p:commandButton value="Guardar"
+                                       styleClass="btn"
+                                       action="#{registroBean.guardar}"
+                                       update="@form" />
+                      <p:commandButton value="Limpiar"
+                                       type="reset"
+                                       styleClass="btn btn-secondary" />
+                    </div>
+
+                    <p class="text-center mt-3">
+                      <span class="text-muted">Se piden solo campos de <code>Persona</code> (sin username, contraseña, correo).</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </h:form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toggle de tema -->
+  <script type="text/javascript">
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+      document.addEventListener('DOMContentLoaded', function() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+      });
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+          const currentTheme = document.documentElement.getAttribute('data-theme');
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          updateThemeIcon(newTheme);
+        });
+      }
+      function updateThemeIcon(theme) {
+        if (themeIcon) {
+          themeIcon.textContent = theme === 'dark' ? 'brightness_4' : 'brightness_7';
+        }
+      }
+    })();
+  </script>
+</h:body>
+</html>
+	

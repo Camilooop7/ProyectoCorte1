@@ -1,28 +1,30 @@
 package co.edu.unbosque.service;
 
 import co.edu.unbosque.model.PersonaDTO;
-import java.util.ArrayList;
-import java.util.List;
+import co.edu.unbosque.model.persistence.PersonaDAO;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class LoginService {
-    private List<PersonaDTO> usuarios;
+
+    private final PersonaDAO personaDAO;
 
     public LoginService() {
-        this.usuarios = new ArrayList<>();
-        // Datos de prueba
-        usuarios.add(new PersonaDTO("admin", "1234", "admin@example.com"));
+        this.personaDAO = new PersonaDAO();
     }
 
-    public boolean encontrar(PersonaDTO dto) {
-        for (PersonaDTO usuario : usuarios) {
-            if (usuario.getCorreo().equals(dto.getCorreo()) && usuario.getContrasena().equals(dto.getContrasena())) {
-                return true;
-            }
-        }
-        return false;
+    /**
+     * Busca por correo y contraseña usando el DAO real (persistencia).
+     */
+    public PersonaDTO encontrarPorCorreoYContrasena(String correo, String contrasena) {
+        return personaDAO.findC(correo, contrasena);
     }
 
-    public void crear(PersonaDTO nuevo) {
-        usuarios.add(nuevo);
+    /**
+     * Crea usuario si no existe (según PersonaDAO.add).
+     */
+    public boolean crear(PersonaDTO nuevo) {
+        return personaDAO.add(nuevo);
     }
 }
