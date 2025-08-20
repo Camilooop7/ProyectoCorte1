@@ -15,6 +15,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 
+import co.edu.unbosque.model.AnimalDTO;
 import co.edu.unbosque.model.AudifonoDTO;
 import co.edu.unbosque.model.ColegioDTO;
 import co.edu.unbosque.model.EducativoDTO;
@@ -24,6 +25,7 @@ import co.edu.unbosque.model.LabialDTO;
 import co.edu.unbosque.model.MovilDTO;
 import co.edu.unbosque.model.MujerDTO;
 import co.edu.unbosque.model.OficinaDTO;
+import co.edu.unbosque.model.PeliculaDTO;
 import co.edu.unbosque.model.PestaninaDTO;
 import co.edu.unbosque.service.AddService;
 
@@ -73,6 +75,7 @@ public class AddBean implements Serializable {
 		productos.add("Peluche");
 		productos.add("Papeleria");
 		productos.add("Ropa");
+		
 
 		tipos = new ArrayList<>();
 		subtipos = new ArrayList<>();
@@ -301,6 +304,22 @@ public class AddBean implements Serializable {
 				case "Mujer": {
 					MujerDTO mujer = new MujerDTO(nombre, precio, imageBase64, tipo, subsubtipo);
 					aService.crearMuj(mujer);
+					break;
+				}
+				}
+				break;
+				
+				
+			case "Peluche":
+				switch (subtipo) {
+				case "Pelicula": {
+					PeliculaDTO pelicula = new PeliculaDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					aService.crearPel(pelicula);
+					break;
+				}
+				case "Animal": {
+					AnimalDTO animal = new AnimalDTO(nombre, precio, imageBase64, tipo, subsubtipo);
+					aService.crearAni(animal);
 					break;
 				}
 				}

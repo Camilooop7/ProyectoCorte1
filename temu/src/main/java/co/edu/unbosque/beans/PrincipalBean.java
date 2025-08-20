@@ -94,6 +94,33 @@ public class PrincipalBean implements Serializable {
                 String.valueOf(a.getPrecio())
             ));
         }
+        
+        for (Pelicula p : addService.listarPeliculas()) {
+        	lista.add(new Producto(
+                    i++,
+                    "Peluche - Pelicula",
+                    "Pelicula",
+                    s(p::getNombre),
+                    s(p::getImagen),
+                    String.valueOf(p.getPrecio())
+                ));
+        	
+        }
+        
+        
+        for (Animal a : addService.listarAnimal()) {
+        	lista.add(new Producto(
+                    i++,
+                    "Peluche - Animal",
+                    "Animal",
+                    s(a::getNombre),
+                    s(a::getImagen),
+                    String.valueOf(a.getPrecio())
+                ));
+        	
+        }
+        
+        
 
         // Maquillaje
         for (Labial l : addService.listarLabiales()) {
@@ -232,6 +259,12 @@ public class PrincipalBean implements Serializable {
                 case "Mujer":
                     eliminado = addService.eliminarMujer(nombre);
                     break;
+                case"Pelicula":
+                	eliminado = addService.eliminarPelicula(nombre);
+                	break;
+                case"Animal":
+                	eliminado = addService.eliminarAnimal(nombre);
+                	break;
                 default:
                     eliminado = false;
             }

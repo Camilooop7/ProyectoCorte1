@@ -28,6 +28,7 @@ public class AddService {
         dto.setNombre(nombre);
         return mf.getAudifonoDAO().delete(dto);
     }
+    
 
     public boolean eliminarMovil(String nombre) {
         if (nombre == null || nombre.isBlank()) return false;
@@ -85,6 +86,23 @@ public class AddService {
         return mf.getMujerDAO().delete(dto);
     }
     
+    public boolean eliminarPelicula(String nombre) {
+    	if (nombre == null || nombre.isBlank()) return false;
+    	PeliculaDTO dto = new PeliculaDTO();
+    	dto.setNombre(nombre);
+    	return mf.getPeliculaDAO().delete(dto);
+    }
+    
+    
+    public boolean eliminarAnimal(String nombre) {
+    	if (nombre == null || nombre.isBlank()) return false;
+    	AnimalDTO dto = new AnimalDTO();
+    	dto.setNombre(nombre);
+    	return mf.getAnimalDAO().delete(dto);
+    }
+    
+    
+    
     
 
     // =================== CREAR ===================
@@ -97,6 +115,14 @@ public class AddService {
     public void crearOfi(OficinaDTO dto)  { mf.getOficinaDAO().add(dto); }
     public void crearHom(HombreDTO dto)   { mf.getHombreDAO().add(dto); }
     public void crearMuj(MujerDTO dto)    { mf.getMujerDAO().add(dto); }
+    public void crearPel(PeliculaDTO dto) {
+    	mf.getPeliculaDAO().add(dto);
+    }
+    
+    public void crearAni(AnimalDTO dto) {
+    	mf.getAnimalDAO().add(dto);
+    }
+    
 
     // =================== LISTAR (LECTURA) ===================
     public ArrayList<Movil> listarMoviles()       { return mf.getMovilDAO().getListaMovil(); }
@@ -108,6 +134,11 @@ public class AddService {
     public ArrayList<Hombre> listarHombres()      { return mf.getHombreDAO().getListaHombre(); }
     public ArrayList<Mujer> listarMujeres()       { return mf.getMujerDAO().getListaMujer(); }
     public ArrayList<Audifono> listarAudifonos()  { return mf.getAudifonoDAO().getListaAudifono(); }
+    
+    public ArrayList<Pelicula> listarPeliculas()  { return mf.getPeliculaDAO().getListaPelicula(); }
+    
+    public ArrayList<Animal> listarAnimal()  { return mf.getAnimalDAO().getListaAnimal(); }
+    
 
     public ModelFacade getModelFacade() {
         return mf;
