@@ -145,6 +145,17 @@ public class CarritoBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(sev, summary, detail));
     }
 
+    // ======== Script de tema expuesto desde el bean ========
+    /** Devuelve el JS que aplica el tema leyendo el valor de un input por id */
+    public String getApplyThemeScript() {
+        return "function applyThemeByInputId(id){"
+             + "var el=document.getElementById(id);"
+             + "if(!el)return;"
+             + "document.documentElement.setAttribute('data-theme',el.value);"
+             + "document.body.setAttribute('data-theme',el.value);"
+             + "}";
+    }
+
     // Getters/Setters
     public String getItemSeleccionado() { return itemSeleccionado; }
     public void setItemSeleccionado(String itemSeleccionado) { this.itemSeleccionado = itemSeleccionado; }

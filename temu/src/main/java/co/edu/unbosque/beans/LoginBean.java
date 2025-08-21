@@ -153,6 +153,24 @@ public class LoginBean implements Serializable {
 		    // Mantener tu navegación
 		    return "registro.xhtml";
 		}
+	 
+	 
+	// --- Tema (oscuro por defecto en sesión) ---
+	 private String theme = "dark";
+
+	 public void toggleTheme() {
+	     theme = "dark".equals(theme) ? "light" : "dark";
+	 }
+
+	 public String getTheme() {
+	     return theme;
+	 }
+
+	 /** Texto del ícono de Material Icons según el tema actual */
+	 public String getThemeIcon() {
+	     return "dark".equals(theme) ? "brightness_4" : "brightness_7";
+	 }
+
 
 
 
@@ -204,4 +222,15 @@ public class LoginBean implements Serializable {
 	public void setConfiContrasenaC(String confiContrasenaC) {
 		this.confiContrasenaC = confiContrasenaC;
 	}
+	
+	
+	public String getApplyThemeScript() {
+	    return "function applyThemeByInputId(id){"
+	         + "var el=document.getElementById(id);"
+	         + "if(!el)return;"
+	         + "document.documentElement.setAttribute('data-theme',el.value);"
+	         + "document.body.setAttribute('data-theme',el.value);"
+	         + "}";
+	}
+	
 }

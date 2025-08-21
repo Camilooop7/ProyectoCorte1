@@ -24,6 +24,29 @@
     --card-background: white;
 }
 
+/* Usa variables también en títulos y textos */
+.right h4 { 
+  font-weight: 600;
+  color: var(--orange);         /* antes: color: orange; */
+}
+
+.right h6, 
+#h6color {
+  color: var(--white);          /* antes: white */
+}
+
+/* (Opcional) versión explícita para el modo oscuro (equivalente a :root) */
+[data-theme="dark"] {
+  --mainColor: white;
+  --orange: orange;
+  --white: white;
+  --whiteSmoke: #C4C3CA;
+  --shadow: 0px 4px 8px 0 rgba(21, 21, 21, .2);
+  --background: #1B1B1B;
+  --card-background: #242323;
+}
+
+
 /* Estilos globales */
 * {
     margin: 0;

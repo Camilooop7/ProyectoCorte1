@@ -51,4 +51,9 @@ public class UserBean {
     public void comprar() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Compra realizada con éxito"));
     }
+    
+    public String getApplyThemeScript() {
+    	  return "function applyThemeByInputId(id){var el=document.getElementById(id);if(!el)return;document.documentElement.setAttribute('data-theme',el.value);document.body.setAttribute('data-theme',el.value);}";
+    	}
+
 }
