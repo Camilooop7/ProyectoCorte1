@@ -5,6 +5,7 @@ import co.edu.unbosque.model.persistence.AudifonoDAO;
 import co.edu.unbosque.model.persistence.CarritoDAO;
 import co.edu.unbosque.model.persistence.ColegioDAO;
 import co.edu.unbosque.model.persistence.EducativoDAO;
+import co.edu.unbosque.model.persistence.HistorialDAO;
 import co.edu.unbosque.model.persistence.HombreDAO;
 import co.edu.unbosque.model.persistence.JuegoMesaDAO;
 import co.edu.unbosque.model.persistence.LabialDAO;
@@ -36,6 +37,7 @@ public class ModelFacade {
 	private PestaninaDAO pestaninaDAO;
 	private PersonaDAO personaDAO;
 	private CarritoDAO carritoDAO;
+	private HistorialDAO historialDAO;
 
 	public ModelFacade() {
 		animalDAO = new AnimalDAO();
@@ -52,6 +54,7 @@ public class ModelFacade {
 		pestaninaDAO = new PestaninaDAO();
 		personaDAO = new PersonaDAO();
 		carritoDAO = new CarritoDAO();
+		historialDAO = new HistorialDAO();
 
 		// TODO Auto-generated constructor stub
 	}
@@ -167,6 +170,14 @@ public class ModelFacade {
 
 	public void setCarritoDAO(CarritoDAO carritoDAO) {
 		this.carritoDAO = carritoDAO;
+	}
+
+	public HistorialDAO getHistorialDAO() {
+		return historialDAO;
+	}
+
+	public void setHistorialDAO(HistorialDAO historialDAO) {
+		this.historialDAO = historialDAO;
 	}
 
 	// Sin setters: las dependencias las gestiona el contenedor.
