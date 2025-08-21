@@ -27,12 +27,12 @@ public class EnvioCorreo {
     private String subject;
     private String content;
 
-    private Properties mProperties;
+    private Properties mPropertie;
     private Session mSession;
     private MimeMessage mCorreo;
 
     public EnvioCorreo() {
-        mProperties = new Properties();
+        mPropertie = new Properties();
     }
 
     public void createEmail(String emailTo, String subject, String content) {
@@ -41,15 +41,15 @@ public class EnvioCorreo {
         this.content = content;
 
         // SMTP Gmail TLS
-        mProperties.put("mail.smtp.host", "smtp.gmail.com");
-        mProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        mProperties.setProperty("mail.smtp.starttls.enable", "true");
-        mProperties.setProperty("mail.smtp.port", "587");
-        mProperties.setProperty("mail.smtp.auth", "true");
-        mProperties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+        mPropertie.put("mail.smtp.host", "smtp.gmail.com");
+        mPropertie.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        mPropertie.setProperty("mail.smtp.starttls.enable", "true");
+        mPropertie.setProperty("mail.smtp.port", "587");
+        mPropertie.setProperty("mail.smtp.auth", "true");
+        mPropertie.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
 
         // Autenticación
-        mSession = Session.getInstance(mProperties, new jakarta.mail.Authenticator() {
+        mSession = Session.getInstance(mPropertie, new jakarta.mail.Authenticator() {
             @Override
             protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {
                 return new jakarta.mail.PasswordAuthentication(emailFrom, passwordFrom);
