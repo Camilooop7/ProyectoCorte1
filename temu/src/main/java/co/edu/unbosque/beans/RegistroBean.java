@@ -13,105 +13,87 @@ import java.io.Serializable;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 
+/**
+ * Bean para gestionar el registro de usuarios.
+ */
 @Named("registroBean")
 @SessionScoped
 public class RegistroBean implements Serializable {
 
+	/** Versión para la serialización. */
 	private static final long serialVersionUID = 1L;
 
-	// Campos de Persona (segunda página)
+	// Campos de registro
 	private String genero;
 	private String direccion;
 	private Integer edad;
 	private Integer identificacion;
 
+	/** Bean de login para obtener datos del primer paso. */
 	@Inject
-	private LoginBean loginBean; // Para tomar nombre/correoC/contrasenaC del primer paso
+	private LoginBean loginBean;
 
+	/** Servicio de registro. */
 	@Inject
 	private RegistroService registroService;
 
 	/**
-	 * Guarda el usuario completo y redirige al Login.
+	 * Guarda el usuario completo y redirige al login.
+	 * 
+	 * @return Ruta de redirección.
+	 * @throws NumberException Si hay un error con los números.
 	 */
 	public String guardar() throws NumberException {
-	    try {
-	        // ===== Paso 1 (de login): datos mínimos =====
-	        if (loginBean == null ||
-	            loginBean.getCorreoC() == null || loginBean.getCorreoC().isBlank() ||
-	            loginBean.getContrasenaC() == null || loginBean.getContrasenaC().isBlank() ||
-	            loginBean.getNombre() == null || loginBean.getNombre().isBlank()) {
-
-	            FacesContext.getCurrentInstance().addMessage(null,
-	                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                    "Registro", "Faltan datos del primer paso (Login → Sign Up)."));
-	            return null; // cortar flujo
-	        }
-
-	       
-
-	        try {
-	            ExceptionCheker.checkerIsBlank(direccion);
-	        } catch (IsBlackException ex) {
-	            FacesContext.getCurrentInstance().addMessage(null,
-	                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                    "Dirección", "La dirección es obligatoria."));
-	            return null; // cortar flujo
-	        }
-
-	        try {
-	            ExceptionCheker.checkerIsBlank(genero);
-	        } catch (IsBlackException ex) {
-	            FacesContext.getCurrentInstance().addMessage(null,
-	                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                    "Género", "El género es obligatorio."));
-	            return null; // cortar flujo
-	        }
-
-	        // ===== Si todo es válido, construir DTO =====
-	        PersonaDTO dto = new PersonaDTO(
-	            loginBean.getNombre(),
-	            genero != null ? genero : "",
-	            direccion != null ? direccion : "",
-	            edad != null ? edad : 0,
-	            identificacion != null ? identificacion : 0,
-	            null, // carrito
-	            null  // lista de favoritos
-	        );
-
-	        // Completar credenciales
-	        dto.setCorreo(loginBean.getCorreoC());
-	        dto.setContrasena(loginBean.getContrasenaC());
-	        dto.setUsername(loginBean.getCorreoC()); // o deriva como prefieras
-
-	        // ===== Persistencia =====
-	        boolean creado = registroService.crearUsuarioTotal(dto);
-	        if (!creado) {
-	            FacesContext.getCurrentInstance().addMessage(null,
-	                new FacesMessage(FacesMessage.SEVERITY_WARN,
-	                    "Registro", "Ya existe un usuario con ese username/correo."));
-	            return null; // no continuar navegación
-	        }
-
-	        // Limpio datos de registro del paso 2 (opcional)
-	        limpiarLocales();
-
-	        FacesContext.getCurrentInstance().addMessage(null,
-	            new FacesMessage(FacesMessage.SEVERITY_INFO,
-	                "Registro", "Usuario creado. Ahora inicia sesión."));
-	        return "index.xhtml";
-
-	    } catch (Exception e) {
-	        // Cualquier error no previsto
-	        FacesContext.getCurrentInstance().addMessage(null,
-	            new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                "Registro",
-	                "Verifique los datos ingresados. No se puede completar el registro."));
-	        return null;
-	    }
+		try {
+			if (loginBean == null || loginBean.getCorreoC() == null || loginBean.getCorreoC().isBlank()
+					|| loginBean.getContrasenaC() == null || loginBean.getContrasenaC().isBlank()
+					|| loginBean.getNombre() == null || loginBean.getNombre().isBlank()) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Registro", "Faltan datos del primer paso (Login → Sign Up)."));
+				return null;
+			}
+			try {
+				ExceptionCheker.checkerIsBlank(direccion);
+			} catch (IsBlackException ex) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dirección", "La dirección es obligatoria."));
+				return null;
+			}
+			try {
+				ExceptionCheker.checkerIsBlank(genero);
+			} catch (IsBlackException ex) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Género", "El género es obligatorio."));
+				return null;
+			}
+			PersonaDTO dto = new PersonaDTO(loginBean.getNombre(), genero != null ? genero : "",
+					direccion != null ? direccion : "", edad != null ? edad : 0,
+					identificacion != null ? identificacion : 0, null, // carrito
+					null // lista de favoritos
+			);
+			dto.setCorreo(loginBean.getCorreoC());
+			dto.setContrasena(loginBean.getContrasenaC());
+			dto.setUsername(loginBean.getCorreoC());
+			boolean creado = registroService.crearUsuarioTotal(dto);
+			if (!creado) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"Registro", "Ya existe un usuario con ese username/correo."));
+				return null;
+			}
+			limpiarLocales();
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro", "Usuario creado. Ahora inicia sesión."));
+			return "index.xhtml";
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Registro",
+					"Verifique los datos ingresados. No se puede completar el registro."));
+			return null;
+		}
 	}
 
-
+	/**
+	 * Limpia los campos locales.
+	 */
 	private void limpiarLocales() {
 		genero = null;
 		direccion = null;
@@ -119,7 +101,6 @@ public class RegistroBean implements Serializable {
 		identificacion = null;
 	}
 
-	// Getters/Setters
 	public String getGenero() {
 		return genero;
 	}

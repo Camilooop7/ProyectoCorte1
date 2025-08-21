@@ -30,20 +30,25 @@ import co.edu.unbosque.model.PestaninaDTO;
 import co.edu.unbosque.service.AddService;
 import co.edu.unbosque.util.exception.ExceptionCheker;
 
+/**
+ * Bean para gestionar la adición de nuevos productos al sistema. Permite
+ * seleccionar el tipo de producto, subir imágenes y guardar la información.
+ */
 @Named("addBean")
 @ViewScoped
 public class AddBean implements Serializable {
 
+	/** Versión para la serialización. */
 	private static final long serialVersionUID = 1L;
 
-	// Inyecciones
+	/** Servicio para agregar productos. */
 	@Inject
 	private AddService aService;
 
+	/** Bean de la página principal. */
 	@Inject
 	private PrincipalBean paginaprincipalbean;
 
-	// Campos del formulario
 	private String producto; // DispositivoElectronico, Maquillaje, Juguete, Peluche, Papeleria, Ropa
 	private String tipo;
 	private String subtipo;
@@ -51,23 +56,21 @@ public class AddBean implements Serializable {
 	private String nombre;
 	private int precio;
 
-	// Catálogos
 	private List<String> productos;
 	private List<String> tipos;
 	private List<String> subtipos;
 	private List<String> subsubtipos;
 
-	// Imagen Base64 (data URL) para mostrar/guardar
 	private String imageBase64;
-
-	// (Opcional) si necesitas mostrar/gestionar el archivo original
 	private UploadedFile originalImageFile;
 	private StreamedContent image;
 
-	// Búsqueda (si la usas en el header)
 	private String searchText;
 
-	// ====== Constructor ======
+	/**
+	 * Constructor por defecto. Inicializa las listas de productos, tipos, subtipos
+	 * y subsubtipos.
+	 */
 	public AddBean() {
 		productos = new ArrayList<>();
 		productos.add("DispositivoElectronico");
@@ -76,20 +79,22 @@ public class AddBean implements Serializable {
 		productos.add("Peluche");
 		productos.add("Papeleria");
 		productos.add("Ropa");
-		
 
 		tipos = new ArrayList<>();
 		subtipos = new ArrayList<>();
 		subsubtipos = new ArrayList<>();
 	}
 
-	// ========== Subida de imagen ==========
+	/**
+	 * Maneja la subida de una imagen y la convierte a Base64.
+	 * 
+	 * @param event Evento de subida de archivo.
+	 */
 	public void handleFileUpload(FileUploadEvent event) {
 		try {
 			byte[] fileContent = event.getFile().getContent();
 			this.imageBase64 = "data:" + event.getFile().getContentType() + ";base64,"
 					+ Base64.getEncoder().encodeToString(fileContent);
-			// Si quieres conservar el file:
 			this.originalImageFile = event.getFile();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -98,7 +103,9 @@ public class AddBean implements Serializable {
 		}
 	}
 
-	// ========== Cambios de selects ==========
+	/**
+	 * Actualiza la lista de subtipos según el producto seleccionado.
+	 */
 	public void onProductoChange() {
 		subtipos.clear();
 		tipos.clear();
@@ -106,7 +113,6 @@ public class AddBean implements Serializable {
 		subtipo = null;
 		tipo = null;
 		subsubtipo = null;
-
 		switch (producto == null ? "" : producto) {
 		case "DispositivoElectronico":
 			subtipos.add("Audifono");
@@ -157,10 +163,12 @@ public class AddBean implements Serializable {
 		}
 	}
 
+	/**
+	 * Actualiza la lista de subsubtipos según el subtipo seleccionado.
+	 */
 	public void onSubtipoChange() {
 		subsubtipos.clear();
 		subsubtipo = null;
-
 		switch (subtipo == null ? "" : subtipo) {
 		case "Audifono":
 			subsubtipos.add("Con cable");
@@ -223,7 +231,11 @@ public class AddBean implements Serializable {
 		}
 	}
 
-	// ========== Guardar y navegar ==========
+	/**
+	 * Guarda el producto y navega a la página de compra.
+	 * 
+	 * @return Ruta de redirección.
+	 */
 	public String guardarYNavegar() {
 		try {
 			if (producto == null || subtipo == null || nombre == null || nombre.isBlank()) {
@@ -232,12 +244,10 @@ public class AddBean implements Serializable {
 				return null;
 			}
 			ExceptionCheker.checkerNegativeNumber(precio);
-
 			switch (producto) {
 			case "DispositivoElectronico":
 				switch (subtipo) {
 				case "Audifono": {
-					// TODO: reemplaza estos valores de ejemplo por los del formulario si aplica
 					AudifonoDTO audifono = new AudifonoDTO(nombre, precio, imageBase64, tipo, subsubtipo);
 					aService.crearAu(audifono);
 					break;
@@ -249,7 +259,6 @@ public class AddBean implements Serializable {
 				}
 				}
 				break;
-
 			case "Maquillaje":
 				switch (subtipo) {
 				case "Labial": {
@@ -264,7 +273,6 @@ public class AddBean implements Serializable {
 				}
 				}
 				break;
-
 			case "Juguete":
 				switch (subtipo) {
 				case "JuegoMesa": {
@@ -274,13 +282,10 @@ public class AddBean implements Serializable {
 				}
 				case "Educativo": {
 					EducativoDTO educativo = new EducativoDTO(nombre, precio, imageBase64, tipo, subsubtipo);
-					// TODO: implementar en AddService si quieres persistirlo:
-					// aService.crearEdu(educativo);
 					break;
 				}
 				}
 				break;
-
 			case "Papeleria":
 				switch (subtipo) {
 				case "Colegio": {
@@ -295,7 +300,6 @@ public class AddBean implements Serializable {
 				}
 				}
 				break;
-
 			case "Ropa":
 				switch (subtipo) {
 				case "Hombre": {
@@ -310,8 +314,6 @@ public class AddBean implements Serializable {
 				}
 				}
 				break;
-				
-				
 			case "Peluche":
 				switch (subtipo) {
 				case "Pelicula": {
@@ -326,26 +328,18 @@ public class AddBean implements Serializable {
 				}
 				}
 				break;
-
 			default:
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN, "Atención", "Tipo de producto no soportado"));
 				return null;
 			}
-
-			// (Opcional) refrescar la lista de la página principal si el bean está activo
 			if (paginaprincipalbean != null) {
 				paginaprincipalbean.cargarProductos();
 			}
-
-			// Mensaje + redirect con flash
 			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Producto agregado"));
-
-			// Redirigir a comprar.xhtml (ajusta el outcome según tu ruta real)
 			return "comprar?faces-redirect=true";
-
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo guardar"));
@@ -353,7 +347,7 @@ public class AddBean implements Serializable {
 		}
 	}
 
-	// ====== Getters y Setters ======
+	// Getters y Setters
 	public String getProducto() {
 		return producto;
 	}

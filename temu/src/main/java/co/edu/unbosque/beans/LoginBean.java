@@ -16,165 +16,136 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 
+/**
+ * Bean para gestionar el inicio de sesión y registro de usuarios.
+ */
 @Named("loginbean")
 @SessionScoped
 public class LoginBean implements Serializable {
 
+	/** Versión para la serialización. */
 	private static final long serialVersionUID = 1L;
 
-	// Login (frente)
 	private String correo;
 	private String contrasena;
 
-	// Sign Up (dorso)
 	private String nombre;
 	private String correoC;
 	private String contrasenaC;
 	private String confiContrasenaC;
 
+	/** Servicio de login. */
 	@Inject
 	private LoginService loginService;
-	
-	 @Inject
-	    private EnvioCorreo envioCorreo;
 
-	 public String iniciar() {
-		    PersonaDTO encontrado = loginService.encontrarPorCorreoYContrasena(correo, contrasena);
+	/** Servicio de envío de correos. */
+	@Inject
+	private EnvioCorreo envioCorreo;
 
-		    if (encontrado != null) {
-		        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-
-		        // Nombre/alias visible
-		        String valorSesion = (encontrado.getUsername() != null && !encontrado.getUsername().isBlank())
-		                ? encontrado.getUsername()
-		                : encontrado.getCorreo();
-		        ec.getSessionMap().put("usuario", valorSesion);
-
-		        // === CLAVE: guarda el correo autenticado ===
-		        ec.getSessionMap().put("correo", encontrado.getCorreo());
-
-		        // (Opcional) si tu PersonaDTO tiene dirección:
-		        try {
-		            String dir = (String) PersonaDTO.class.getMethod("getDireccion").invoke(encontrado);
-		            if (dir != null && !dir.isBlank()) {
-		                ec.getSessionMap().put("direccion", dir);
-		            }
-		        } catch (Exception ignored) {
-		            // Si no existe getDireccion o falla, lo ignoramos.
-		        }
-
-		        // Navegación
-		        return "userpp.xhtml"; // ajusta si tu ruta es distinta
-		    }
-
-		    FacesContext.getCurrentInstance().addMessage(null,
-		            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Correo o contraseña inválidos"));
-		    return null;
-		}
-
-
-
+	// Tema actual
+	private String theme = "dark";
 
 	/**
-	 * Primer paso del registro (desde el dorso de la tarjeta en Login). Guarda
-	 * nombre/correo/contraseña en sesión y navega a registroPersona.xhtml
+	 * Inicia sesión con el correo y contraseña proporcionados.
+	 * 
+	 * @return Ruta de redirección.
 	 */
-	 public String crear() {
-		    try {
-		        // Validaciones con tus excepciones personalizadas
-		        ExceptionCheker.checkerText(nombre);
-		        ExceptionCheker.checkerMail(correoC);
-		        ExceptionCheker.checkerCharacter(contrasenaC);
-
-		        // Validaciones originales
-		        if (correoC == null || correoC.isBlank() ||
-		            contrasenaC == null || contrasenaC.isBlank() ||
-		            nombre == null || nombre.isBlank()) {
-		            FacesContext.getCurrentInstance().addMessage(null,
-		                new FacesMessage(FacesMessage.SEVERITY_WARN,
-		                    "Campos incompletos", "Completa nombre, correo y contraseña."));
-		            return null; // detener flujo
-		        }
-		        if (!contrasenaC.equals(confiContrasenaC)) {
-		            FacesContext.getCurrentInstance().addMessage(null,
-		                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-		                    "Contraseña", "Las contraseñas no coinciden."));
-		            return null; // detener flujo
-		        }
-
-		    } catch (TextException e) {
-		        FacesContext.getCurrentInstance().addMessage(null,
-		            new FacesMessage(FacesMessage.SEVERITY_ERROR,
-		                "nombre con simbolos", "no puede tener símbolos."));
-		        return null; // detener flujo aquí
-		    } catch (MailException e) {
-		        FacesContext.getCurrentInstance().addMessage(null,
-		            new FacesMessage(FacesMessage.SEVERITY_ERROR,
-		                "formato correo", "formato correo invalido."));
-		        return null; // detener flujo aquí
-		    } catch (CharacterException e) {
-		        FacesContext.getCurrentInstance().addMessage(null,
-			            new FacesMessage(FacesMessage.SEVERITY_ERROR,
-			                "minimo 8 caracteres en la contraseña", "longitud de contraseña invalida"));
-			        return null; // detener flujo aquí
-			    }
-
-		    try {
-		        if (envioCorreo == null) {
-		            envioCorreo = jakarta.enterprise.inject.spi.CDI.current()
-		                .select(co.edu.unbosque.util.mail.EnvioCorreo.class).get();
-		        }
-
-		        String asunto = "Confirmación de cuenta - TEMU";
-		        String cuerpoHtml =
-		            "<div style='font-family:Arial,sans-serif'>"
-		          + "  <h2>¡Hola, " + (nombre != null ? nombre : "usuario") + "!</h2>"
-		          + "  <p>Tu cuenta en <b>TEMU</b> ha sido registrada correctamente.</p>"
-		          + "  <hr/>"
-		          + "  <small>© " + java.time.Year.now() + " TEMU</small>"
-		          + "</div>";
-
-		        envioCorreo.createEmail(correoC, asunto, cuerpoHtml);
-		        envioCorreo.sendEmail();
-
-		        FacesContext.getCurrentInstance().addMessage(null,
-		            new FacesMessage(FacesMessage.SEVERITY_INFO,
-		                "Registro exitoso",
-		                "Te enviamos un correo de confirmación a " + correoC));
-		    } catch (Exception e) {
-		        // Captura tanto NPE por inyección como MessagingException
-		        FacesContext.getCurrentInstance().addMessage(null,
-		            new FacesMessage(FacesMessage.SEVERITY_WARN,
-		                "Registro realizado",
-		                "No se pudo enviar el correo de confirmación: " +
-		                (e.getCause() != null ? e.getCause().getMessage() : e.getMessage())));
-		    }
-
-		    // Mantener tu navegación
-		    return "registro.xhtml";
+	public String iniciar() {
+		PersonaDTO encontrado = loginService.encontrarPorCorreoYContrasena(correo, contrasena);
+		if (encontrado != null) {
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			String valorSesion = (encontrado.getUsername() != null && !encontrado.getUsername().isBlank())
+					? encontrado.getUsername()
+					: encontrado.getCorreo();
+			ec.getSessionMap().put("usuario", valorSesion);
+			ec.getSessionMap().put("correo", encontrado.getCorreo());
+			try {
+				String dir = (String) PersonaDTO.class.getMethod("getDireccion").invoke(encontrado);
+				if (dir != null && !dir.isBlank()) {
+					ec.getSessionMap().put("direccion", dir);
+				}
+			} catch (Exception ignored) {
+			}
+			return "userpp.xhtml";
 		}
-	 
-	 
-	// --- Tema (oscuro por defecto en sesión) ---
-	 private String theme = "dark";
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Correo o contraseña inválidos"));
+		return null;
+	}
 
-	 public void toggleTheme() {
-	     theme = "dark".equals(theme) ? "light" : "dark";
-	 }
+	/**
+	 * Crea un nuevo usuario y envía un correo de confirmación.
+	 * 
+	 * @return Ruta de redirección.
+	 */
+	public String crear() {
+		try {
+			ExceptionCheker.checkerText(nombre);
+			ExceptionCheker.checkerMail(correoC);
+			ExceptionCheker.checkerCharacter(contrasenaC);
+			if (correoC == null || correoC.isBlank() || contrasenaC == null || contrasenaC.isBlank() || nombre == null
+					|| nombre.isBlank()) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"Campos incompletos", "Completa nombre, correo y contraseña."));
+				return null;
+			}
+			if (!contrasenaC.equals(confiContrasenaC)) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contraseña", "Las contraseñas no coinciden."));
+				return null;
+			}
+		} catch (TextException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "nombre con simbolos", "no puede tener símbolos."));
+			return null;
+		} catch (MailException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "formato correo", "formato correo invalido."));
+			return null;
+		} catch (CharacterException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"minimo 8 caracteres en la contraseña", "longitud de contraseña invalida"));
+			return null;
+		}
+		try {
+			if (envioCorreo == null) {
+				envioCorreo = jakarta.enterprise.inject.spi.CDI.current()
+						.select(co.edu.unbosque.util.mail.EnvioCorreo.class).get();
+			}
+			String asunto = "Confirmación de cuenta - TEMU";
+			String cuerpoHtml = "<div style='font-family:Arial,sans-serif'>" + "  <h2>¡Hola, "
+					+ (nombre != null ? nombre : "usuario") + "!</h2>"
+					+ "  <p>Tu cuenta en <b>TEMU</b> ha sido registrada correctamente.</p>" + "  <hr/>" + "  <small>© "
+					+ java.time.Year.now() + " TEMU</small>" + "</div>";
+			envioCorreo.createEmail(correoC, asunto, cuerpoHtml);
+			envioCorreo.sendEmail();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Registro exitoso", "Te enviamos un correo de confirmación a " + correoC));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Registro realizado",
+							"No se pudo enviar el correo de confirmación: "
+									+ (e.getCause() != null ? e.getCause().getMessage() : e.getMessage())));
+		}
+		return "registro.xhtml";
+	}
 
-	 public String getTheme() {
-	     return theme;
-	 }
+	/**
+	 * Cambia el tema entre claro y oscuro.
+	 */
+	public void toggleTheme() {
+		theme = "dark".equals(theme) ? "light" : "dark";
+	}
 
-	 /** Texto del ícono de Material Icons según el tema actual */
-	 public String getThemeIcon() {
-	     return "dark".equals(theme) ? "brightness_4" : "brightness_7";
-	 }
+	/**
+	 * Obtiene el ícono del tema actual.
+	 * 
+	 * @return Ícono del tema.
+	 */
+	public String getThemeIcon() {
+		return "dark".equals(theme) ? "brightness_4" : "brightness_7";
+	}
 
-
-
-
-	// Getters/Setters
 	public String getCorreo() {
 		return correo;
 	}
@@ -222,15 +193,14 @@ public class LoginBean implements Serializable {
 	public void setConfiContrasenaC(String confiContrasenaC) {
 		this.confiContrasenaC = confiContrasenaC;
 	}
-	
-	
-	public String getApplyThemeScript() {
-	    return "function applyThemeByInputId(id){"
-	         + "var el=document.getElementById(id);"
-	         + "if(!el)return;"
-	         + "document.documentElement.setAttribute('data-theme',el.value);"
-	         + "document.body.setAttribute('data-theme',el.value);"
-	         + "}";
+
+	public String getTheme() {
+		return theme;
 	}
-	
+
+	public String getApplyThemeScript() {
+		return "function applyThemeByInputId(id){" + "var el=document.getElementById(id);" + "if(!el)return;"
+				+ "document.documentElement.setAttribute('data-theme',el.value);"
+				+ "document.body.setAttribute('data-theme',el.value);" + "}";
+	}
 }
