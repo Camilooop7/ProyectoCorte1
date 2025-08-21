@@ -120,7 +120,6 @@ public class Controller implements ActionListener {
 				Carrito carritoExistente = mf.getCarritoDAO().find(carritoUsuario);
 				if (carritoExistente == null) {
 					mf.getCarritoDAO().add(DataMapper.carritoToCarritoDTO(carritoUsuario));
-					System.out.println("Carrito creado para el usuario: " + u.getNombre());
 				}
 				VerduraDAO a = new VerduraDAO();
 				GaseosaDAO b = new GaseosaDAO();
@@ -215,30 +214,46 @@ public class Controller implements ActionListener {
 			vf.getVp().getPc().getTablaCarrito().repaint();
 			break;
 		case "comprar":
-			if (nombreUsuarioActual == null) {
-				JOptionPane.showMessageDialog(null, "Debe iniciar sesión para generar la factura.");
-				break;
-			}
-			Usuario usuarioActual = mf.getUsuarioDAO().find(new Usuario(nombreUsuarioActual, 0, null));
-			if (usuarioActual == null) {
-				JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
-				break;
-			}
-			Carrito carritoSeleccionado = mf.getCarritoDAO()
-					.find(new Carrito(nombreCarritoActual, nombreUsuarioActual));
-			if (carritoSeleccionado == null) {
-				JOptionPane.showMessageDialog(null, "Carrito no encontrado.");
-				break;
-			}
-			GenerarPDF.generarFactura(usuarioActual, carritoSeleccionado, vf.getVp().getPc());
-			Carrito copiaCarrito = new Carrito(carritoSeleccionado.getNombre(), carritoSeleccionado.getNombreU());
-			copiarProductosRecursivo(carritoSeleccionado.getListaNombresProductos().getFirst(),
-					copiaCarrito.getListaNombresProductos());
-			vf.getVp().getPh().agregarCompraAlHistorial(copiaCarrito);
-			carritoSeleccionado.getListaNombresProductos().clear();
-			vf.getVp().getPc().cargarProductosDelCarrito();
-			JOptionPane.showMessageDialog(null, "Compra realizada con éxito. Se ha guardado en el historial.");
-			break;
+		    if (nombreUsuarioActual == null) {
+		        JOptionPane.showMessageDialog(null, "Debe iniciar sesión para generar la factura.");
+		        break;
+		    }
+		    Usuario usuarioActual = mf.getUsuarioDAO().find(new Usuario(nombreUsuarioActual, 0, null));
+		    if (usuarioActual == null) {
+		        JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
+		        break;
+		    }
+		    Carrito carritoSeleccionado = mf.getCarritoDAO()
+		            .find(new Carrito(nombreCarritoActual, nombreUsuarioActual));
+		    if (carritoSeleccionado == null) {
+		        JOptionPane.showMessageDialog(null, "Carrito no encontrado.");
+		        break;
+		    }
+
+		    // (opcional) La factura puede seguir usando todo el carrito:
+		    GenerarPDF.generarFactura(usuarioActual, carritoSeleccionado, vf.getVp().getPc());
+
+		    // === NUEVO: copiar solo los disponibles al historial ===
+		    Carrito copiaCarrito = new Carrito(carritoSeleccionado.getNombre(), carritoSeleccionado.getNombreU());
+		    copiarSoloDisponiblesRecursivo(
+		            carritoSeleccionado.getListaNombresProductos().getFirst(),
+		            copiaCarrito.getListaNombresProductos()
+		    );
+
+		    if (copiaCarrito.getListaNombresProductos().isEmpty()) {
+		        JOptionPane.showMessageDialog(null,
+		                "No hay productos disponibles para guardar en el historial.");
+		    } else {
+		        vf.getVp().getPh().agregarCompraAlHistorial(copiaCarrito);
+		    }
+
+		    // Limpia siempre el carrito de compra (como ya lo hacías)
+		    carritoSeleccionado.getListaNombresProductos().clear();
+		    vf.getVp().getPc().cargarProductosDelCarrito();
+		    JOptionPane.showMessageDialog(null,
+		            "Compra realizada. Solo los productos disponibles se guardaron en el historial.");
+		    break;
+
 		case "verHistorial":
 			vf.getVp().getPpr().setVisible(false);
 			vf.getVp().getPh().setVisible(true);
@@ -461,4 +476,29 @@ public class Controller implements ActionListener {
 			copiarProductosRecursivo(nodoOrigen.getNext(), listaDestino);
 		}
 	}
+	
+	/**
+	 * Copia solo los nombres de productos DISPONIBLES a la lista destino.
+	 * La disponibilidad se valida contra PanelCarrito (productosAleatorios).
+	 */
+	private void copiarSoloDisponiblesRecursivo(Node<String> nodoOrigen, LinkedList<String> listaDestino) {
+	    if (nodoOrigen == null) return;
+
+	    String nombre = nodoOrigen.getInfo();
+	    boolean disponible = false;
+
+	    // Protección por si productosAleatorios no está seteado aún:
+	    try {
+	        disponible = vf.getVp().getPc().estaEnProductosAleatorios(nombre);
+	    } catch (Exception ignore) {
+	        disponible = false; // si no podemos verificar, lo consideramos NO disponible
+	    }
+
+	    if (disponible) {
+	        listaDestino.addLastR(nombre);
+	    }
+
+	    copiarSoloDisponiblesRecursivo(nodoOrigen.getNext(), listaDestino);
+	}
+
 }
