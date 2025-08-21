@@ -105,6 +105,6 @@ public class Fruta extends Producto implements Serializable {
      */
     @Override
     public String toString() {
-        return super.toString() + "Fruta [aroma=" + aroma + ", sabor=" + sabor + "]";
+    	return super.toString();
     }
 }

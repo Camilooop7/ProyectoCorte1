@@ -73,4 +73,11 @@ public class PaquetePapaDTO extends Producto implements Serializable {
     public void setEsPicante(boolean esPicante) {
         this.esPicante = esPicante;
     }
+
+	@Override
+	public String toString() {
+		return super.toString();
+	}
+    
+    
 }

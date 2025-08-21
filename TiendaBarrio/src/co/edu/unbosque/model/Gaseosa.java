@@ -82,6 +82,6 @@ public class Gaseosa extends Bebida implements Serializable {
      */
     @Override
     public String toString() {
-        return super.toString() + "Gaseosa [esZero=" + esZero + "]";
+    	return super.toString();
     }
 }
