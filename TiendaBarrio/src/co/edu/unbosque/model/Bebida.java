@@ -86,6 +86,6 @@ public abstract class Bebida extends Producto implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Bebida [presentacion=" + presentacion + "]";
+		return super.toString();
 	}
 }

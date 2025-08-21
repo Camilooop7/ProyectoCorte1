@@ -107,6 +107,6 @@ public class VerduraDTO extends Producto implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "Verdura [forma=" + forma + ", tamano=" + tamano + "]";
+		return super.toString();
 	}
 }

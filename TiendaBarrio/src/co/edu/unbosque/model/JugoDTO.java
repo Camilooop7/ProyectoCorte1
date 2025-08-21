@@ -84,6 +84,6 @@ public class JugoDTO extends Bebida implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "Jugo [esNatural=" + esNatural + "]";
+		return super.toString();
 	}
 }
