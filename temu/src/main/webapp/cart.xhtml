@@ -32,7 +32,6 @@
         <ul class="nav-list d-flex gap-3 mb-0">
             <li class="nav-item"><a href="userpp.xhtml" class="nav-link">Home</a></li>
             <li class="nav-item"><a href="carrito.xhtml" class="nav-link active-link">Cart</a></li>
-            <li class="nav-item"><a href="historial.xhtml" class="nav-link">Historial</a></li>
         </ul>
 
         <!-- Toggle de tema -->
@@ -111,9 +110,7 @@
                              update="formCart growl"
                              styleClass="btn btn-secondary"
                              rendered="#{not empty carritoBean.items}"/>
-
             <a href="principal.xhtml" class="btn btn-warning">Seguir comprando</a>
-            <a href="historial.xhtml" class="btn btn-info">Historial</a>
 
             <p:commandButton value="PAGAR"
                              styleClass="btn btn-success ms-auto"

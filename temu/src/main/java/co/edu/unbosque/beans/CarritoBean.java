@@ -3,8 +3,6 @@ package co.edu.unbosque.beans;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
@@ -16,35 +14,56 @@ import jakarta.faces.context.FacesContext;
 import co.edu.unbosque.service.CarritoService;
 import co.edu.unbosque.service.CarritoService.ItemView;
 import co.edu.unbosque.util.mail.EnvioCorreo;
-import co.edu.unbosque.service.HistorialService;
 
+/**
+ * Bean para gestionar el carrito de compras. Permite agregar, eliminar y pagar
+ * productos en el carrito.
+ */
 @Named("carritoBean")
 @ViewScoped
 public class CarritoBean implements Serializable {
+
+	/** Versión para la serialización. */
 	private static final long serialVersionUID = 1L;
 
+	/** Nombre del carrito. */
 	private String nombreCarrito = "CarritoGlobal";
+
+	/** Servicio de carrito. */
 	private transient CarritoService carritoService = new CarritoService();
 
+	/** Ítem seleccionado en el carrito. */
 	private String itemSeleccionado;
 
+	/** Bean para enviar correos. */
 	@Inject
 	private EnvioCorreo envioCorreo;
-	@Inject
-	private LoginBean loginbean; // tomamos datos de sesión aquí
-	@Inject
-	private HistorialService historialService;
 
-	// ======== Items / Total ========
+	/** Bean de login para obtener datos del usuario. */
+	@Inject
+	private LoginBean loginbean;
+
+	/**
+	 * Obtiene los ítems del carrito.
+	 * 
+	 * @return Lista de ítems en el carrito.
+	 */
 	public List<ItemView> getItems() {
 		return carritoService.listarItemsView(nombreCarrito);
 	}
 
+	/**
+	 * Obtiene el total del carrito.
+	 * 
+	 * @return Total del carrito.
+	 */
 	public int getTotal() {
 		return carritoService.total(nombreCarrito);
 	}
 
-	// ======== Acciones ========
+	/**
+	 * Elimina un ítem del carrito.
+	 */
 	public void eliminarItem() {
 		if (itemSeleccionado == null || itemSeleccionado.isBlank()) {
 			addMsg(FacesMessage.SEVERITY_WARN, "Aviso", "No se seleccionó ítem.");
@@ -56,22 +75,26 @@ public class CarritoBean implements Serializable {
 		itemSeleccionado = null;
 	}
 
+	/**
+	 * Vacía el carrito.
+	 */
 	public void vaciar() {
 		boolean ok = carritoService.vaciar(nombreCarrito);
 		addMsg(ok ? FacesMessage.SEVERITY_INFO : FacesMessage.SEVERITY_ERROR, ok ? "OK" : "Error",
 				ok ? "Carrito vaciado." : "No se pudo vaciar.");
 	}
 
+	/**
+	 * Procesa el pago del carrito y envía un correo de confirmación.
+	 * 
+	 * @return Ruta de redirección.
+	 */
 	public String pagar() {
 		if (getItems().isEmpty()) {
 			addMsg(FacesMessage.SEVERITY_WARN, "Aviso", "El carrito está vacío.");
 			return null;
 		}
-
-		// 1) Correo desde LoginBean (campo 'correo' del login)
 		String correo = (loginbean != null) ? loginbean.getCorreo() : null;
-
-		// 2) Fallback: SessionMap -> "correo"
 		if (correo == null || correo.isBlank()) {
 			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 			Map<String, Object> ses = ec.getSessionMap();
@@ -79,13 +102,10 @@ public class CarritoBean implements Serializable {
 			if (c instanceof String s && !s.isBlank())
 				correo = s;
 		}
-
 		if (correo == null || correo.isBlank()) {
 			addMsg(FacesMessage.SEVERITY_ERROR, "Correo", "No se encontró el correo del usuario en sesión.");
 			return null;
 		}
-
-		// Dirección opcional desde sesión
 		String direccion = null;
 		try {
 			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -96,10 +116,8 @@ public class CarritoBean implements Serializable {
 		}
 		if (direccion == null || direccion.isBlank())
 			direccion = "No registrada";
-
 		String asunto = "Compra exitosa - TEMU SHOP";
 		String content = buildEmailHtml(direccion);
-
 		try {
 			envioCorreo.createEmail(correo, asunto, content);
 			envioCorreo.sendEmail();
@@ -107,44 +125,18 @@ public class CarritoBean implements Serializable {
 			addMsg(FacesMessage.SEVERITY_ERROR, "Correo", "No se pudo enviar el correo: " + ex.getMessage());
 			return null;
 		}
-
-		// Mensaje flash para la siguiente vista
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("mensajeConfirmacion",
 				"¡Compra realizada! Enviamos el detalle a " + correo + ". Dirección de envío: " + direccion + ".");
-
-		// === Registrar en historial ===
-		try {
-			DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-			String fecha = LocalDateTime.now().format(fmt);
-
-			StringBuilder line = new StringBuilder();
-			line.append("[").append(fecha).append("] ").append("Compra por $ ").append(getTotal()).append(" | Items: ");
-
-			boolean first = true;
-			for (ItemView iv : getItems()) {
-				if (!first)
-					line.append(", ");
-				line.append(escape(iv.getNombre())).append(" ($").append(iv.getPrecio()).append(")");
-				first = false;
-			}
-
-			if (historialService != null) {
-				historialService.agregarEntrada(nombreCarrito, line.toString());
-			} else {
-				// Fallback si no se inyecta el servicio
-				new co.edu.unbosque.service.HistorialService().agregarEntrada(nombreCarrito, line.toString());
-			}
-		} catch (Exception e) {
-			addMsg(FacesMessage.SEVERITY_WARN, "Historial",
-					"La compra se realizó, pero no se pudo registrar en el historial.");
-		}
-
-		// vaciar carrito y navegar
 		carritoService.vaciar(nombreCarrito);
 		return "principal.xhtml";
 	}
 
-	// ======== Helpers ========
+	/**
+	 * Construye el contenido HTML del correo de confirmación.
+	 * 
+	 * @param direccionEnvio Dirección de envío.
+	 * @return Contenido HTML del correo.
+	 */
 	private String buildEmailHtml(String direccionEnvio) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<div style='font-family:Arial,Helvetica,sans-serif'>").append("<h2>TEMU SHOP - Compra exitosa</h2>")
@@ -169,25 +161,41 @@ public class CarritoBean implements Serializable {
 		return sb.toString();
 	}
 
+	/**
+	 * Escapa caracteres especiales en una cadena.
+	 * 
+	 * @param s Cadena a escapar.
+	 * @return Cadena escapada.
+	 */
 	private String escape(String s) {
 		if (s == null)
 			return "";
 		return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
 	}
 
+	/**
+	 * Agrega un mensaje a FacesContext.
+	 * 
+	 * @param sev     Severidad del mensaje.
+	 * @param summary Resumen del mensaje.
+	 * @param detail  Detalle del mensaje.
+	 */
 	private void addMsg(FacesMessage.Severity sev, String summary, String detail) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(sev, summary, detail));
 	}
 
-	// ======== Script de tema expuesto desde el bean ========
-	/** Devuelve el JS que aplica el tema leyendo el valor de un input por id */
+	/**
+	 * Obtiene el script para aplicar el tema.
+	 * 
+	 * @return Script para aplicar el tema.
+	 */
 	public String getApplyThemeScript() {
 		return "function applyThemeByInputId(id){" + "var el=document.getElementById(id);" + "if(!el)return;"
 				+ "document.documentElement.setAttribute('data-theme',el.value);"
 				+ "document.body.setAttribute('data-theme',el.value);" + "}";
 	}
 
-	// Getters/Setters
+	// Getters y Setters
 	public String getItemSeleccionado() {
 		return itemSeleccionado;
 	}

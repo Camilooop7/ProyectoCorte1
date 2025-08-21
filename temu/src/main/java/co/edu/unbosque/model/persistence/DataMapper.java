@@ -12,8 +12,6 @@ import co.edu.unbosque.model.Colegio;
 import co.edu.unbosque.model.ColegioDTO;
 import co.edu.unbosque.model.Educativo;
 import co.edu.unbosque.model.EducativoDTO;
-import co.edu.unbosque.model.Historial;
-import co.edu.unbosque.model.HistorialDTO;
 import co.edu.unbosque.model.Hombre;
 import co.edu.unbosque.model.HombreDTO;
 import co.edu.unbosque.model.JuegoMesa;
@@ -786,56 +784,6 @@ public class DataMapper {
 	    ArrayList<Carrito> entityList = new ArrayList<>();
 	    for (CarritoDTO d : dtoList) {
 	        entityList.add(new Carrito(d.getNombre(), d.getListaCarrito()));
-	    }
-	    return entityList;
-	}
-	
-	/**
-	 * Convierte un HistorialDTO a un Historial.
-	 *
-	 * @param dto El HistorialDTO a convertir.
-	 * @return El Historial resultante.
-	 */
-	public static Historial historialDTOToHistorial(HistorialDTO dto) {
-	    Historial entity = new Historial(dto.getCarro(), dto.getListaHitorial());
-	    return entity;
-	}
-
-	/**
-	 * Convierte un Historial a un HistorialDTO.
-	 *
-	 * @param entity El Historial a convertir.
-	 * @return El HistorialDTO resultante.
-	 */
-	public static HistorialDTO historialToHistorialDTO(Historial entity) {
-	    HistorialDTO dto = new HistorialDTO(entity.getCarro(), entity.getListaHitorial());
-	    return dto;
-	}
-
-	/**
-	 * Convierte una lista de Historial a una lista de HistorialDTO.
-	 *
-	 * @param entityList La lista de Historial a convertir.
-	 * @return La lista de HistorialDTO resultante.
-	 */
-	public static ArrayList<HistorialDTO> listaHistorialToListaHistorialDTO(ArrayList<Historial> entityList) {
-	    ArrayList<HistorialDTO> dtoList = new ArrayList<>();
-	    for (Historial e : entityList) {
-	        dtoList.add(new HistorialDTO(e.getCarro(), e.getListaHitorial()));
-	    }
-	    return dtoList;
-	}
-
-	/**
-	 * Convierte una lista de HistorialDTO a una lista de Historial.
-	 *
-	 * @param dtoList La lista de HistorialDTO a convertir.
-	 * @return La lista de Historial resultante.
-	 */
-	public static ArrayList<Historial> listaHistorialDTOToListaHistorial(ArrayList<HistorialDTO> dtoList) {
-	    ArrayList<Historial> entityList = new ArrayList<>();
-	    for (HistorialDTO d : dtoList) {
-	        entityList.add(new Historial(d.getCarro(), d.getListaHitorial()));
 	    }
 	    return entityList;
 	}

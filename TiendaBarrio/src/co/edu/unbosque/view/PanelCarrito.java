@@ -194,6 +194,7 @@ public class PanelCarrito extends JPanel {
 	public void recargarComboBox() {
 		combocarritos.removeAllItems();
 		if (usuario == null) {
+			System.out.println("Usuario es null.");
 			return;
 		}
 		CarritoDAO carritoDAO = new CarritoDAO();
@@ -215,6 +216,7 @@ public class PanelCarrito extends JPanel {
 			Carrito carrito = nodoActual.getInfo();
 			if (carrito.getNombreU().equals(nombreUsuario)) {
 				combocarritos.addItem(carrito.getNombre());
+				System.out.println("Carrito encontrado: " + carrito.getNombre());
 			}
 			recargarComboBoxRecursivo(nodoActual.getNext(), nombreUsuario);
 		}
@@ -227,15 +229,18 @@ public class PanelCarrito extends JPanel {
 		DefaultTableModel modelo = (DefaultTableModel) tablaCarrito.getModel();
 		modelo.setRowCount(0);
 		if (usuario == null || combocarritos.getSelectedItem() == null || productosAleatorios == null) {
+			System.out.println("Usuario, carrito o lista de productos aleatorios no seleccionado.");
 			return;
 		}
 		String nombreCarritoSeleccionado = (String) combocarritos.getSelectedItem();
 		CarritoDAO carritoDAO = new CarritoDAO();
 		Carrito carrito = carritoDAO.find(new Carrito(nombreCarritoSeleccionado, usuario.getNombre()));
 		if (carrito == null) {
+			System.out.println("Carrito no encontrado: " + nombreCarritoSeleccionado);
 			return;
 		}
 		if (carrito.getListaNombresProductos().isEmpty()) {
+			System.out.println("El carrito está vacío.");
 			return;
 		}
 		cargarProductosDelCarritoRecursivo(carrito.getListaNombresProductos().getFirst(), modelo);
@@ -257,7 +262,9 @@ public class PanelCarrito extends JPanel {
 				double precio = obtenerPrecioProducto(producto);
 				String disponibilidad = estaEnProductosAleatorios(nombreProducto) ? "Disponible" : "No disponible";
 				modelo.addRow(new Object[] { nombre, precio, disponibilidad });
+				System.out.println("Producto agregado a la tabla: " + nombre + " (" + disponibilidad + ")");
 			} else {
+				System.out.println("Producto no encontrado: " + nombreProducto);
 			}
 			cargarProductosDelCarritoRecursivo(nodoProducto.getNext(), modelo);
 		}
@@ -447,6 +454,7 @@ public class PanelCarrito extends JPanel {
 	 */
 	public void calcularTotal() {
 		if (usuario == null || combocarritos.getSelectedItem() == null || productosAleatorios == null) {
+			System.out.println("Usuario, carrito o lista de productos aleatorios no seleccionado.");
 			precio.setText(" $0.0");
 			return;
 		}
@@ -454,10 +462,12 @@ public class PanelCarrito extends JPanel {
 		CarritoDAO carritoDAO = new CarritoDAO();
 		Carrito carrito = carritoDAO.find(new Carrito(nombreCarritoSeleccionado, usuario.getNombre()));
 		if (carrito == null) {
+			System.out.println("Carrito no encontrado: " + nombreCarritoSeleccionado);
 			precio.setText(" $0.0");
 			return;
 		}
 		if (carrito.getListaNombresProductos().isEmpty()) {
+			System.out.println("El carrito está vacío.");
 			precio.setText(" $0.0");
 			return;
 		}
