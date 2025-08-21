@@ -18,21 +18,15 @@ import co.edu.unbosque.service.CarritoService;
 
 import co.edu.unbosque.model.*;
 
-/**
- * Bean para gestionar la página principal del sistema. Muestra los productos
- * disponibles y permite eliminarlos o agregarlos al carrito.
- */
 @Named("paginaprincipalbean")
 @ViewScoped
 public class PrincipalBean implements Serializable {
 
-	/** Versión para la serialización. */
 	private static final long serialVersionUID = 1L;
 
-	// Estado de la UI
+	// ===== Estado UI =====
 	private boolean modoEliminar = false;
 
-	/** Clase interna que representa un producto en la UI. */
 	public static class Producto {
 		private int id;
 		private String tipo;
@@ -50,7 +44,6 @@ public class PrincipalBean implements Serializable {
 			this.precio = precio;
 		}
 
-		// Getters
 		public int getId() {
 			return id;
 		}
@@ -79,26 +72,40 @@ public class PrincipalBean implements Serializable {
 	private List<Producto> productos = new ArrayList<>();
 	private Producto productoSeleccionado;
 
-	// Servicios
+	// ===== Services (datos) =====
 	@Inject
 	private PrincipalService principalService;
+
+	// Carrito (lógica de compra)
 	private String nombreCarrito = "CarritoGlobal";
 	private transient CarritoService carritoService = new CarritoService();
 
-	/**
-	 * Inicializa el bean y carga los productos.
-	 */
+	// ===== Ciclo de vida =====
 	@PostConstruct
 	public void init() {
 		cargarProductos();
 	}
 
-	/**
-	 * Carga los productos desde el servicio.
-	 */
+	// ===== Helpers =====
+	private String s(Supplier<String> sup) {
+		try {
+			String v = sup.get();
+			return v == null ? "" : v;
+		} catch (Exception e) {
+			return "";
+		}
+	}
+
+	private String placeholder() {
+		return "https://via.placeholder.com/400x300?text=Sin+imagen";
+	}
+
+	// ===== LÓGICA: construir tarjetas desde la info del service =====
 	public void cargarProductos() {
 		List<Producto> lista = new ArrayList<>();
 		int i = 1;
+
+		// Dispositivos
 		for (Movil m : principalService.listarMoviles()) {
 			lista.add(new Producto(i++, "Dispositivo - Móvil", "Movil", s(m::getNombre), s(m::getImagen),
 					String.valueOf(m.getPrecio())));
@@ -107,6 +114,8 @@ public class PrincipalBean implements Serializable {
 			lista.add(new Producto(i++, "Dispositivo - Audífono", "Audifono", s(a::getNombre), s(a::getImagen),
 					String.valueOf(a.getPrecio())));
 		}
+
+		// Peluches / otros
 		for (Pelicula p : principalService.listarPeliculas()) {
 			lista.add(new Producto(i++, "Peluche - Pelicula", "Pelicula", s(p::getNombre), s(p::getImagen),
 					String.valueOf(p.getPrecio())));
@@ -115,6 +124,8 @@ public class PrincipalBean implements Serializable {
 			lista.add(new Producto(i++, "Peluche - Animal", "Animal", s(a::getNombre), s(a::getImagen),
 					String.valueOf(a.getPrecio())));
 		}
+
+		// Maquillaje
 		for (Labial l : principalService.listarLabiales()) {
 			lista.add(new Producto(i++, "Maquillaje - Labial", "Labial", s(l::getNombre), s(l::getImagen),
 					String.valueOf(l.getPrecio())));
@@ -123,10 +134,14 @@ public class PrincipalBean implements Serializable {
 			lista.add(new Producto(i++, "Maquillaje - Pestañina", "Pestanina", s(p::getNombre), s(p::getImagen),
 					String.valueOf(p.getPrecio())));
 		}
+
+		// Juguetes
 		for (JuegoMesa j : principalService.listarJuegoMesa()) {
 			lista.add(new Producto(i++, "Juguete - Juego de mesa", "JuegoMesa", s(j::getNombre), s(j::getImagen),
 					String.valueOf(j.getPrecio())));
 		}
+
+		// Papelería
 		for (Colegio c : principalService.listarColegios()) {
 			lista.add(new Producto(i++, "Papelería - Colegio", "Colegio", s(c::getNombre), s(c::getImagen),
 					String.valueOf(c.getPrecio())));
@@ -135,6 +150,8 @@ public class PrincipalBean implements Serializable {
 			lista.add(new Producto(i++, "Papelería - Oficina", "Oficina", s(o::getNombre), s(o::getImagen),
 					String.valueOf(o.getPrecio())));
 		}
+
+		// Ropa
 		for (Hombre h : principalService.listarHombres()) {
 			lista.add(new Producto(i++, "Ropa - Hombre", "Hombre", s(h::getNombre), s(h::getImagen),
 					String.valueOf(h.getPrecio())));
@@ -143,29 +160,44 @@ public class PrincipalBean implements Serializable {
 			lista.add(new Producto(i++, "Ropa - Mujer", "Mujer", s(mu::getNombre), s(mu::getImagen),
 					String.valueOf(mu.getPrecio())));
 		}
+
 		this.productos = lista;
 	}
 
-	/**
-	 * Cambia el modo de eliminación.
-	 */
+	// ===== LÓGICA: acciones de UI =====
 	public void cambiarModoEliminar() {
 		modoEliminar = !modoEliminar;
 	}
 
-	/**
-	 * Elimina el producto seleccionado.
-	 */
+	public boolean isModoEliminar() {
+		return modoEliminar;
+	}
+
+	public List<Producto> getProductos() {
+		return productos;
+	}
+
+	public Producto getProductoSeleccionado() {
+		return productoSeleccionado;
+	}
+
+	public void setProductoSeleccionado(Producto productoSeleccionado) {
+		this.productoSeleccionado = productoSeleccionado;
+	}
+
 	public void eliminarProducto() {
 		if (productoSeleccionado == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se seleccionó producto."));
 			return;
 		}
+
 		String categoria = productoSeleccionado.getCategoria();
 		String nombre = productoSeleccionado.getNombre();
 		boolean eliminado = false;
+
 		try {
+			// Lógica (switch) en el BEAN; operación de datos en el SERVICE
 			switch (categoria) {
 			case "Audifono":
 				eliminado = principalService.eliminarAudifono(nombre);
@@ -206,6 +238,7 @@ public class PrincipalBean implements Serializable {
 		} catch (Exception e) {
 			eliminado = false;
 		}
+
 		if (eliminado) {
 			cargarProductos();
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -214,25 +247,26 @@ public class PrincipalBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo eliminar el producto."));
 		}
+
 		productoSeleccionado = null;
 	}
 
-	/**
-	 * Agrega el producto seleccionado al carrito.
-	 */
 	public void comprarProducto() {
 		if (productoSeleccionado == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se seleccionó producto."));
 			return;
 		}
+
 		String nombre = productoSeleccionado.getNombre();
 		int precio = 0;
 		try {
 			precio = Integer.parseInt(productoSeleccionado.getPrecio().replaceAll("[^0-9-]", ""));
 		} catch (Exception ignored) {
 		}
+
 		boolean ok = carritoService.agregarProducto(nombreCarrito, nombre, precio);
+
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(ok ? FacesMessage.SEVERITY_INFO : FacesMessage.SEVERITY_ERROR,
 						ok ? "Añadido" : "Error",
@@ -240,9 +274,6 @@ public class PrincipalBean implements Serializable {
 		productoSeleccionado = null;
 	}
 
-	/**
-	 * Ejecuta la acción correspondiente según el modo actual (eliminar o comprar).
-	 */
 	public void accionProducto() {
 		if (modoEliminar)
 			eliminarProducto();
@@ -250,68 +281,25 @@ public class PrincipalBean implements Serializable {
 			comprarProducto();
 	}
 
-	/**
-	 * Obtiene la fuente de la imagen del producto.
-	 * 
-	 * @param p Producto.
-	 * @return Fuente de la imagen.
-	 */
 	public String imagenSrc(Producto p) {
 		if (p == null)
 			return placeholder();
 		String img = p.getImagen();
 		if (img == null || img.isBlank())
 			return placeholder();
+
 		String lower = img.toLowerCase();
 		if (lower.startsWith("http://") || lower.startsWith("https://") || lower.startsWith("data:"))
 			return img;
+
 		boolean base64ish = img.matches("^[A-Za-z0-9+/=\\r\\n]+$") && img.length() > 100;
 		if (base64ish)
 			return "data:image/png;base64," + img.replaceAll("\\s+", "");
+
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-		String ctx = ec.getRequestContextPath();
+		String ctx = ec.getRequestContextPath(); // p.ej. /temu
 		if (!img.startsWith("/"))
 			img = "/" + img;
 		return ctx + img;
-	}
-
-	/**
-	 * Obtiene un placeholder para imágenes no disponibles.
-	 * 
-	 * @return URL del placeholder.
-	 */
-	private String placeholder() {
-		return "https://via.placeholder.com/400x300?text=Sin+imagen";
-	}
-
-	/**
-	 * Ejecuta un proveedor de forma segura.
-	 * 
-	 * @param sup Proveedor de cadenas.
-	 * @return Cadena resultante o cadena vacía en caso de error.
-	 */
-	private String s(Supplier<String> sup) {
-		try {
-			String v = sup.get();
-			return v == null ? "" : v;
-		} catch (Exception e) {
-			return "";
-		}
-	}
-
-	public boolean isModoEliminar() {
-		return modoEliminar;
-	}
-
-	public List<Producto> getProductos() {
-		return productos;
-	}
-
-	public Producto getProductoSeleccionado() {
-		return productoSeleccionado;
-	}
-
-	public void setProductoSeleccionado(Producto productoSeleccionado) {
-		this.productoSeleccionado = productoSeleccionado;
 	}
 }
