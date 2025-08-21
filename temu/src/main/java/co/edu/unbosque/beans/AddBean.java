@@ -226,12 +226,12 @@ public class AddBean implements Serializable {
 	// ========== Guardar y navegar ==========
 	public String guardarYNavegar() {
 		try {
-			 ExceptionCheker.checkerNumber(precio);
 			if (producto == null || subtipo == null || nombre == null || nombre.isBlank()) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 						"Validación", "Completa producto, subtipo y nombre"));
 				return null;
 			}
+			ExceptionCheker.checkerNegativeNumber(precio);
 
 			switch (producto) {
 			case "DispositivoElectronico":
