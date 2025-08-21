@@ -126,6 +126,7 @@
     <!-- Precio -->
     <p:inputText id="precio" value="#{addBean.precio}" placeholder="Ingrese precio" required="true">
         <f:convertNumber maxFractionDigits="2" />
+          <f:validateLength minimum="0" maximum="2000000" />
     </p:inputText>
 
     <!-- Sub-subtipo -->

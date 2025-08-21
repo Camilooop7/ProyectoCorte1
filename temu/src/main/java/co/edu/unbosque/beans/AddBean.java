@@ -28,6 +28,7 @@ import co.edu.unbosque.model.OficinaDTO;
 import co.edu.unbosque.model.PeliculaDTO;
 import co.edu.unbosque.model.PestaninaDTO;
 import co.edu.unbosque.service.AddService;
+import co.edu.unbosque.util.exception.ExceptionCheker;
 
 @Named("addBean")
 @ViewScoped
@@ -225,6 +226,7 @@ public class AddBean implements Serializable {
 	// ========== Guardar y navegar ==========
 	public String guardarYNavegar() {
 		try {
+			 ExceptionCheker.checkerNumber(precio);
 			if (producto == null || subtipo == null || nombre == null || nombre.isBlank()) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 						"Validación", "Completa producto, subtipo y nombre"));
@@ -345,7 +347,6 @@ public class AddBean implements Serializable {
 			return "comprar?faces-redirect=true";
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo guardar"));
 			return null;

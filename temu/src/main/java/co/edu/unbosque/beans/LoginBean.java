@@ -2,6 +2,10 @@ package co.edu.unbosque.beans;
 
 import co.edu.unbosque.model.PersonaDTO;
 import co.edu.unbosque.service.LoginService;
+import co.edu.unbosque.util.exception.CharacterException;
+import co.edu.unbosque.util.exception.ExceptionCheker;
+import co.edu.unbosque.util.exception.MailException;
+import co.edu.unbosque.util.exception.TextException;
 import co.edu.unbosque.util.mail.EnvioCorreo;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
@@ -75,60 +79,80 @@ public class LoginBean implements Serializable {
 	 * Primer paso del registro (desde el dorso de la tarjeta en Login). Guarda
 	 * nombre/correo/contraseña en sesión y navega a registroPersona.xhtml
 	 */
-	public String crear() {
-	    // Validaciones originales
-	    if (correoC == null || correoC.isBlank() ||
-	        contrasenaC == null || contrasenaC.isBlank() ||
-	        nombre == null || nombre.isBlank()) {
-	        FacesContext.getCurrentInstance().addMessage(null,
-	            new FacesMessage(FacesMessage.SEVERITY_WARN,
-	                "Campos incompletos", "Completa nombre, correo y contraseña."));
-	        return null;
-	    }
-	    if (!contrasenaC.equals(confiContrasenaC)) {
-	        FacesContext.getCurrentInstance().addMessage(null,
-	            new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                "Contraseña", "Las contraseñas no coinciden."));
-	        return null;
-	    }
+	 public String crear() {
+		    try {
+		        // Validaciones con tus excepciones personalizadas
+		        ExceptionCheker.checkerText(nombre);
+		        ExceptionCheker.checkerMail(correoC);
+		        ExceptionCheker.checkerCharacter(contrasenaC);
 
-	    // (Tu persistencia si aplica)
-	    // usuarioService.crear(nombre, correoC, contrasenaC);
+		        // Validaciones originales
+		        if (correoC == null || correoC.isBlank() ||
+		            contrasenaC == null || contrasenaC.isBlank() ||
+		            nombre == null || nombre.isBlank()) {
+		            FacesContext.getCurrentInstance().addMessage(null,
+		                new FacesMessage(FacesMessage.SEVERITY_WARN,
+		                    "Campos incompletos", "Completa nombre, correo y contraseña."));
+		            return null; // detener flujo
+		        }
+		        if (!contrasenaC.equals(confiContrasenaC)) {
+		            FacesContext.getCurrentInstance().addMessage(null,
+		                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+		                    "Contraseña", "Las contraseñas no coinciden."));
+		            return null; // detener flujo
+		        }
 
-	    // Asegurar que envioCorreo no sea null (fallback CDI si hiciera falta)
-	    try {
-	        if (envioCorreo == null) {
-	            envioCorreo = jakarta.enterprise.inject.spi.CDI.current()
-	                .select(co.edu.unbosque.util.mail.EnvioCorreo.class).get();
-	        }
+		    } catch (TextException e) {
+		        FacesContext.getCurrentInstance().addMessage(null,
+		            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+		                "nombre con simbolos", "no puede tener símbolos."));
+		        return null; // detener flujo aquí
+		    } catch (MailException e) {
+		        FacesContext.getCurrentInstance().addMessage(null,
+		            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+		                "formato correo", "formato correo invalido."));
+		        return null; // detener flujo aquí
+		    } catch (CharacterException e) {
+		        FacesContext.getCurrentInstance().addMessage(null,
+			            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+			                "minimo 8 caracteres en la contraseña", "longitud de contraseña invalida"));
+			        return null; // detener flujo aquí
+			    }
 
-	        String asunto = "Confirmación de cuenta - TEMU";
-	        String cuerpoHtml =
-	            "<div style='font-family:Arial,sans-serif'>"
-	          + "  <h2>¡Hola, " + (nombre != null ? nombre : "usuario") + "!</h2>"
-	          + "  <p>Tu cuenta en <b>TEMU</b> ha sido registrada correctamente.</p>"
-	          + "  <hr/>"
-	          + "  <small>© " + java.time.Year.now() + " TEMU</small>"
-	          + "</div>";
+		    try {
+		        if (envioCorreo == null) {
+		            envioCorreo = jakarta.enterprise.inject.spi.CDI.current()
+		                .select(co.edu.unbosque.util.mail.EnvioCorreo.class).get();
+		        }
 
-	        envioCorreo.createEmail(correoC, asunto, cuerpoHtml);
-	        envioCorreo.sendEmail();
+		        String asunto = "Confirmación de cuenta - TEMU";
+		        String cuerpoHtml =
+		            "<div style='font-family:Arial,sans-serif'>"
+		          + "  <h2>¡Hola, " + (nombre != null ? nombre : "usuario") + "!</h2>"
+		          + "  <p>Tu cuenta en <b>TEMU</b> ha sido registrada correctamente.</p>"
+		          + "  <hr/>"
+		          + "  <small>© " + java.time.Year.now() + " TEMU</small>"
+		          + "</div>";
 
-	        FacesContext.getCurrentInstance().addMessage(null,
-	            new FacesMessage(FacesMessage.SEVERITY_INFO,
-	                "Registro exitoso",
-	                "Te enviamos un correo de confirmación a " + correoC));
-	    } catch (Exception e) {
-	        // Captura tanto NPE por inyección como MessagingException
-	        FacesContext.getCurrentInstance().addMessage(null,
-	            new FacesMessage(FacesMessage.SEVERITY_WARN,
-	                "Registro realizado",
-	                "No se pudo enviar el correo de confirmación: " + (e.getCause() != null ? e.getCause().getMessage() : e.getMessage())));
-	    }
+		        envioCorreo.createEmail(correoC, asunto, cuerpoHtml);
+		        envioCorreo.sendEmail();
 
-	    // Mantener tu navegación
-	    return "registro.xhtml";
-	}
+		        FacesContext.getCurrentInstance().addMessage(null,
+		            new FacesMessage(FacesMessage.SEVERITY_INFO,
+		                "Registro exitoso",
+		                "Te enviamos un correo de confirmación a " + correoC));
+		    } catch (Exception e) {
+		        // Captura tanto NPE por inyección como MessagingException
+		        FacesContext.getCurrentInstance().addMessage(null,
+		            new FacesMessage(FacesMessage.SEVERITY_WARN,
+		                "Registro realizado",
+		                "No se pudo enviar el correo de confirmación: " +
+		                (e.getCause() != null ? e.getCause().getMessage() : e.getMessage())));
+		    }
+
+		    // Mantener tu navegación
+		    return "registro.xhtml";
+		}
 
 
 
